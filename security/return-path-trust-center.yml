@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+source: https://trust.validity.com/
+note: >-
+  Return Path was acquired by Validity in 2019 and now ships as the Validity
+  "Return Path" email-deliverability product line; returnpath.com 301-redirects
+  to validity.com. Security/compliance posture is published on the shared
+  Validity Trust Center.
+url: https://trust.validity.com/
+certifications:
+- SOC 2 Type 2
+- ISO/IEC 27001
+- ISO/IEC 27701
+- GDPR
+- CCPA
+- EU-US Data Privacy Framework
+- Microsoft SSPA
+- Standard Contractual Clauses
+evidence:
+- source: https://trust.validity.com/
+  keywords: [soc 2 type 2, iso 27001, iso 27701, trust center, gdpr, ccpa]

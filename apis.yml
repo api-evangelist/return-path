@@ -1,8 +1,28 @@
 aid: return-path
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/return-path.png
 name: Return Path
-description: 'Return Path is a company surfaced as a portfolio company of sapphire-ventures, union-square-ventures
-  and added to the API Evangelist network as a stub for enrichment. Sector: martech. This profile is a
-  lead awaiting the enrichment pipeline.'
+description: >-
+  Return Path is an email-deliverability and inbox-intelligence brand that
+  pioneered sender reputation, inbox-placement monitoring, and email fraud
+  protection for marketers and email senders. Founded in 1999 and backed by
+  Sapphire Ventures and Union Square Ventures, Return Path was acquired by
+  Validity in 2019 and now ships as the Validity "Return Path" product line;
+  returnpath.com 301-redirects to validity.com. The platform draws on signals
+  from billions of global mailboxes to measure inbox placement, sender
+  reputation, and deliverability across major mailbox providers. Return Path
+  exposes no publicly documented developer API, SDK, or developer portal today;
+  its capabilities are delivered through the Validity email-success platform.
 url: https://raw.githubusercontent.com/api-evangelist/return-path/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -13,10 +33,16 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Martech
+- Email
+- Email Deliverability
+- Email Marketing
+- Sender Reputation
+- Inbox Placement
+- Deliverability
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -26,3 +52,41 @@ maintainers:
 common:
 - type: Website
   url: https://www.returnpath.com/
+- type: Product
+  url: https://www.validity.com/products/returnpath/
+- type: Blog
+  url: https://www.validity.com/blog
+- type: Support
+  url: https://knowledge.validity.com/hc/en-us
+- type: HelpCenter
+  url: https://knowledge.validity.com/hc/en-us
+- type: Community
+  url: https://mycommunity.validity.com/
+- type: PrivacyPolicy
+  url: https://www.validity.com/privacy-policy/
+- type: TrustCenter
+  url: https://trust.validity.com/
+- type: Compliance
+  url: https://trust.validity.com/
+- type: Security
+  url: https://trust.validity.com/
+- type: TrustCenter
+  name: Trust Center (artifact)
+  url: security/return-path-trust-center.yml
+- type: Compliance
+  name: Published compliance program (SOC 2, ISO 27001/27701)
+  url: security/return-path-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/return-path-vulnerability-disclosure.yml
+- type: Security
+  name: Security contact / disclosure
+  url: security/return-path-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/return-path-domain-security.yml
+- type: WellKnown
+  url: well-known/return-path-well-known.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 4
+  pass: local-v1
