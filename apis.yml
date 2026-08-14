@@ -1,15 +1,17 @@
 aid: return-path
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: enterprise
+  onboarding: approval
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Enterprise, contact sales
+  confidence: medium
+  source:
+  - https://www.validity.com/pricing/
+  - https://developer.everest.validity.com/
+  generated: '2026-08-13'
+  method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/return-path.png
 name: Return Path
 description: >-
@@ -17,23 +19,28 @@ description: >-
   pioneered sender reputation, inbox-placement monitoring, and email fraud
   protection for marketers and email senders. Founded in 1999 and backed by
   Sapphire Ventures and Union Square Ventures, Return Path was acquired by
-  Validity in 2019 and now ships as the Validity "Return Path" product line;
+  Validity in 2019 and now ships as the Validity Everest email-success platform;
   returnpath.com 301-redirects to validity.com. The platform draws on signals
   from billions of global mailboxes to measure inbox placement, sender
-  reputation, and deliverability across major mailbox providers. Return Path
-  exposes no publicly documented developer API, SDK, or developer portal today;
-  its capabilities are delivered through the Validity email-success platform.
+  reputation, and deliverability across major mailbox providers. The Return Path
+  product line's surviving API surface is the Everest API at
+  api.everest.validity.com — 170 published operations across inbox placement,
+  sender reputation and Sender Score, blocklist and spam-trap monitoring, DMARC
+  infrastructure reporting, engagement analytics, list validation and
+  certification. Validity publishes no OpenAPI, but it does publish a complete
+  public Postman collection at developer.everest.validity.com, which is the
+  machine-readable contract this profile is built from.
 url: https://raw.githubusercontent.com/api-evangelist/return-path/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - sapphire-ventures
 - union-square-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: published-api-surface
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-13'
 tags:
 - Company
 - Martech
@@ -43,7 +50,43 @@ tags:
 - Sender Reputation
 - Inbox Placement
 - Deliverability
-apis: []
+- DMARC
+- Email Authentication
+- Email Validation
+- Analytics
+apis:
+- name: Everest API
+  description: >-
+    The Everest API by Validity — the Return Path platform's surviving
+    programmable surface. Two live major versions behind one host: /api/2.0 is
+    current and covers inbox placement testing and seed lists, sender reputation
+    profiles, Sender Score, blocklist listings, spam-trap events, DMARC
+    infrastructure reporting, engagement and delivery analytics, list
+    validation, View Time Optimization and certification performance; /api/1.0
+    is the legacy surface that still carries Account Services (aliases, child
+    accounts, API keys, GDPR requests, webhook endpoints). Authenticated with a
+    static X-API-KEY header, limited to 500 requests per minute per account.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Email Deliverability
+  - Inbox Placement
+  - Sender Reputation
+  - DMARC
+  - Email Validation
+  properties:
+  - type: OpenAPI
+    name: Everest API (derived from the published Postman collection)
+    url: openapi/return-path-everest-api-openapi.yml
+  - type: Postman
+    name: Everest API public Postman collection (provider-published)
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Overlay
+    url: overlays/return-path-everest-api-overlay.yaml
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -53,9 +96,9 @@ common:
 - type: Website
   url: https://www.returnpath.com/
 - type: Product
-  url: https://www.validity.com/products/returnpath/
+  url: https://www.validity.com/capabilities/engage-inbox-placement-and-deliverability/
 - type: Blog
-  url: https://www.validity.com/blog
+  url: https://www.validity.com/blog/
 - type: Support
   url: https://knowledge.validity.com/hc/en-us
 - type: HelpCenter
@@ -64,6 +107,21 @@ common:
   url: https://mycommunity.validity.com/
 - type: PrivacyPolicy
   url: https://www.validity.com/privacy-policy/
+- type: TermsOfService
+  url: https://www.validity.com/legal/terms-of-service/
+- type: DeveloperPortal
+  name: Everest API developer portal
+  url: https://developer.everest.validity.com/
+- type: Documentation
+  url: https://developer.everest.validity.com/
+- type: APIReference
+  url: https://developer.everest.validity.com/
+- type: Postman
+  name: Everest by Validity public Postman workspace
+  url: https://www.postman.com/two50okay/workspace/everest-by-validity-s-public-workspace/overview
+- type: Login
+  name: Everest sign in
+  url: https://everest.validity.com/login
 - type: TrustCenter
   url: https://trust.validity.com/
 - type: Compliance
@@ -83,10 +141,34 @@ common:
   url: security/return-path-vulnerability-disclosure.yml
 - type: DomainSecurity
   url: security/return-path-domain-security.yml
-- type: WellKnown
-  url: well-known/return-path-well-known.yml
+- type: Authentication
+  url: authentication/return-path-authentication.yml
+- type: Conventions
+  url: conventions/return-path-conventions.yml
+- type: ErrorCatalog
+  url: errors/return-path-problem-types.yml
+- type: RateLimits
+  url: rate-limits/return-path-rate-limits.yml
+- type: Plans
+  url: plans/return-path-plans-pricing.yml
+- type: Lifecycle
+  url: lifecycle/return-path-lifecycle.yml
+- type: Webhooks
+  name: Everest Universal Endpoint webhook surface
+  url: asyncapi/return-path-webhooks.yml
+- type: DataModel
+  url: data-model/return-path-data-model.yml
+- type: Conformance
+  url: conformance/return-path-conformance.yml
+- type: Packages
+  url: packages/return-path-packages.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  name: llms.txt served by validity.com, the host that now serves Return Path
+  url: llms/return-path-llms.txt
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 4
+  artifacts_added: 16
   pass: local-v1
