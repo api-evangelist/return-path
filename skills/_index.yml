@@ -1,0 +1,55 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/return-path-everest-api-openapi.yml
+note: >-
+  Packaged Agent Skills for the Everest API — the Return Path platform's
+  surviving API surface under Validity. Every step is grounded in an
+  operationId that exists verbatim in the spec; the conventions, error and
+  rate-limit rules are Validity's own published behaviour, captured in
+  conventions/, errors/ and rate-limits/. Validity publishes no AGENTS.md or
+  skill files of its own — searched, none found.
+skills:
+- file: return-path-diagnose-inbox-placement.md
+  name: Diagnose an inbox placement drop
+  api: openapi/return-path-everest-api-openapi.yml
+  operations:
+  - inboxTestsAllInboxTests
+  - inboxTestsInboxTestByID
+  - inboxTestsInboxTestAllProviders
+  - inboxTestsInboxTestProviderByID
+  - inboxTestsInboxTestHeadersByMailboxID
+  - inboxTestsInboxTestFullMessage
+  - aggregateReportsInboxPlacementRegion
+  - aggregateReportsInboxPlacementFromDomain
+  - aggregateReportsMailboxProviderHealth
+- file: return-path-monitor-sender-reputation.md
+  name: Set up and monitor sender reputation
+  api: openapi/return-path-everest-api-openapi.yml
+  operations:
+  - profilesProfiles
+  - profilesCreateProfile
+  - profilesAddProfileItems
+  - profilesProfileItems
+  - profilesProfileByID
+  - profilesProfileRDNSIssues
+  - senderScoreIPDetail
+  - blocklistsBlocklists
+  - blocklistsListings
+  - spamTrapsSpamTrapsByProfile
+  - spamTrapsSpamTrapsByDay
+  - eventsDetailedEventsTraps
+- file: return-path-audit-email-authentication.md
+  name: Audit a domain's email authentication and DMARC posture
+  api: openapi/return-path-everest-api-openapi.yml
+  operations:
+  - domainsPolicies
+  - createDomain
+  - domainOverview
+  - domainMailOrigins
+  - domainAuthenticationIssuesSPF
+  - domainAuthenticationIssuesDKIM
+  - domainSPFDomains
+  - domainDKIMDomains
+  - domainIPAddresses
+  - domainGeolocation
+  - domainDetailedReports

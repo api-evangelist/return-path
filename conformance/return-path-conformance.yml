@@ -1,0 +1,95 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/return-path-everest-api-openapi.yml, https://trust.validity.com/
+note: >-
+  Standards posture for the Everest API (the Return Path platform under
+  Validity). The compliance program is real and published on Validity's trust
+  center; the API-level standards posture is thin — key-in-header auth, a
+  bespoke error envelope, no OAuth, no OIDC, no problem+json, and no published
+  machine-readable contract of the provider's own.
+standards:
+- id: openapi
+  conforms: false
+  evidence: >-
+    Validity publishes no OpenAPI document on any host. The contract it does
+    publish is a Postman collection at developer.everest.validity.com; the
+    OpenAPI in this repo is API Evangelist's derivation of it.
+- id: postman-collection
+  conforms: true
+  evidence: >-
+    A complete, public Postman collection (170 requests, 224 response examples)
+    is served at developer.everest.validity.com and mirrored in a public Postman
+    workspace.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security scheme; a single static X-API-KEY header.
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any host (probed, all 404).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are application/json with a bespoke {"status": "..."} envelope, not
+    application/problem+json.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on all four hosts (probed).
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support is documented.
+- id: rfc8615-well-known
+  conforms: false
+  evidence: No /.well-known document of any kind is served (probed, all 404).
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No AsyncAPI document. A real webhook ingestion surface exists and is
+    captured in asyncapi/return-path-webhooks.yml.
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key or retry contract is documented on any write operation.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Consistent page/limit query parameters with a meta{total,limit,pages,params}
+    response block across the v2 surface.
+- id: dmarc
+  conforms: true
+  evidence: >-
+    The Infrastructure module is a DMARC (RFC 7489) aggregate-report processing
+    surface — domains, policies, SPF/DKIM alignment results and mail origins.
+    Validity's own sending domain also publishes DMARC p=reject
+    (security/return-path-domain-security.yml).
+- id: spf
+  conforms: true
+  evidence: SPF result reporting per monitored domain (/2.0/infrastructure/domains/{domain}/spfresults).
+- id: dkim
+  conforms: true
+  evidence: DKIM result reporting per monitored domain (/2.0/infrastructure/domains/{domain}/dkimresults).
+- id: gdpr
+  conforms: true
+  evidence: >-
+    Programmable GDPR data-subject requests (/1.0/account/gdpr) plus a published
+    GDPR posture on the trust center.
+- id: soc2-type2
+  conforms: true
+  evidence: https://trust.validity.com/ — see security/return-path-trust-center.yml
+- id: iso-27001
+  conforms: true
+  evidence: https://trust.validity.com/
+- id: iso-27701
+  conforms: true
+  evidence: https://trust.validity.com/
+- id: eu-us-data-privacy-framework
+  conforms: true
+  evidence: https://trust.validity.com/
+- id: tls
+  conforms: true
+  evidence: >-
+    TLS 1.3 with HSTS max-age=31536000; includeSubDomains observed on
+    api.everest.validity.com (probed 2026-08-13).
+compliance_program:
+  published: true
+  url: https://trust.validity.com/
+  certifications: [SOC 2 Type 2, ISO/IEC 27001, ISO/IEC 27701, GDPR, CCPA, EU-US Data Privacy Framework, Microsoft SSPA]
+  detail: security/return-path-trust-center.yml

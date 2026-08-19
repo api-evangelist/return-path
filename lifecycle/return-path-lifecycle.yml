@@ -1,0 +1,59 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.everest.validity.com/
+note: >-
+  Lifecycle posture for the Everest API, the Return Path platform's surviving
+  API surface. Validity runs two live major versions side by side and commits to
+  keeping the older one, but publishes no dated deprecation policy, no Sunset
+  header support and no status page.
+versioning:
+  scheme: uri-path
+  current: '2.0'
+  supported: ['2.0', '1.0']
+  docs: https://developer.everest.validity.com/
+  policy_quote: >-
+    "It's important to note that V2 of our API is purely optional. We hope you
+    find it simpler to use, more intuitive, and better documented, but we plan
+    to continue supporting API V1."
+  note: >-
+    V1 and V2 are not equivalent surfaces. Account Services (aliases, child
+    accounts, GDPR requests, the original webhook registry) is published only
+    under /api/1.0; everything else — inbox placement, reputation, DMARC
+    infrastructure, engagement analytics, list validation, certification — is
+    published under /api/2.0. A consumer needs both.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation policy page, no RFC 8594 Sunset/Deprecation header support
+    and no dated retirement schedule for API V1 could be found. NO `Deprecation`
+    pointer is wired in apis.yml.
+deprecated_operations: []
+status_page:
+  url: null
+  found: false
+  probed:
+  - {url: 'https://status.validity.com/', status: 0, note: does not resolve}
+  - {url: 'https://validity.statuspage.io/', status: 302, note: redirects to statuspage.io marketing, not a Validity page}
+  note: >-
+    No public status page or uptime dashboard for Everest or the Everest API was
+    found. NO `StatusPage` pointer is wired in apis.yml.
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment is published; terms are contractual.
+changelog:
+  url: null
+  found: false
+  note: >-
+    No public dated changelog or release-notes feed for the Everest API was
+    found. The knowledge base that would carry it
+    (https://knowledge.validity.com/) answers 401 on its category pages for an
+    anonymous reader, so release notes appear to be customer-only. NO
+    `ChangeLog` pointer is wired.
+support:
+  knowledge_center: https://knowledge.validity.com/
+  community: https://mycommunity.validity.com/
+  note: Knowledge Center category pages require a login (probed 401).

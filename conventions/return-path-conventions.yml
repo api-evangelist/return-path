@@ -1,0 +1,96 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.everest.validity.com/
+derived_from: openapi/return-path-everest-api-openapi.yml
+note: >-
+  Cross-cutting request/response semantics for the Everest API — the Return Path
+  platform's surviving API surface under Validity. Statements marked
+  `source: docs` are Validity's own words from the published API reference;
+  statements marked `source: spec` are read off the 170 operations in the
+  collection Validity publishes.
+authentication:
+  style: static API key in a request header
+  header: X-API-KEY
+  source: docs
+  detail: authentication/return-path-authentication.yml
+versioning:
+  scheme: uri-path
+  current: '2.0'
+  legacy: '1.0'
+  form: https://api.everest.validity.com/api/{version}/{resource}
+  source: docs
+  policy: >-
+    "V2 of our API is purely optional. We hope you find it simpler to use, more
+    intuitive, and better documented, but we plan to continue supporting API
+    V1." No dated sunset is published for V1.
+content_negotiation:
+  formats: [JSON, XML, CSV, Serialized]
+  default: JSON
+  source: docs
+  note: >-
+    "All API requests utilize REST methods resulting in JSON, XML, CSV, or
+    Serialized output." The format selector is not documented per-operation in
+    the published collection; every published example is JSON.
+pagination:
+  style: page-number
+  params:
+  - {name: page, in: query, default: 1, note: 1-indexed page number}
+  - {name: limit, in: query, note: page size; values from 3 to 100 appear in the published examples}
+  source: spec
+  observed_on: 15 operations carry `page`, 20 carry `limit`
+  response_fields:
+    envelope: '{"meta": {...}, "results": [...]}'
+    meta:
+    - {name: total, note: total record count across all pages}
+    - {name: limit, note: page size actually applied}
+    - {name: pages, note: total number of pages}
+    - {name: params, note: echo of the query parameters the server applied}
+    source: spec
+    note: >-
+      Page-number pagination with a complete count block — a client can compute
+      the last page up front rather than probing for a short page.
+date_filtering:
+  params: [startdate, enddate]
+  format: 'YYYY-MM-DD HH:MM:SS'
+  timezone: UTC
+  source: docs
+  note: '"All datetime fields are UTC."'
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header, no idempotent-retry contract and no request-id
+    echo are documented anywhere in the Everest API reference, and no such
+    parameter appears on any of the 170 published operations. Writes are plain
+    POST/PUT/DELETE. NO `Idempotency` pointer is wired in apis.yml — recording
+    the absence, not manufacturing the signal.
+request_tracing:
+  request_id_header: null
+  note: No request-id or correlation-id header is documented or returned.
+error_envelope:
+  shape: '{"status": "<human-readable description of the problem>"}'
+  source: docs
+  quote: >-
+    "Each 400-level error code will contain a status object containing a
+    description of the problem."
+  observed: '{"status":"Unauthorized: no valid API credentials provided."}'
+  rfc9457: false
+  detail: errors/return-path-problem-types.yml
+rate_limiting:
+  limit: 500 requests per minute
+  source: docs
+  headers_published: false
+  exhaustion_status: 429
+  note: >-
+    The limit is published as prose; no RateLimit-* or Retry-After response
+    header is documented. Detail in rate-limits/return-path-rate-limits.yml.
+webhooks:
+  supported: true
+  detail: asyncapi/return-path-webhooks.yml
+field_expansion:
+  supported: false
+  note: No expand/fields/include parameter is documented.
+cross_links:
+  errors: errors/return-path-problem-types.yml
+  lifecycle: lifecycle/return-path-lifecycle.yml
+  authentication: authentication/return-path-authentication.yml
+  rate_limits: rate-limits/return-path-rate-limits.yml

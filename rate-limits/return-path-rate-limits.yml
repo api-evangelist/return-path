@@ -1,0 +1,42 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.everest.validity.com/
+limit_count: 1
+note: >-
+  Validity publishes a single, explicit ceiling for the Everest API and states
+  it can be raised per customer. No rate-limit response headers are documented,
+  and none were returned on an anonymous probe, so a client learns it is
+  throttled only from the 429 status.
+rate_limits:
+- scope: per-account
+  window: 1 minute
+  limit: 500
+  unit: requests
+  burst: null
+  quote: >-
+    "API Limit: 500 requests per minute. Limit increases are available on a
+    per-customer basis by contacting our support team."
+  negotiable: true
+  negotiation: contact Validity support for a per-customer increase
+  exhaustion:
+    status: 429
+    body: '{"status": "..."}'
+    documented_meaning: API limits have been reached, retry after some time.
+headers:
+  published: []
+  retry_after: false
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is documented in the API
+    reference. Probed anonymously on
+    https://api.everest.validity.com/api/2.0/reputation/senderscore/1.1.1.1
+    (401) — the response carried only date, content-type, content-length,
+    server, strict-transport-security, set-cookie and cache headers. An agent
+    therefore has no runtime signal of remaining quota and must implement blind
+    exponential backoff on 429.
+evidence:
+- url: https://developer.everest.validity.com/
+  status: 200
+  what: published API limit
+- url: https://api.everest.validity.com/api/2.0/reputation/senderscore/1.1.1.1
+  status: 401
+  what: response headers observed; no rate-limit headers present

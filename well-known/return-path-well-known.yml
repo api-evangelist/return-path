@@ -1,17 +1,58 @@
-generated: '2026-07-20'
-method: searched
-host: https://www.returnpath.com
+generated: '2026-08-13'
+method: probed
+source: live HTTP probes of every Return Path / Validity / Everest host
 note: >-
-  returnpath.com 301-redirects to validity.com. No /.well-known discovery
-  documents are published on either host (all probed paths returned 404).
-documents:
-- path: /.well-known/security.txt
-  status: 404
-- path: /.well-known/openid-configuration
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
+  returnpath.com 301-redirects to validity.com; Return Path now ships as the
+  Everest email-success platform, whose API host is api.everest.validity.com.
+  Every /.well-known/ path was probed on all four hosts and every one returned
+  404. NO WellKnown or SecurityTxt pointer is wired in apis.yml, because none of
+  these documents is served — this file records a verified absence, not a
+  presence.
+hosts:
+- host: https://www.validity.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://api.everest.validity.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://developer.everest.validity.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://everest.validity.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+- host: https://www.returnpath.com
+  note: 301 to returnpath.com, which 301s to www.validity.com
+  documents:
+  - {path: /.well-known/security.txt, status: 301}
+llms_txt:
+  url: https://www.validity.com/llms.txt
+  status: 200
+  content_type: text/plain
+  file: ../llms/return-path-llms.txt

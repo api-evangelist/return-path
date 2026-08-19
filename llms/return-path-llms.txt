@@ -1,0 +1,52 @@
+# Validity
+
+> Whether you're looking to optimize the performance of your email marketing, data management or sales functions, Validity is your trusted partner to ensure you're reaching who you need to.
+
+For over 20 years, tens of thousands of organizations throughout the world have relied on Validity solutions to target, contact, engage, and keep customers using trustworthy data as a key advantage. Founded in 2018 and headquartered in Boston with offices in London, Tampa, and São Paulo, Validity has grown through strategic acquisitions to become a global leader in data integrity. The company's flagship products – DemandTools, BriteVerify, Everest, GridBuddy Connect, Litmus, and MailCharts – are all highly rated solutions for CRM data management, email address verification, inbox deliverability, and grid CRM applications that help organizations drive more qualified leads, close more deals, and achieve faster growth with clean, actionable data.
+
+## Products
+
+- [BriteVerify](https://www.validity.com/briteverify/): Industry's longest-standing contact verification solution providing secure, scalable email validation to build and maintain an actionable database, reach more people, and communicate more effectively.
+- [DemandTools](https://www.validity.com/demandtools/): Versatile and secure data management platform that enables organizations to clean and manage Salesforce data in less time, enabling everyone to do their jobs more effectively, efficiently, and profitably.
+- [Everest](https://www.validity.com/everest/): Comprehensive email deliverability platform providing crucial insights and guidance to reach more subscriber inboxes, created by the most respected pioneers of email optimization and deliverability.
+- [GridBuddy Connect](https://www.validity.com/gridbuddyconnect/): Data productivity platform that transforms how teams interact with data through versatile grids, creating a clear, informative way to access insights in one place for more productive end users.
+- [Litmus](https://www.litmus.com/): Powerful tool that works alongside your ESP to help you create, personalize, and test your way to error-free emails in less time, ensuring your subscribers receive flawless communications.
+- [MailCharts](https://www.mailcharts.com/): Campaign intelligence platform that gives digital marketers industry insights and inspiration to create email and SMS communications that capture attention and grow sales.
+- [Sender Certification](https://www.validity.com/sender-certification/): Email deliverability insurance policy that helps get more emails to the inbox by protecting sender reputation with major providers like Google, Microsoft, Yahoo, and Apple.
+
+## Solutions
+
+- [For Marketers](https://www.validity.com/validity-for-email/): Take the guesswork out of email marketing with complete visibility into metrics, improved deliverability, and tools to increase inbox placement and maximize subscriber reach with clean, actionable data.
+- [For CRM Admins](https://www.validity.com/validity-for-data-management/): Simplify data management with solutions that improve data quality and increase CRM adoption, helping you clean and manage CRM data faster to always have trustworthy data driving your business.
+- [For Sales Teams](https://www.validity.com/validity-for-sales-productivity/): Give your sales team back hours per day with tools designed to increase productivity and mitigate pipeline risks in real time, enabling faster closes and more predictable revenue.
+- [For Revenue Operations](https://www.validity.com/validity-for-data-management/): Keep marketing campaigns and sales teams running smoothly with accurate data to increase engagement and productivity, allowing you to target, engage, and convert customers more effectively.
+
+## Resources
+
+- [Blog](https://www.validity.com/blog/): Timely insights and trends in email deliverability, CRM data quality, and marketing best practices from Validity's experts and industry thought leaders.
+- [Resource Center](https://www.validity.com/resource-center/): Comprehensive collection of guides, reports, webinars, case studies, and tools to help you optimize data management and marketing effectiveness.
+- [The State of CRM Data Management](https://www.validity.com/resource-center/the-state-of-crm-data-management-in-2025/): In-depth report featuring insights from 600+ CRM users and stakeholders worldwide on data management trends, challenges, and best practices.
+- [Knowledge Center](https://knowledge.validity.com/hc/en-us): Extensive support documentation and technical guides for all Validity products to help you maximize your investment.
+- [Customer Community](https://mycommunity.validity.com/): Interactive forum for customers to connect, share insights, ask questions, and get support from both Validity experts and fellow users.
+- [Case Studies](https://www.validity.com/resource-center/): Success stories showcasing how companies of all sizes achieve measurable results with Validity's data integrity solutions.
+- [Webinars](https://www.validity.com/resource-center/): Educational live and on-demand sessions covering data management best practices, email marketing optimization, and product tutorials.
+- [State of Email Report](https://www.validity.com/resource-center/): Annual research examining key trends, challenges, and opportunities in the email marketing landscape.
+- [ROI Calculator](https://www.validity.com/resource-center/): Interactive tool to estimate the potential return on investment from implementing Validity's solutions.
+
+## Integrations
+
+- [Salesforce Integration](https://www.validity.com/briteverify/integrations/): Connect Validity's solutions directly with Salesforce to automate data quality processes and improve CRM effectiveness.
+- [Marketing Automation Platforms](https://www.validity.com/briteverify/integrations/): Seamlessly integrate with major marketing platforms including Marketo, HubSpot, and Eloqua to ensure data quality.
+- [ESP Connections](https://www.validity.com/briteverify/integrations/): Connect with email service providers to verify contact information before sending campaigns.
+- [API Documentation](https://knowledge.validity.com/hc/en-us): Technical details for developers to integrate Validity's tools into custom workflows and applications.
+
+## Optional
+
+- [Contact Sales](https://www.validity.com/contact/): Reach the sales team at 1-800-961-8205 to discuss how Validity can help your organization improve data quality and marketing performance.
+- [Schedule a Demo](https://www.validity.com/contact-products/): Request a personalized demonstration of Validity products tailored to your specific business needs and challenges.
+- [Careers](https://www.validity.com/careers/): Explore job opportunities with Validity's growing global team across technical, sales, marketing, and customer success roles.
+- [Global Offices](https://www.validity.com/contact/): Locations in Boston (Corporate HQ), London (International HQ), Tampa, and São Paulo serving customers worldwide.
+- [Leadership](https://www.validity.com/leadership/): Meet the executive team driving Validity's innovation and growth in the data integrity space.
+- [Partners](https://www.validity.com/partners/): Information about Validity's partner program and ecosystem of technology and service providers.
+- [Press Releases](https://www.validity.com/press-releases/): Latest company news, product announcements, and corporate developments.
+- [Customer Support](https://knowledge.validity.com/hc/en-us): Get help from Validity's support team Monday–Friday, 4 AM–7:30 PM ET at 1-800-961-8205.

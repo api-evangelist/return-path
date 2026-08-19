@@ -1,0 +1,58 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Everest API (Return Path)
+  version: 1.0.0
+extends: openapi/return-path-everest-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pass. Captures OUR annotations of the Everest API so
+  the derived spec itself stays a faithful reading of the Postman collection
+  Validity publishes at developer.everest.validity.com.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-slug: return-path
+    x-apievangelist-provenance: >-
+      Derived by API Evangelist from the Postman collection Validity publishes at
+      developer.everest.validity.com. Validity publishes no OpenAPI document.
+    x-apievangelist-lineage: >-
+      Return Path (1999-2019) was acquired by Validity in 2019; returnpath.com
+      301-redirects to validity.com and the product line now ships as Everest.
+      This contract is the Return Path platform's surviving API surface.
+    x-apievangelist-artifacts:
+      authentication: authentication/return-path-authentication.yml
+      conventions: conventions/return-path-conventions.yml
+      errors: errors/return-path-problem-types.yml
+      rate_limits: rate-limits/return-path-rate-limits.yml
+      lifecycle: lifecycle/return-path-lifecycle.yml
+      data_model: data-model/return-path-data-model.yml
+      webhooks: asyncapi/return-path-webhooks.yml
+      conformance: conformance/return-path-conformance.yml
+      skills: skills/_index.yml
+- target: $.info
+  update:
+    x-apievangelist-gaps:
+    - no provider-published OpenAPI or AsyncAPI
+    - no idempotency contract on any write operation
+    - no rate-limit response headers; only a prose 500/minute ceiling
+    - 'error envelope is a free-text {"status": "..."} string with no machine-readable code'
+    - no /.well-known documents on any host (probed, all 404)
+    - no public status page, changelog or deprecation policy
+    - no first-party SDK on any package registry
+- target: $.servers
+  update:
+    x-apievangelist-note: >-
+      Two major versions are live behind one host. The version is the first path
+      segment: /2.0 is current, /1.0 is the legacy surface Validity says it will
+      continue to support. Account Services is published only under /1.0.
+- target: $.components.securitySchemes.apiKeyAuth
+  update:
+    x-apievangelist-note: >-
+      Static key, no scopes, no expiry documented. The API exposes its own key
+      lifecycle at /2.0/accounts/{accountId}/keys, so rotation is programmable.
+- target: $.components.schemas.Error
+  update:
+    x-apievangelist-note: >-
+      Not RFC 9457. A single free-text `status` string carries every failure, so
+      an agent can branch on the HTTP status but not on the cause.

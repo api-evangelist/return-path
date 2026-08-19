@@ -1,0 +1,63 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.everest.validity.com/
+derived_from: openapi/return-path-everest-api-openapi.yml
+format: vendor
+rfc9457: false
+envelope:
+  media_type: application/json
+  shape: '{"status": "<description of the problem>"}'
+  field: status
+  quote: >-
+    "Each 400-level error code will contain a status object containing a
+    description of the problem." — Everest API reference
+  note: >-
+    Not RFC 9457 problem+json. A single free-text `status` string carries the
+    whole error; there is no machine-readable error code, no `type` URI and no
+    field-level detail, so an agent can branch on the HTTP status but not on the
+    cause.
+problems:
+- status: 200
+  title: Success
+  note: Published by Validity as part of the standard response table.
+- status: 400
+  title: Bad Request
+  remediation: Correct the request parameters or body.
+  note: >-
+    Not in Validity's published status table, but 14 response examples in the
+    published collection return 400 — mostly validation failures on create/update.
+- status: 401
+  title: Unauthorized
+  meaning: No valid API key provided.
+  remediation: Send a current X-API-KEY header; the key is in Everest account settings.
+  observed: '{"status":"Unauthorized: no valid API credentials provided."}'
+  evidence:
+    url: https://api.everest.validity.com/api/2.0/reputation/senderscore/1.1.1.1
+    http_status: 401
+    fetched: '2026-08-13'
+- status: 403
+  title: Forbidden
+  meaning: Indicates lack of access to the action you are performing.
+  remediation: >-
+    The key is valid but the account or child account lacks entitlement to that
+    Everest module. Check the plan and the key's account scope.
+- status: 404
+  title: Not Found
+  meaning: Indicates invalid parameters or a missing API endpoint.
+  remediation: Verify the path, the API version segment (1.0 vs 2.0), and any id parameters.
+  note: 24 published response examples return 404.
+- status: 429
+  title: Too Many Requests
+  meaning: API limits have been reached, retry after some time.
+  remediation: >-
+    Back off and retry. The documented ceiling is 500 requests per minute; no
+    Retry-After or RateLimit-* header is documented, so use exponential backoff.
+- status: 500
+  title: Internal Server Error
+  meaning: Indicates something went wrong on our end.
+  remediation: Retry with backoff; contact Validity support if it persists.
+gaps:
+- no stable machine-readable error code per failure mode
+- no RFC 9457 application/problem+json representation
+- no field-level validation detail in the envelope
+- no documented Retry-After on 429

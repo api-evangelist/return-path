@@ -1,0 +1,90 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.everest.validity.com/
+spec_type: none
+asyncapi_published: false
+note: >-
+  Validity publishes NO AsyncAPI document for Everest. It does publish a real,
+  programmable webhook surface, captured here. Read the direction carefully: the
+  Everest "Universal Endpoint" is an INBOUND ingestion webhook — the customer's
+  MTA or ESP POSTs email event data INTO Everest, which is the reverse of the
+  usual outbound provider-notifies-you pattern. Everest does not publish an
+  outbound event catalogue (no "message.delivered"-style subscriber events), so
+  there is no event-type list to record and none has been invented here.
+direction: inbound
+surface:
+  name: Universal Endpoint (Everest webhooks)
+  receiving_host: https://webhook.everest.validity.com/webhooks/{key}
+  legacy_receiving_host: https://analytics.250ok.com/webhooks/{key}
+  note: >-
+    Endpoints are created through the API and Everest returns the integration
+    key plus the receiving URL. Both hosts appear in Validity's own published
+    response examples; 250ok was acquired by Validity in 2020 and its analytics
+    host still backs older endpoints.
+  purpose: >-
+    Ingest email-based information (MTA logs, delivery/bounce events) from a
+    sender's own infrastructure into their Everest account, where it feeds
+    Delivery Insights, Engagement analytics and reputation reporting.
+  auth:
+    per_endpoint_flag: require_auth
+    note: >-
+      Each endpoint carries a boolean `require_auth`. Validity does not publish
+      the signing/verification scheme in the API reference, so the authenticated
+      mode's mechanics need the Knowledge Center (customer-gated).
+management_operations:
+- operationId: accountServicesGetWebhooks
+  method: GET
+  path: /1.0/account/webhooks
+  summary: List webhook endpoints for the account
+- operationId: accountServicesCreateWebhook
+  method: POST
+  path: /1.0/account/webhooks
+  summary: Create an endpoint; returns the integration key and receiving URL
+- operationId: accountServicesUpdateWebhook
+  method: PUT
+  path: /1.0/account/webhooks/{webhookKey}
+  summary: Update an endpoint description
+- operationId: accountServicesDeleteWebhook
+  method: DELETE
+  path: /1.0/account/webhooks/{webhookKey}
+  summary: Delete an endpoint by integration key
+- operationId: webhookEndpointsWebhookEndpoints
+  method: GET
+  path: /2.0/accounts/{accountId}/webhooks
+  summary: List endpoints (v2, paged)
+- operationId: webhookEndpointsCreateWebhookEndpoint
+  method: POST
+  path: /2.0/accounts/{accountId}/webhooks
+  summary: Create an endpoint (v2)
+- operationId: webhookEndpointsUpdateWebhookEndpoint
+  method: PUT
+  path: /2.0/accounts/{accountId}/webhooks/{webhookKey}
+  summary: Update an endpoint (v2)
+- operationId: webhookEndpointsDeleteWebhookEndpoint
+  method: DELETE
+  path: /2.0/accounts/{accountId}/webhooks/{webhookKey}
+  summary: Delete an endpoint (v2)
+observability:
+  errors_operation:
+    operationId: webhookErrors
+    method: GET
+    path: /2.0/integrations/errors
+    summary: >-
+      Ingestion errors for the account's webhook and integration traffic —
+      per-record validation failures with a message, over a start/end date
+      window. This is how a sender debugs a rejected payload.
+endpoint_object:
+  fields:
+  - {name: key, type: string, note: integration key; also the URL path segment}
+  - {name: url, type: string, note: the receiving URL Everest issues}
+  - {name: endpoint, type: string, note: v2 field name for the receiving URL}
+  - {name: name, type: string}
+  - {name: description, type: string}
+  - {name: require_auth, type: boolean}
+  - {name: created, type: datetime, note: UTC}
+gaps:
+- no AsyncAPI or CloudEvents document
+- no published outbound event catalogue or event-type registry
+- no published payload schema for the Universal Endpoint in the public reference
+- signing/verification scheme for require_auth is not publicly documented
+source_spec: openapi/return-path-everest-api-openapi.yml

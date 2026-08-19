@@ -1,0 +1,46 @@
+generated: '2026-08-13'
+method: searched
+source: npm, PyPI, RubyGems, Packagist, crates.io, NuGet, pkg.go.dev, GitHub, https://developer.everest.validity.com/
+package_count: 0
+official_package_count: 0
+note: >-
+  Validity ships NO first-party client library for the Everest API on any public
+  registry, and no first-party SDK is offered on the developer portal. The only
+  distribution the provider offers is the Postman collection itself
+  (collections/return-path-everest-api.postman_collection.json), which Postman
+  can generate ad-hoc code snippets from — that is a code generator, not a
+  maintained SDK. NO `SDKs` pointer is wired in apis.yml, because there is no
+  SDK to point at. This is a recorded zero, not an unchecked field.
+packages: []
+searched:
+- registry: npm
+  queries: ['everest-api', 'validity-everest', '@validity/everest', 'everest-validity', 'everest validity', 'returnpath sender score']
+  result: >-
+    No first-party package. `everest-npm-api` (v0.0.65, 2026-07-13) and
+    `everest-npm-features` belong to an unrelated "Everest"; `n8n-nodes-everest-tms`
+    is an unrelated TMS. version: null for Validity — nothing published.
+- registry: pypi
+  queries: ['everest-api', 'validity-everest', 'everest-validity', 'senderscore']
+  result: >-
+    No first-party package. `senderscore` 0.1.6 exists but is a third-party CLI
+    lookup tool by Thiago Rodrigues
+    (https://github.com/undersfx/senderscore-lookup), not Validity.
+- registry: github
+  queries: ['github.com/validity', 'github.com/ValidityInc']
+  result: >-
+    github.com/ValidityInc is 404. github.com/Validity is an empty personal
+    account with 0 public repositories and no company metadata — it is NOT the
+    company's organization, so no `GitHubOrganization` pointer is wired.
+- registry: rubygems, packagist, crates.io, nuget, pkg.go.dev
+  result: No first-party Everest/Validity client library found.
+third_party:
+- name: senderscore
+  registry: pypi
+  version: 0.1.6
+  published: '2021-11-07'
+  url: https://pypi.org/project/senderscore/
+  official: false
+  note: >-
+    Community CLI for Sender Score lookups, read from pypi.org/pypi/senderscore/json.
+    Unmaintained since 2021 and not affiliated with Validity — recorded only so
+    the gap between community tooling and a first-party SDK is visible.

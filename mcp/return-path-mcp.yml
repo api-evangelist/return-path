@@ -1,0 +1,70 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: openapi/return-path-everest-api-openapi.yml
+note: >-
+  Validity ships NO first-party MCP server for Everest / Return Path. Probed
+  https://mcp.validity.com/ (does not resolve),
+  https://everest.validity.com/mcp (404) and
+  https://api.everest.validity.com/mcp (404); nothing on the developer portal,
+  npm or the MCP registries is published by Validity. A third-party
+  community server ("Validity Everest MCP Server", author huangzihang89, listed
+  on PulseMCP) wraps the same public API but is NOT operated by Validity and is
+  therefore recorded as a lead, not as a provider surface. The tools below are a
+  CANDIDATE set derived from the provider's own published operations — nobody
+  ships them. NO `MCPServer` pointer is wired in apis.yml: that pointer asserts
+  the provider operates an MCP server, and Validity does not. This file records
+  the absence and the derivable tool surface, same discipline as the well-known
+  probe.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: probed
+third_party:
+- name: Validity Everest MCP Server
+  operator: huangzihang89 (community)
+  listing: https://www.pulsemcp.com/servers/huangzihang89-validity-everest
+  first_party: false
+  note: >-
+    Queries the public Everest API for email deliverability intelligence with
+    domain and subdomain analysis. Not verified by API Evangelist and not
+    endorsed by Validity; recorded so the divergence between a community wrapper
+    and a provider surface stays visible.
+probes:
+- {url: 'https://mcp.validity.com/', status: 0, note: DNS does not resolve}
+- {url: 'https://everest.validity.com/mcp', status: 404}
+- {url: 'https://api.everest.validity.com/mcp', status: 404}
+tools:
+- name: get_sender_score
+  description: Look up the Sender Score and reputation detail for an IP address.
+  source_operation: openapi/return-path-everest-api-openapi.yml#senderScoreIPDetail
+- name: list_inbox_tests
+  description: List inbox placement (seed) tests for the account.
+  source_operation: openapi/return-path-everest-api-openapi.yml#inboxTestsAllInboxTests
+- name: get_inbox_test
+  description: Fetch one inbox placement test, including per-provider placement.
+  source_operation: openapi/return-path-everest-api-openapi.yml#inboxTestsInboxTestByID
+- name: get_inbox_placement_by_region
+  description: Aggregate inbox placement rates by region.
+  source_operation: openapi/return-path-everest-api-openapi.yml#aggregateReportsInboxPlacementRegion
+- name: get_mailbox_provider_health
+  description: Current health signal per mailbox provider.
+  source_operation: openapi/return-path-everest-api-openapi.yml#aggregateReportsMailboxProviderHealth
+- name: list_blocklist_listings
+  description: Current blocklist listings affecting monitored IPs and domains.
+  source_operation: openapi/return-path-everest-api-openapi.yml#blocklistsListings
+- name: list_spam_traps_by_day
+  description: Spam-trap hits per day for a monitored profile.
+  source_operation: openapi/return-path-everest-api-openapi.yml#spamTrapsSpamTrapsByDay
+- name: list_dmarc_domains
+  description: Domains under DMARC monitoring and their published policies.
+  source_operation: openapi/return-path-everest-api-openapi.yml#domainsPolicies
+- name: get_domain_authentication_issues
+  description: SPF and DKIM authentication failures for a monitored domain.
+  source_operation: openapi/return-path-everest-api-openapi.yml#domainAuthenticationIssuesSPF
+- name: validate_email_address
+  description: Validate a single email address and return its classification.
+  source_operation: openapi/return-path-everest-api-openapi.yml#singleAddress

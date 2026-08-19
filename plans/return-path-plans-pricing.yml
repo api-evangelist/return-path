@@ -1,0 +1,33 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.validity.com/pricing/
+plan_count: 0
+published_pricing: false
+note: >-
+  Validity publishes NO pricing for the Everest platform that carries the Return
+  Path product line. https://www.validity.com/pricing/ 301-redirects to
+  https://www.validity.com/get-engage/, a "talk to us" lead form, and
+  https://www.validity.com/everest/pricing/ redirects off-brand to the Litmus
+  pricing page. Everest pricing is quoted per customer against email send
+  volume. There are no self-serve tiers, no published quotas, and no published
+  API-call allowance — the API's 500 requests/minute ceiling
+  (rate-limits/return-path-rate-limits.yml) is the only published usage limit of
+  any kind. plan_count is 0 as a recorded fact, not a gap in this pass.
+plans: []
+evidence:
+- url: https://www.validity.com/pricing/
+  status: 200
+  effective_url: https://www.validity.com/get-engage/
+  what: pricing path resolves to a contact-sales form, not a rate card
+- url: https://www.validity.com/everest/pricing/
+  status: 200
+  effective_url: https://www.litmus.com/pricing
+  what: Everest pricing path redirects to a sibling product's pricing page
+- url: https://www.validity.com/contact-products/
+  status: 200
+  effective_url: https://www.validity.com/get-engage/
+  what: demo request form
+onboarding:
+  self_serve: false
+  model: contact-sales
+  api_key_issuance: from Everest account settings, once a customer account exists

@@ -1,0 +1,158 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/return-path-everest-api-openapi.yml
+note: >-
+  Entity graph derived from the Everest API's own path structure and the
+  response examples Validity publishes in its collection. Every entity and field
+  named here appears verbatim in a published example or a published path
+  parameter; relationships are read from path nesting (an entity reached under
+  /parent/{id}/child belongs to that parent) and from id-reference fields inside
+  the examples. Ids are plain integers or opaque hex keys — Everest publishes no
+  typed id prefixes.
+id_conventions:
+  numeric: >-
+    Most entities use a bare integer `id` (inbox tests, reputation profiles,
+    validation lists, VTO campaigns, analytics pixels, prospect searches).
+  opaque_key: >-
+    Webhook endpoints and API keys are addressed by an opaque alphanumeric
+    `key`, which is also the URL path segment and, for webhooks, the receiving
+    URL segment.
+  natural_key: >-
+    DMARC/infrastructure domains are addressed by the domain name itself
+    (/2.0/infrastructure/domains/{domain}), not a surrogate id.
+entities:
+- name: Account
+  domain: Account Services
+  path: /1.0/account, /2.0/accounts/{accountId}
+  fields: [user_id, company_name, owner, admin, logintype, mfatype, created, updated]
+  note: The root tenant. Child accounts and API keys hang off it.
+- name: Alias
+  domain: Account Services
+  path: /1.0/account/alias
+  key: alias_id
+  fields: [alias_id, user_id, firstname, lastname, email, title, phone, mfaverified, created, updated]
+- name: ChildAccount
+  domain: Account Services
+  path: /1.0/account/childaccount
+  fields: [id, external_id]
+- name: APIKey
+  domain: Account Services
+  path: /2.0/accounts/{accountId}/keys/{key}
+  key: key
+- name: WebhookEndpoint
+  domain: Account Services
+  path: /1.0/account/webhooks, /2.0/accounts/{accountId}/webhooks
+  key: key
+  fields: [key, url, endpoint, name, description, require_auth, created]
+- name: GDPRRequest
+  domain: Account Services
+  path: /1.0/account/gdpr
+- name: InboxTest
+  domain: Inbox Placement
+  path: /2.0/inbox/tests/{testId}
+  key: id
+  fields: [id, created, subject, xheader, from, friendlyfrom, seeds, placement, authentication, status, mtr, overage]
+- name: InboxTestProvider
+  domain: Inbox Placement
+  path: /2.0/inbox/tests/{testId}/providers/{providerId}
+  note: Per-mailbox-provider placement result inside one inbox test.
+- name: SeedList
+  domain: Inbox Placement
+  path: /2.0/inbox/seeds
+  note: The seed mailboxes an inbox test sends to, grouped by region and provider.
+- name: OptimizerList
+  domain: Inbox Placement
+  path: /2.0/inbox/optimizer/{optimizerId}
+  key: id
+- name: ReputationProfile
+  domain: Reputation
+  path: /2.0/reputation/profiles/{profileId}
+  key: id
+  fields: [id, name, items, enabled, issues, senderscore, blocklists]
+- name: ReputationItem
+  domain: Reputation
+  path: /2.0/reputation/profiles/{profileId}/items
+  note: A monitored IP, domain or sending identity inside a profile.
+- name: Blocklist
+  domain: Reputation
+  path: /2.0/reputation/blocklists
+- name: BlocklistListing
+  domain: Reputation
+  path: /2.0/reputation/blocklists/listings
+- name: SpamTrapHit
+  domain: Reputation
+  path: /2.0/reputation/traps/*
+  note: Sliced by profile, day, from-address, from-domain, subject, friendly-from and IP.
+- name: SenderScore
+  domain: Reputation
+  path: /2.0/reputation/senderscore/{ip}
+  key: ip
+  note: >-
+    Sender Score is the Return Path metric that survived the acquisition intact;
+    it is keyed by IP address, not by an account entity.
+- name: DMARCDomain
+  domain: Infrastructure (DMARC)
+  path: /2.0/infrastructure/domains/{domain}
+  key: domain
+  fields: [domain, policy, volume, compliance, spf, dkim, reports]
+- name: MailOrigin
+  domain: Infrastructure (DMARC)
+  path: /2.0/infrastructure/domains/{domain}/mailorigins
+- name: ValidationList
+  domain: List Validation
+  path: /2.0/validation/lists/{listId}
+  key: id
+  fields: [id, created, expiration, status, description, total, processed, invalid, results, endpoints]
+- name: ValidationExport
+  domain: List Validation
+  path: /2.0/validation/exports/{exportId}
+- name: Classification
+  domain: List Validation
+  path: /2.0/validation/classifications
+  note: >-
+    The controlled vocabulary of validation outcomes (valid, email_address_invalid,
+    email_domain_invalid, mailbox_full, email_account_invalid, accept_all,
+    role_address, disposable, unknown) with definition, risk and recommendation.
+- name: VTOCampaign
+  domain: View Time Optimization
+  path: /2.0/vto/campaigns/{campaignId}
+  key: id
+  fields: [id, vmg_id, from, description, status, identificationmethod, dkimdomain, dkimselector, starttime, endtime, delivered, opened, link_clicked, created, updated]
+- name: Pixel
+  domain: Engagement
+  path: /2.0/analytics/pixels/{pixelId}
+  key: id
+  fields: [id, name, description, guid, domain, provider, created, firstseen]
+- name: TrackingDomain
+  domain: Engagement
+  path: /2.0/analytics/domains/{domainId}
+- name: EngagementEvent
+  domain: Engagement
+  path: /2.0/analytics/events/{read|click|forward|print}
+- name: ProspectSearch
+  domain: Competitive Intel
+  path: /2.0/prospect/search/{searchId}
+  key: id
+  fields: [id, domain, traps, volume, matches, created, endpoints]
+relationships:
+- {from: Account, to: Alias, type: has_many, via: user_id}
+- {from: Account, to: ChildAccount, type: has_many, via: id}
+- {from: Account, to: APIKey, type: has_many, via: accountId (path)}
+- {from: Account, to: WebhookEndpoint, type: has_many, via: accountId (path)}
+- {from: Account, to: GDPRRequest, type: has_many}
+- {from: InboxTest, to: InboxTestProvider, type: has_many, via: testId (path)}
+- {from: InboxTest, to: SeedList, type: belongs_to, via: seeds}
+- {from: ReputationProfile, to: ReputationItem, type: has_many, via: profileId (path)}
+- {from: ReputationProfile, to: SpamTrapHit, type: has_many, via: profile_id (query)}
+- {from: ReputationProfile, to: SenderScore, type: has_one, via: senderscore}
+- {from: ReputationProfile, to: BlocklistListing, type: has_many, via: blocklists}
+- {from: ReputationItem, to: SenderScore, type: has_one, via: ip}
+- {from: DMARCDomain, to: MailOrigin, type: has_many, via: domain (path)}
+- {from: ValidationList, to: ValidationExport, type: has_many, via: listId}
+- {from: ValidationList, to: Classification, type: references, via: results}
+- {from: OptimizerList, to: DMARCDomain, type: references, via: domains}
+- {from: Pixel, to: EngagementEvent, type: has_many, via: pixel id}
+- {from: Pixel, to: TrackingDomain, type: belongs_to, via: domain}
+- {from: WebhookEndpoint, to: EngagementEvent, type: feeds, via: ingested payloads}
+- {from: ProspectSearch, to: SpamTrapHit, type: has_many, via: searchId (path)}
+render: null

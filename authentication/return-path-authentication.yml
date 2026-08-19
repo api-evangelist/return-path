@@ -1,0 +1,47 @@
+generated: '2026-08-13'
+method: searched
+source: https://developer.everest.validity.com/
+docs: https://developer.everest.validity.com/
+note: >-
+  The Everest API — the surviving API surface of the Return Path platform after
+  Validity's 2019 acquisition — authenticates with a single static API key sent
+  in the X-API-KEY request header. There is no OAuth, no OIDC and no scope
+  surface, so scopes/ is intentionally absent. The key is issued from Everest
+  account settings; parent accounts can mint child-account keys through the API
+  itself.
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-KEY
+  description: >-
+    Every API request requires the X-API-KEY header. Validity's own wording:
+    "Every API request requires the use of the X-API-KEY header, which is
+    located in your account settings."
+  sources: [openapi/return-path-everest-api-openapi.yml]
+key_management:
+  self_service: true
+  issued_from: Everest account settings
+  child_keys:
+    supported: true
+    operations:
+    - accountServicesCreateChildAPIKey
+    - apiKeysAPIKeys
+    - apiKeysCreateAPIKey
+    - apiKeysUpdateAPIKey
+    - apiKeysDeleteAPIKey
+  note: >-
+    The API exposes its own key lifecycle — /2.0/accounts/{accountId}/keys
+    lists, creates, updates and deletes keys — so key rotation is programmable.
+observed:
+  probe: https://api.everest.validity.com/api/2.0/reputation/senderscore/1.1.1.1
+  http_status: 401
+  body: '{"status":"Unauthorized: no valid API credentials provided."}'
+  fetched: '2026-08-13'
+  note: >-
+    Probed anonymously. The API answers a clean JSON 401 rather than an HTML
+    error page, which confirms both the auth model and the error envelope.
