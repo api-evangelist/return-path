@@ -5,11 +5,11 @@
       "source": "https://www.validity.com/feed/",
       "feed_url": "https://www.validity.com/feed/",
       "title": "",
-      "saved": 1,
+      "saved": 0,
       "method": "feed"
     },
     {
-      "source": "https://www.validity.com/products/returnpath/",
+      "source": "https://www.validity.com/capabilities/engage-inbox-placement-and-deliverability/",
       "feed_url": "https://www.validity.com/feed/",
       "title": "",
       "saved": 0,
@@ -17,5 +17,5 @@
     }
   ],
   "post_count": 11,
-  "fetched": "2026-08-15T12:11:08Z"
+  "fetched": "2026-08-22T20:20:02Z"
 }
