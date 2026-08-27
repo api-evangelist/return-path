@@ -68,34 +68,180 @@ tags_raw:
 - Email Validation
 - Analytics
 apis:
-- name: Everest API
-  description: >-
-    The Everest API by Validity — the Return Path platform's surviving
-    programmable surface. Two live major versions behind one host: /api/2.0 is
-    current and covers inbox placement testing and seed lists, sender reputation
-    profiles, Sender Score, blocklist listings, spam-trap events, DMARC
-    infrastructure reporting, engagement and delivery analytics, list
-    validation, View Time Optimization and certification performance; /api/1.0
-    is the legacy surface that still carries Account Services (aliases, child
-    accounts, API keys, GDPR requests, webhook endpoints). Authenticated with a
-    static X-API-KEY header, limited to 500 requests per minute per account.
+- aid: return-path:return-path-account-services-api
+  name: Return Path Account Services API
+  description: The Account Services API from Return Path — 13 operation(s) for account services.
   humanURL: https://developer.everest.validity.com/
   baseURL: https://api.everest.validity.com/api
   tags:
-  - Email Deliverability
-  - Inbox Placement
-  - Sender Reputation
-  - DMARC
-  - Email Validation
+  - Account Services
   properties:
   - type: OpenAPI
-    name: Everest API (derived from the published Postman collection)
-    url: openapi/return-path-everest-api-openapi.yml
+    url: openapi/return-path-account-services-api-openapi.yml
   - type: Postman
-    name: Everest API public Postman collection (provider-published)
     url: collections/return-path-everest-api.postman_collection.json
-  - type: Overlay
-    url: overlays/return-path-everest-api-overlay.yaml
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-apps-integrations-api
+  name: Return Path Apps & Integrations API
+  description: The Apps & Integrations API from Return Path — 12 operation(s) for apps & integrations.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Apps & Integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-apps-integrations-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-certification-api
+  name: Return Path Certification API
+  description: The Certification API from Return Path — 2 operation(s) for certification.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Certification
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-certification-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-competitive-intel-api
+  name: Return Path Competitive Intel API
+  description: The Competitive Intel API from Return Path — 7 operation(s) for competitive intel.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Competitive Intel
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-competitive-intel-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-engagement-api
+  name: Return Path Engagement API
+  description: The Engagement API from Return Path — 35 operation(s) for engagement.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Engagement
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-engagement-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-inbox-placement-api
+  name: Return Path Inbox Placement API
+  description: The Inbox Placement API from Return Path — 17 operation(s) for inbox placement.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Inbox Placement
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-inbox-placement-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-infrastructure-dmarc-api
+  name: Return Path Infrastructure (DMARC) API
+  description: >-
+    The Infrastructure (DMARC) API from Return Path — 10 operation(s) for infrastructure (dmarc).
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Infrastructure (DMARC)
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-infrastructure-dmarc-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-legacy-api-1-0-api
+  name: Return Path Legacy API (1.0) API
+  description: The Legacy API (1.0) API from Return Path — 6 operation(s) for legacy api (1.0).
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Legacy API (1.0)
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-legacy-api-1-0-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-list-validation-api
+  name: Return Path List Validation API
+  description: The List Validation API from Return Path — 6 operation(s) for list validation.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - List Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-list-validation-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-reputation-api
+  name: Return Path Reputation API
+  description: The Reputation API from Return Path — 18 operation(s) for reputation.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - Reputation
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-reputation-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
+  - type: Documentation
+    url: https://developer.everest.validity.com/
+  - type: APIReference
+    url: https://developer.everest.validity.com/
+- aid: return-path:return-path-view-time-optimization-api
+  name: Return Path View Time Optimization API
+  description: >-
+    The View Time Optimization API from Return Path — 4 operation(s) for view time optimization.
+  humanURL: https://developer.everest.validity.com/
+  baseURL: https://api.everest.validity.com/api
+  tags:
+  - View Time Optimization
+  properties:
+  - type: OpenAPI
+    url: openapi/return-path-view-time-optimization-api-openapi.yml
+  - type: Postman
+    url: collections/return-path-everest-api.postman_collection.json
   - type: Documentation
     url: https://developer.everest.validity.com/
   - type: APIReference
@@ -106,6 +252,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/return-path-everest-api-overlay.yaml
 - type: Website
   url: https://www.returnpath.com/
 - type: Product
