@@ -1,0 +1,157 @@
+openapi: 3.2.0
+info:
+  title: Everest Certification API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Certification
+paths:
+  /2.0/cert/performance/daily:
+    get:
+      operationId: performanceDaily
+      summary: Performance Daily
+      tags:
+      - Certification
+      description: Returns single day data for all the IPs belonging to your account, including status at each receiver. Because of a 2-day lag for receiving and rolling up the data, data is limited to the past 2-547 days.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/cert/performance/rollup:
+    get:
+      operationId: performanceRollup
+      summary: Performance Rollup
+      tags:
+      - Certification
+      description: Returns performance data for all the IPs belonging to your account for the last 30 days, including status at each receiver. Data is limited to the last 1.5 years.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

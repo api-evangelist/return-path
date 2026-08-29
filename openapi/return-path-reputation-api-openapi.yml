@@ -1,0 +1,2452 @@
+openapi: 3.2.0
+info:
+  title: Everest Reputation API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Reputation
+paths:
+  /2.0/reputation/blocklists:
+    get:
+      operationId: blocklistsBlocklists
+      summary: Blocklists
+      tags:
+      - Reputation
+      description: Returns a list of all supported blocklists. Blocklists can be filtered by type using the type=ip or type=domain query filters.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    rbl:
+                      type: string
+                    list:
+                      type: string
+                    label:
+                      type: string
+                    type:
+                      type: string
+                    url:
+                      type: string
+              examples:
+                Get Blocklists Type IP:
+                  value:
+                  - id: 1
+                    rbl: 0spam
+                    list: DNSBL
+                    label: 0spam - DNSBL
+                    type: ip
+                    url: http://0spam.fusionzero.com/
+                  - id: 2
+                    rbl: Barracuda
+                    list: BRBL
+                    label: Barracuda - BRBL
+                    type: ip
+                    url: http://www.barracudacentral.org/rbl
+                  - id: 3
+                    rbl: CASA
+                    list: CBL
+                    label: CASA - CBL
+                    type: ip
+                    url: http://www.anti-spam.org.cn
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"type\": \"ip\"\n        },\n        \"total\": 61\n    },\n    \"results\": [\n        {\n            \"id\": 129,\n            \"rbl\": \"0spam\",\n            \"list\": \"DNSBL\",\n            \"label\": \"0spam - DNSBL\",\n            \"type\": \"ip\",\n            \"url\": \"http://0spam.fusionzero.com/\"\n        },\n        {\n            \"id\": 15,\n            \"rbl\": \"Barracuda\",\n            \"list\": \"BRBL\",\n            \"label\": \"Barracuda - BRBL\",\n            \"type\": \"ip\",\n            \"url\": \"http://www.barracudacentral.org/rbl\"\n        },\n        {\n            \"id\": 44,\n            \"rbl\": \"CASA\",\n            \"list\": \"CBL\",\n            \"label\": \"CASA - CBL\",\n            \"type\": \"ip\",\n            \"url\": \"http://www.anti-spam.org.cn\"\n        } // ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/blocklists/listings:
+    get:
+      operationId: blocklistsListings
+      summary: Listings
+      tags:
+      - Reputation
+      description: Returns a list active blacklist listings for your IPs, domains, profiles and providers. Additional resources are provided for each listing type.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          status:
+                            type: string
+                      next:
+                        type: string
+                      pages:
+                        type: integer
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        listing_date:
+                          type: string
+                        delisting_date:
+                          type: string
+                        listing:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            item:
+                              type: string
+                            type:
+                              type: string
+                        blocklist:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            rbl:
+                              type: string
+                            list:
+                              type: string
+                            label:
+                              type: string
+                            url:
+                              type: string
+                        profile:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+              examples:
+                Get Blocklistings:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T00:00:00+00:00'
+                        enddate: '2021-05-12T00:00:00+00:00'
+                        page: 1
+                        limit: 500
+                        status: all
+                      next: /api/2.0/reputation/blocklists/listings?page=2&limit=500&startdate=2021-04-12&enddate=2021-05-12&status=all
+                      pages: 1
+                      total: 2
+                    results:
+                    - status: resolved
+                      listing_date: '2021-05-10 19:16:10'
+                      delisting_date: '2021-05-11 01:16:12'
+                      listing:
+                        id: 1
+                        item: 127.0.0.1
+                        type: ip
+                      blocklist:
+                        id: 8
+                        rbl: SpamCop
+                        list: SpamCop Blocking List
+                        label: SpamCop - SpamCop Blocking List
+                        url: https://www.spamcop.net/fom-serve/cache/76.html
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - status: active
+                      listing_date: '2021-05-10 17:47:59'
+                      delisting_date: null
+                      listing:
+                        id: 1
+                        item: 127.0.0.1
+                        type: ip
+                      blocklist:
+                        id: 8
+                        rbl: SpamCop
+                        list: SpamCop Blocking List
+                        label: SpamCop - SpamCop Blocking List
+                        url: https://www.spamcop.net/fom-serve/cache/76.html
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                Get Blocklistings Current:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T00:00:00+00:00'
+                        enddate: '2021-05-12T00:00:00+00:00'
+                        page: 1
+                        limit: 500
+                        status: all
+                      next: /api/2.0/reputation/blocklists/listings?page=2&limit=500&startdate=2021-04-12&enddate=2021-05-12&status=all
+                      pages: 1
+                      total: 2
+                    results:
+                    - status: active
+                      listing_date: '2021-05-10 17:47:59'
+                      delisting_date: null
+                      listing:
+                        id: 1
+                        item: 127.0.0.1
+                        type: ip
+                      blocklist:
+                        id: 8
+                        rbl: SpamCop
+                        list: SpamCop Blocking List
+                        label: SpamCop - SpamCop Blocking List
+                        url: https://www.spamcop.net/fom-serve/cache/76.html
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                Get Blocklistings Resolved:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T00:00:00+00:00'
+                        enddate: '2021-05-12T00:00:00+00:00'
+                        page: 1
+                        limit: 500
+                        status: all
+                      next: /api/2.0/reputation/blocklists/listings?page=2&limit=500&startdate=2021-04-12&enddate=2021-05-12&status=all
+                      pages: 1
+                      total: 1
+                    results:
+                    - status: resolved
+                      listing_date: '2021-05-10 19:16:10'
+                      delisting_date: '2021-05-11 01:16:12'
+                      listing:
+                        id: 1
+                        item: 127.0.0.1
+                        type: ip
+                      blocklist:
+                        id: 8
+                        rbl: SpamCop
+                        list: SpamCop Blocking List
+                        label: SpamCop - SpamCop Blocking List
+                        url: https://www.spamcop.net/fom-serve/cache/76.html
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/profiles:
+    get:
+      operationId: profilesProfiles
+      summary: Profiles
+      tags:
+      - Reputation
+      description: List current reputation profiles along with any blocklist hits and issue metrics.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        items:
+                          type: integer
+                        enabled:
+                          type: boolean
+                        issues:
+                          type: object
+                          properties:
+                            blocklistings:
+                              type: integer
+                            traps:
+                              type: integer
+                            rdns:
+                              type: integer
+                        senderscore:
+                          type: integer
+                        blocklists:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              label:
+                                type: string
+                              type:
+                                type: string
+              examples:
+                Get Profiles:
+                  value:
+                    meta:
+                      total: 27
+                    results:
+                    - id: 1
+                      name: Validity Mail Servers
+                      items: 25
+                      enabled: true
+                      issues:
+                        blocklistings: 0
+                        traps: 0
+                        rdns: 16
+                      senderscore: 99
+                      blocklists:
+                      - id: 1
+                        label: SBL (Spamhaus SBL Data)
+                        type: ip
+                      - id: 2
+                        label: SBL (Spamhaus SBL CSS Data)
+                        type: ip
+                      - id: 3
+                        label: XBL (CBL Data)
+                        type: ip
+                    - id: 2
+                      name: Test Profile (no blocklists selected)
+                      items: 1
+                      enabled: false
+                      issues:
+                        blocklistings: 0
+                        traps: 0
+                        rdns: 0
+                      senderscore: 0
+                      blocklists: []
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: profilesCreateProfile
+      summary: Create Profile
+      tags:
+      - Reputation
+      description: 'Create a new reputation profile, specifying the type of blocklist to track or specific blocklist providers.
+
+
+        Available Fields
+
+
+        name Required, the name of this profile
+
+        type Optional, the type of blocklist to track. Must be one of all, ip or domain. If specified, blocklist_ids is ignored.
+
+        blocklist_ids Optional, IDs of specific blocklist providers. Provider IDs are available under the /reputation/blocklists resource.
+
+
+        One of the type or blocklist_ids fields must be specified.'
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+                  description: May be 'all', 'ip' or 'domain'.
+            example:
+              name: Profile Test 1
+              type: ip
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: response
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/profiles/{profileId}:
+    get:
+      operationId: profilesProfileByID
+      summary: Profile by ID
+      tags:
+      - Reputation
+      description: Fetch data for a specific reputation profile along with any blocklist hits and issue metrics.
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Get Profile by ID Invalid Profile ID:
+                  value:
+                    error: The 'id' value must be numeric.
+                Get Profile by ID No Results Found:
+                  value:
+                    error: No Results Found
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      items:
+                        type: integer
+                      enabled:
+                        type: boolean
+                      issues:
+                        type: object
+                        properties:
+                          blocklistings:
+                            type: integer
+                          traps:
+                            type: integer
+                          rdns:
+                            type: integer
+                      senderscore:
+                        type: integer
+                      blocklists:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            label:
+                              type: string
+                            type:
+                              type: string
+              examples:
+                Get Profile by ID:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      name: Validity Mail Servers
+                      items: 25
+                      enabled: true
+                      issues:
+                        blocklistings: 0
+                        traps: 0
+                        rdns: 16
+                      senderscore: 99
+                      blocklists:
+                      - id: 1
+                        label: SBL (Spamhaus SBL Data)
+                        type: ip
+                      - id: 2
+                        label: SBL (Spamhaus SBL CSS Data)
+                        type: ip
+                      - id: 3
+                        label: XBL (CBL Data)
+                        type: ip
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: profilesUpdateProfile
+      summary: Update Profile
+      tags:
+      - Reputation
+      description: 'Update the blocklist IDs or type associated with a specified reputation profile.
+
+
+        Available Fields
+
+
+        name Optional, update the name of this profile
+
+        type Optional, replace type of blocklists to track. Must be one of all, ip or domain. If specified, blocklist_ids is ignored.
+
+        blocklist_ids Optional, replace the specific blocklist provider IDs associated with this profile. Provider IDs are available under the /reputation/blocklists resource.
+
+
+        One of the type or blocklist_ids fields must be specified.'
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: (Required)  The profile's name.
+                type:
+                  type: string
+                  description: (Required if blocklists not set) May be 'all', 'ip' or 'domain'.
+                blocklists:
+                  type: string
+                  description: (Required if type not set) An array of blocklist ids.
+                enabled:
+                  type: string
+                  description: Whether or not the profile is enabled for monitoring.  May be 0 or 1.
+            example:
+              name: Profile Updated 1
+              type: all
+              blocklists: 1,2,5
+              enabled: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  id:
+                    type: string
+              examples:
+                Update Profile Array of Blocklists ID:
+                  value:
+                    status: success
+                    id: '1'
+                Update Profile Select All Blocklists:
+                  value:
+                    status: success
+                    id: '1'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Update Profile Profile not found:
+                  value:
+                    error: Profile not found
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: profilesDeleteProfile
+      summary: Delete Profile
+      tags:
+      - Reputation
+      description: Delete a specified profile. This action cannot be undone.
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Delete Profile Profile not found:
+                  value:
+                    error: Profile not found.
+                Delete Profile:
+                  value:
+                    status: success
+                    id: 1
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/profiles/{profileId}/items:
+    get:
+      operationId: profilesProfileItems
+      summary: Profile - Items
+      tags:
+      - Reputation
+      description: List all profile items for a specified reputation profile.
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        item:
+                          type: string
+                        type:
+                          type: string
+                        description:
+                          type: string
+                        senderscore:
+                          type: integer
+              examples:
+                Get Profile Items Type ip:
+                  value:
+                    meta:
+                      params:
+                        type: ip
+                      total: 2
+                    results:
+                    - id: 1
+                      item: 127.0.0.1
+                      type: ip
+                      description: Utility Server 1
+                      senderscore: 99
+                    - id: 2
+                      item: 127.0.0.2
+                      type: ip
+                      description: Utility Server 1
+                      senderscore: 0
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Get Profile Items Invalid Type:
+                  value:
+                    error: The 'type' value must equal 'cidr', 'domain_name', 'ip_range', 'ip' or 'shared_domain'.
+                Profile - Items Profile not found:
+                  value:
+                    error: Profile not found.
+                Get Profile Items No Results Found:
+                  value:
+                    error: No Results Found
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: profilesAddProfileItems
+      summary: Add Profile Items
+      tags:
+      - Reputation
+      description: 'Add a new tracking item to a specified profile.
+
+
+        Available Fields
+
+
+        item Required, the value of the item to track. This may be a CIDR range, IP address or range, or a domain name.
+
+        type Required, the type of item being tracked. Must be one of cidr, domain_name, ip_range, ip or shared_domain.
+
+        description Optional, the description for this profile tracking item.'
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                  description: (Required) The unique identifier of the monitor summary
+                type:
+                  type: string
+                  description: '(Required) Type of monitored items to add: ''ip'', ''cidr'', ''ip_range'', ''domain_name'', or ''shared_domain'''
+                description:
+                  type: string
+                  description: (Optional) The description field for the item.
+                esps:
+                  type: string
+                  description: (Required for shared_domain type) Array or comma separated list of esp ids.
+            example:
+              item: 1.2.3.4
+              type: ip
+              esps: 11,348
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Add Profile Items Invalid Type:
+                  value:
+                    error: The 'type' value must equal 'ip', 'cidr', 'ip_range' or 'domain_name'.
+                Add Profile Items Duplicated:
+                  value:
+                    error: You have already added this IP address.
+                    profile_id: 1
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  profile_id:
+                    type: integer
+              examples:
+                Add Profile Items Type domain_name:
+                  value:
+                    status: success
+                    profile_id: 1
+                Add Profile Items Type ip_range:
+                  value:
+                    status: success
+                    profile_id: 1
+                Add Profile Items Type cidr:
+                  value:
+                    status: success
+                    profile_id: 1
+                Add Profile Items Type ip:
+                  value:
+                    status: success
+                    profile_id: 1
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/profiles/{profileId}/rdns:
+    get:
+      operationId: profilesProfileRDNSIssues
+      summary: Profile - rDNS Issues
+      tags:
+      - Reputation
+      description: List all rDNS issues associated with a specified profile.
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ip:
+                          type: string
+                        ptr:
+                          type: string
+                        a:
+                          type: string
+              examples:
+                Get Profile rDNS Issues:
+                  value:
+                    meta:
+                      total: 3
+                    results:
+                    - ip: 127.0.0.1
+                      ptr: missing
+                      a: missing
+                    - ip: 127.0.0.2
+                      ptr: missing
+                      a: missing
+                    - ip: 127.0.0.3
+                      ptr: missing
+                      a: missing
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/items:
+    get:
+      operationId: profilesAllItemsMonitored
+      summary: All Items Monitored
+      tags:
+      - Reputation
+      description: List all of the reputation profile items that are being tracked.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                      params:
+                        type: object
+                        properties:
+                          type: {}
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        item:
+                          type: string
+                        type:
+                          type: string
+                        description: {}
+                        senderscore:
+                          type: integer
+                        profile:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+              examples:
+                All Items Monitored:
+                  value:
+                    meta:
+                      total: 3
+                      pages: 1
+                      params:
+                        type: null
+                        page: 1
+                        limit: 10
+                    results:
+                    - id: 1
+                      item: alerts.domain.net
+                      type: domain_name
+                      description: null
+                      senderscore: 99
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - id: 2
+                      item: 127.0.0.1
+                      type: ip
+                      description: 'utility server #1'
+                      senderscore: 99
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - id: 3
+                      item: 127.0.0.1
+                      type: ip
+                      description: mail1.domain.com
+                      senderscore: 99
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                All Items Monitored type  IP:
+                  value:
+                    meta:
+                      params:
+                        type: ip
+                        page: 1
+                        limit: 10
+                      next: /api/2.0/reputation/items?page=2&limit=10&type=ip
+                      total: 10545
+                      pages: 1055
+                    results:
+                    - id: 1
+                      item: 127.0.0.1
+                      type: ip
+                      description: 'utility server #1'
+                      senderscore: 99
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - id: 2
+                      item: 127.0.0.2
+                      type: ip
+                      description: 'utility server #2'
+                      senderscore: 99
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - id: 3
+                      item: 127.0.0.3
+                      type: ip
+                      description: 'utility server #3'
+                      senderscore: 99
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/profiles/{profileId}/items/{itemId}:
+    delete:
+      operationId: profilesDeleteProfileItem
+      summary: Delete Profile Item
+      tags:
+      - Reputation
+      description: Delete a specified item on a profile. Profile items can be listed using the /reputation/profiles/{{profile_id}}/items resource.
+      x-api-version: '2.0'
+      parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Delete Profile Item Profile not found:
+                  value:
+                    error: Profile not found.
+                Delete Profile Item Profile item not found:
+                  value:
+                    error: Profile item not found.
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  profile_id:
+                    type: integer
+                  item_id:
+                    type: integer
+              examples:
+                Delete Profile Item:
+                  value:
+                    status: success
+                    profile_id: 1
+                    item_id: 10
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/profile:
+    get:
+      operationId: spamTrapsSpamTrapsByProfile
+      summary: Spam Traps by Profile
+      tags:
+      - Reputation
+      description: Fetch information about trap hits for each of your current reputation profiles.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          ip: {}
+                          traptype: {}
+                          subject: {}
+                          fromdomain: {}
+                          fromaddress: {}
+                          friendlyfrom: {}
+                          profile_id: {}
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                      traps:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                      next:
+                        type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        count:
+                          type: integer
+                        percent:
+                          type: integer
+                        type:
+                          type: object
+                          properties:
+                            pristine:
+                              type: integer
+                            typo:
+                              type: integer
+                            recycled:
+                              type: integer
+                        profile:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+              examples:
+                Get Spam Traps by Profile:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T15:00:51+00:00'
+                        enddate: '2021-05-12T15:00:51+00:00'
+                        ip: null
+                        traptype: null
+                        subject: null
+                        fromdomain: null
+                        fromaddress: null
+                        friendlyfrom: null
+                        profile_id: null
+                        page: 1
+                        limit: 100
+                      traps: 100
+                      total: 3
+                      pages: 1
+                      next: /api/2.0/reputation/traps/profile?page=2&limit=100&startdate=2021-04-12+19%3A00%3A51&enddate=2021-05-12+19%3A00%3A51
+                    results:
+                    - count: 50
+                      percent: 50
+                      type:
+                        pristine: 5
+                        typo: 15
+                        recycled: 5
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - count: 25
+                      percent: 25
+                      type:
+                        pristine: 5
+                        typo: 15
+                        recycled: 5
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+                    - count: 25
+                      percent: 25
+                      type:
+                        pristine: 5
+                        typo: 15
+                        recycled: 5
+                      profile:
+                        id: 1
+                        name: 'Profile #1'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/day:
+    get:
+      operationId: spamTrapsSpamTrapsByDay
+      summary: Spam Traps by Day
+      tags:
+      - Reputation
+      description: Fetch information about trap hits in your mail stream broken out by date.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          ip: {}
+                          traptype: {}
+                          subject: {}
+                          fromdomain: {}
+                          fromaddress: {}
+                          friendlyfrom: {}
+                          profile_id: {}
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                      traps:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        count:
+                          type: integer
+                        percent:
+                          type: integer
+                        type:
+                          type: object
+                          properties:
+                            pristine:
+                              type: integer
+                            typo:
+                              type: integer
+                            recycled:
+                              type: integer
+                        day:
+                          type: string
+              examples:
+                Get Spam Traps by Day:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T14:42:18+00:00'
+                        enddate: '2021-05-12T14:42:18+00:00'
+                        ip: null
+                        traptype: null
+                        subject: null
+                        fromdomain: null
+                        fromaddress: null
+                        friendlyfrom: null
+                        profile_id: null
+                        page: 1
+                        limit: 100
+                      traps: 0
+                      total: 4
+                      pages: 1
+                    results:
+                    - count: 0
+                      percent: 0
+                      type:
+                        pristine: 3
+                        typo: 23
+                        recycled: 14
+                      day: '2020-10-15'
+                    - count: 0
+                      percent: 0
+                      type:
+                        pristine: 1367
+                        typo: 8852
+                        recycled: 27216
+                      day: '2020-10-14'
+                    - count: 0
+                      percent: 0
+                      type:
+                        pristine: 1430
+                        typo: 8729
+                        recycled: 31372
+                      day: '2020-10-13'
+                    - count: 0
+                      percent: 0
+                      type:
+                        pristine: 1284
+                        typo: 7494
+                        recycled: 25517
+                      day: '2020-10-12'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/fromaddress:
+    get:
+      operationId: spamTrapsSpamTrapsByFromAddress
+      summary: Spam Traps by From Address
+      tags:
+      - Reputation
+      description: Fetch information about trap hits in your mail stream broken out by the FROM address.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"startdate\": \"2021-04-12T14:42:30+00:00\",\n            \"enddate\": \"2021-05-12T14:42:30+00:00\",\n            \"ip\": null,\n            \"traptype\": null,\n            \"subject\": null,\n            \"fromdomain\": null,\n            \"fromaddress\": null,\n            \"friendlyfrom\": null,\n            \"profile_id\": null,\n            \"page\": 1,\n            \"limit\": 100\n        },\n        \"traps\": 252,\n        \"total\": 3,\n        \"pages\": 1\n    },\n    \"results\": [\n        {\n            \"count\": 83,\n            \"percent\": 0.1,\n            \"type\": {\n                \"pristine\": 1,\n                \"typo\": 4,\n                \"recycled\": 78\n            },\n            \"fromaddress\": \"from@domain.com\"\n        },\n        {\n            \"count\": 84,\n            \"percent\": 0.1,\n            \"type\": {\n                \"pristine\": 4,\n                \"typo\": 59,\n                \"recycled\": 21\n            },\n            \"fromaddress\": \"from2@domain.com\"\n        },\n        {\n            \"count\": 85,\n            \"percent\": 0.1,\n            \"type\": {\n                \"pristine\": 6,\n                \"typo\": 31,\n                \"recycled\": 48\n            },\n            \"fromaddress\": \"from3@domain.com\"\n        } // ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/fromdomain:
+    get:
+      operationId: spamTrapsSpamTrapsByFromDomain
+      summary: Spam Traps by From Domain
+      tags:
+      - Reputation
+      description: Fetch information about trap hits in your mail stream broken out by the from domain.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          ip: {}
+                          traptype: {}
+                          subject: {}
+                          fromdomain: {}
+                          fromaddress: {}
+                          friendlyfrom: {}
+                          profile_id: {}
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                      traps:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        count:
+                          type: integer
+                        percent:
+                          type: number
+                        type:
+                          type: object
+                          properties:
+                            pristine:
+                              type: integer
+                            typo:
+                              type: integer
+                            recycled:
+                              type: integer
+                        fromdomain:
+                          type: string
+              examples:
+                Spam Traps by From Domain:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T14:42:30+00:00'
+                        enddate: '2021-05-12T14:42:30+00:00'
+                        ip: null
+                        traptype: null
+                        subject: null
+                        fromdomain: null
+                        fromaddress: null
+                        friendlyfrom: null
+                        profile_id: null
+                        page: 1
+                        limit: 100
+                      traps: 241
+                      total: 3
+                      pages: 1
+                    results:
+                    - count: 80
+                      percent: 0.1
+                      type:
+                        pristine: 5
+                        typo: 31
+                        recycled: 44
+                      fromdomain: domain.com
+                    - count: 80
+                      percent: 0.1
+                      type:
+                        pristine: 6
+                        typo: 29
+                        recycled: 45
+                      fromdomain: e.domain.com
+                    - count: 81
+                      percent: 0.1
+                      type:
+                        pristine: 0
+                        typo: 5
+                        recycled: 76
+                      fromdomain: newsletter.domain.com
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/subject:
+    get:
+      operationId: spamTrapsSpamTrapsBySubject
+      summary: Spam Traps by Subject
+      tags:
+      - Reputation
+      description: Fetch information about trap hits in your mail stream broken out by the message SUBJECT.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"startdate\": \"2021-04-12T14:43:17+00:00\",\n            \"enddate\": \"2021-05-12T14:43:17+00:00\",\n            \"ip\": null,\n            \"traptype\": null,\n            \"subject\": null,\n            \"fromdomain\": null,\n            \"fromaddress\": null,\n            \"friendlyfrom\": null,\n            \"profile_id\": null,\n            \"page\": 1,\n            \"limit\": 100\n        },\n        \"traps\": 342,\n        \"total\": 3,\n        \"pages\": 1\n    },\n    \"results\": [\n        {\n            \"count\": 113,\n            \"percent\": 0.1,\n            \"type\": {\n                \"pristine\": 5,\n                \"typo\": 44,\n                \"recycled\": 64\n            },\n            \"subject\": \"\U0001F64C Ultimate Deals From Amazon, Walmart & Target \U0001F64C\"\n        },\n        {\n            \"count\": 113,\n            \"percent\": 0.1,\n            \"type\": {\n                \"pristine\": 13,\n                \"typo\": 41,\n                \"recycled\": 59\n            },\n            \"subject\": \"You’ll Feel So Cozy in This Deal of the Day\"\n        },\n        {\n            \"count\": 116,\n            \"percent\": 0.1,\n            \"type\": {\n                \"pristine\": 6,\n                \"typo\": 63,\n                \"recycled\": 47\n            },\n            \"subject\": \"58\\\" Smart UHD Android TV™ $629 - LIMITED TIME!\"\n        } // ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/friendlyfrom:
+    get:
+      operationId: spamTrapsSpamTrapsByFriendlyFrom
+      summary: Spam Traps by Friendly From
+      tags:
+      - Reputation
+      description: Fetch information about trap hits in your mail stream broken out by the "friendly" from name.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          ip: {}
+                          traptype: {}
+                          subject: {}
+                          fromdomain: {}
+                          fromaddress: {}
+                          friendlyfrom: {}
+                          profile_id: {}
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                      traps:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                      next:
+                        type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        count:
+                          type: integer
+                        percent:
+                          type: number
+                        type:
+                          type: object
+                          properties:
+                            pristine:
+                              type: integer
+                            typo:
+                              type: integer
+                            recycled:
+                              type: integer
+                        friendlyfrom:
+                          type: string
+              examples:
+                Spam Traps by Friendly From:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T14:43:43+00:00'
+                        enddate: '2021-05-12T14:43:43+00:00'
+                        ip: null
+                        traptype: null
+                        subject: null
+                        fromdomain: null
+                        fromaddress: null
+                        friendlyfrom: null
+                        profile_id: null
+                        page: 1
+                        limit: 100
+                      traps: 253
+                      total: 4
+                      pages: 1
+                      next: /api/2.0/reputation/traps/friendlyfrom?page=2&limit=100&startdate=2020-10-12+05%3A00%3A00&enddate=2020-10-15+05%3A00%3A00
+                    results:
+                    - count: 83
+                      percent: 0.1
+                      type:
+                        pristine: 1
+                        typo: 4
+                        recycled: 78
+                      friendlyfrom: John from Smith Co.
+                    - count: 85
+                      percent: 0.1
+                      type:
+                        pristine: 0
+                        typo: 21
+                        recycled: 64
+                      friendlyfrom: Jane from Smith Inc.
+                    - count: 85
+                      percent: 0.1
+                      type:
+                        pristine: 6
+                        typo: 31
+                        recycled: 48
+                      friendlyfrom: Retail Superstore
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/traps/ip:
+    get:
+      operationId: spamTrapsSpamTrapsByIP
+      summary: Spam Traps by IP
+      tags:
+      - Reputation
+      description: Fetch information about trap hits in your mail stream broken out by the sending IP.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          ip: {}
+                          traptype: {}
+                          subject: {}
+                          fromdomain: {}
+                          fromaddress: {}
+                          friendlyfrom: {}
+                          profile_id: {}
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                      traps:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        count:
+                          type: integer
+                        percent:
+                          type: number
+                        type:
+                          type: object
+                          properties:
+                            pristine:
+                              type: integer
+                            typo:
+                              type: integer
+                            recycled:
+                              type: integer
+                        ip:
+                          type: string
+              examples:
+                Spam Traps by IP:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-04-12T14:45:52+00:00'
+                        enddate: '2021-05-12T14:45:52+00:00'
+                        ip: null
+                        traptype: null
+                        subject: null
+                        fromdomain: null
+                        fromaddress: null
+                        friendlyfrom: null
+                        profile_id: null
+                        page: 1
+                        limit: 100
+                      traps: 310
+                      total: 2
+                      pages: 1
+                    results:
+                    - count: 154
+                      percent: 0.1
+                      type:
+                        pristine: 0
+                        typo: 12
+                        recycled: 142
+                      ip: 127.0.0.1
+                    - count: 156
+                      percent: 0.1
+                      type:
+                        pristine: 1
+                        typo: 109
+                        recycled: 46
+                      ip: 127.0.0.2
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/events/traps:
+    get:
+      operationId: eventsDetailedEventsTraps
+      summary: Detailed Events (Traps)
+      tags:
+      - Reputation
+      x-api-version: '2.0'
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The page of results to be retrieved.
+        example: '1'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The page size of paginated data.
+        example: '100'
+      - name: startdate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limits test results to those executed after the specified date.
+        example: '2020-10-12 00:00:00'
+      - name: enddate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limits test results to those executed before the specified date.
+        example: '2020-10-15 00:00:00'
+      - name: traptype
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by trap type(s): pristine, recycled, typo'
+        example: pristine
+      - name: ip
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by a valid IP address (array or comma-separated list of IP addresses)
+        example: 127.0.0.1
+      - name: subject
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by subject line
+        example: Some Subject Line!
+      - name: fromdomain
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by from domain
+        example: domain.com
+      - name: fromaddress
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by from address
+        example: address@domain.com
+      - name: friendlyfrom
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by friendly from
+        example: Acme Co.
+      - name: profile_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by profile ID
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"page\": 1,\n            \"limit\": 100,\n            \"startdate\": \"2020-10-07T04:00:00+00:00\",\n            \"enddate\": \"2020-10-07T17:23:04+00:00\",\n            \"type\": \"pristine\",\n            \"ip\": null,\n            \"subject\": null,\n            \"fromdomain\": null,\n            \"fromaddress\": null,\n            \"friendlyfrom\": null\n        },\n        \"total\": 31409,\n        \"pages\": 315,\n        \"next\": \"/api/2.0/reputation/events/traps?page=2&limit=1&startdate=2020-10-07+09%3A00%3A00&enddate=2020-10-07+22%3A23%3A04&type=pristine\"\n    },\n    \"results\": [\n        {\n            \"date\": \"2020-10-07 17:23:59\",\n            \"type\": \"typo\",\n            \"trap_since\": \"2017-02-17 15:17:21\",\n            \"subject\": \"Smart Android TV™ $279 (Was $429.99)!\",\n            \"fromaddress\": \"store@retailer.com\",\n            \"fromdomain\": \"retailer.com\",\n            \"fromdomain_5322\": \"retailer.com\",\n            \"friendlyfrom\": \"Retail Company Co.\",\n            \"ip\": \"127.0.0.1\",\n            \"rdns\": \"rdns.retailer.com\",\n            \"country\": \"US\",\n            \"dkim\": \"pass\",\n            \"dkim_domain\": \"email.retailer.com\",\n            \"spf\": \"pass\",\n            \"spf_domain\": \"email.retailer.com\"\n        } // ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/events/suspicious:
+    get:
+      operationId: eventsDetailedEventsSuspicious
+      summary: Detailed Events (Suspicious)
+      tags:
+      - Reputation
+      x-api-version: '2.0'
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The page of results to be retrieved.
+        example: '1'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The page size of paginated data.
+        example: '100'
+      - name: startdate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limits test results to those executed after the specified date.
+        example: '2020-10-07 04:00:00'
+      - name: enddate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limits test results to those executed before the specified date.
+        example: '2020-10-07 17:23:04'
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by trap type(s): pristine, recycled, typo'
+        example: pristine
+      - name: ip
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by a valid IP address (or comma-separated list of IP addresses)
+        example: 127.0.0.1
+      - name: subject
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by subject line
+        example: Some Subject Line!
+      - name: fromdomain
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by from domain
+        example: domain.com
+      - name: fromaddress
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by from address
+        example: address@domain.com
+      - name: friendlyfrom
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by friendly from
+        example: Acme Co.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"page\": 1,\n            \"limit\": 100,\n            \"startdate\": \"2020-10-07T04:00:00+00:00\",\n            \"enddate\": \"2020-10-07T17:23:04+00:00\",\n            \"type\": \"pristine\",\n            \"ip\": null,\n            \"subject\": null,\n            \"fromdomain\": null,\n            \"fromaddress\": null,\n            \"friendlyfrom\": null\n        },\n        \"total\": 31409,\n        \"pages\": 315,\n        \"next\": \"/api/2.0/reputation/events/traps?page=2&limit=1&startdate=2020-10-07+09%3A00%3A00&enddate=2020-10-07+22%3A23%3A04&type=pristine\"\n    },\n    \"results\": [\n        {\n            \"date\": \"2020-10-07 17:23:59\",\n            \"type\": \"typo\",\n            \"trap_since\": \"2017-02-17 15:17:21\",\n            \"subject\": \"This might be phishing!\",\n            \"fromaddress\": \"store@retailer.com\",\n            \"fromdomain\": \"retailer.com\",\n            \"fromdomain_5322\": \"retailer.com\",\n            \"friendlyfrom\": \"Retail Company Co.\",\n            \"ip\": \"127.0.0.1\",\n            \"rdns\": \"rdns.retailer.com\",\n            \"country\": \"US\",\n            \"dkim\": \"fail\",\n            \"dkim_domain\": \"email.retailer.com\",\n            \"spf\": \"fail\",\n            \"spf_domain\": \"email.retailer.com\"\n        } // ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/reputation/senderscore/{ip}:
+    get:
+      operationId: senderScoreIPDetail
+      summary: IP Detail
+      tags:
+      - Reputation
+      description: Detailed Sender Score information on an IP.
+      x-api-version: '2.0'
+      parameters:
+      - name: ip
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 1.1.1.1
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

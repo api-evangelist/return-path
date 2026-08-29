@@ -1,0 +1,1637 @@
+openapi: 3.2.0
+info:
+  title: Everest Apps & Integrations API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Apps & Integrations
+paths:
+  /2.0/gpt/domains:
+    get:
+      operationId: googlePostmasterToolsDomains
+      summary: Domains
+      tags:
+      - Apps & Integrations
+      description: Retrieves all domains listed in your Google Postmaster Tools integration.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      errors:
+                        type: string
+                      domainreputation:
+                        type: string
+                      ipreputation:
+                        type: string
+                      spam:
+                        type: string
+                      feedback:
+                        type: string
+                      authentication:
+                        type: string
+                  domain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        created:
+                          type: string
+                        lastseen:
+                          type: string
+                        unique_ips:
+                          type: integer
+                        status:
+                          type: string
+                        endpoints:
+                          type: array
+                          items:
+                            type: string
+                        results:
+                          type: object
+                          properties:
+                            errors:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    'TempFail: Suspected spam':
+                                      type: integer
+                                    'TempFail: Rate limit exceeded':
+                                      type: integer
+                                    'Reject: Suspected spam':
+                                      type: integer
+                                    'Reject: Dmarc policy of the sender domain':
+                                      type: integer
+                                    'Reject: Bad or unsupported attachment':
+                                      type: integer
+                                    'Reject: Email content is possibly spammy':
+                                      type: integer
+                            domainreputation:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    bad:
+                                      type: integer
+                                    low:
+                                      type: integer
+                                    medium:
+                                      type: integer
+                                    high:
+                                      type: integer
+                                day:
+                                  type: object
+                                  properties:
+                                    '2019-08-01':
+                                      type: string
+                                    '2019-08-02':
+                                      type: string
+                                    '2019-08-03':
+                                      type: string
+                            ipreputation:
+                              type: object
+                              properties:
+                                meta:
+                                  type: object
+                                  properties:
+                                    totals:
+                                      type: string
+                                totals:
+                                  type: object
+                                  properties:
+                                    bad:
+                                      type: integer
+                                    low:
+                                      type: integer
+                                    medium:
+                                      type: integer
+                                    high:
+                                      type: integer
+                            spam:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    spam_rate:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                            feedback:
+                              type: object
+                              properties:
+                                totals:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      identifier:
+                                        type: number
+                                      spam_rate:
+                                        type: number
+                            authentication:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    spf:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    dkim:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    dmarc:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                                    tls_inbound:
+                                      type: object
+                                      properties:
+                                        min:
+                                          type: integer
+                                        average:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    tls_outbound:
+                                      type: object
+                                      properties:
+                                        min:
+                                          type: integer
+                                        average:
+                                          type: integer
+                                        max:
+                                          type: integer
+              examples:
+                Get Domains:
+                  value:
+                    meta:
+                      errors: 'Deliver Errors: shows rejected/temp-failed traffic vs all authenticated traffic coming from each domain. Messages are typically rejected or temp-failed with the SMTP error codes 550 or 421 respectively.'
+                      domainreputation: 'Domain Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/medium/good domain classifications during the provided date range.'
+                      ipreputation: 'IP Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/bad/medium/good IP classifications during the provided date range.'
+                      spam: 'User Reported Spam Rate: shows the volume of user-report spam vs. email that was sent to the inbox. Only emails authenticated by DKIM are eligible for spam rate calculation.'
+                      feedback: 'Spam Feedback Loop: for senders who have implemented the Gmail Spam Feedback Loop (FBL), this shows the identifiers flagged by FBL and their corresponding spam rates.'
+                      authentication: 'Authenticated Traffic: shows traffic that passed SPF, DKIM & DMARC, over all received traffic that attempted authentication.'
+                    domain:
+                    - domain: domain.com
+                      created: '2019-08-23 15:29:47'
+                      lastseen: '2019-08-23'
+                      unique_ips: 1517
+                      status: verified
+                      endpoints:
+                      - domains/domain.com/errors
+                      - domains/domain.com/domainreputation
+                      - domains/domain.com/ipreputation/bad
+                      - domains/domain.com/ipreputation/low
+                      - domains/domain.com/ipreputation/medium
+                      - domains/domain.com/ipreputation/high
+                      - domains/domain.com/spam
+                      - domains/domain.com/feedback
+                      - domains/domain.com/authentication
+                      results:
+                        errors:
+                          totals:
+                            'TempFail: Suspected spam': 30
+                            'TempFail: Rate limit exceeded': 11
+                            'Reject: Suspected spam': 26
+                            'Reject: Dmarc policy of the sender domain': 21
+                            'Reject: Bad or unsupported attachment': 22
+                            'Reject: Email content is possibly spammy': 18
+                        domainreputation:
+                          totals:
+                            bad: 0
+                            low: 0
+                            medium: 0
+                            high: 26
+                          day:
+                            '2019-08-01': low
+                            '2019-08-02': low
+                            '2019-08-03': low
+                        ipreputation:
+                          meta:
+                            totals: For a total number of unique IPs tracked in Postmaster Tools, refer to the results.{domain}.unique_ips integer. The ipreputation.totals counts are not the number of unique IP addresses, but instead the total count of low/bad/medium/good IP classifications during the provided date range.
+                          totals:
+                            bad: 45
+                            low: 32
+                            medium: 536
+                            high: 3100
+                        spam:
+                          totals:
+                            spam_rate:
+                              average: 0.1
+                              min: 0.1
+                              max: 0.1
+                        feedback:
+                          totals:
+                          - identifier: 1018400.1034969
+                            spam_rate: 0.6
+                          - identifier: 248182.259494
+                            spam_rate: 1.4
+                          - identifier: 1028704.1046041
+                            spam_rate: 0.6
+                          - identifier: 811711.810455
+                            spam_rate: 0.8
+                        authentication:
+                          totals:
+                            spf:
+                              average: 96.15
+                              min: 0
+                              max: 100
+                            dkim:
+                              average: 96.15
+                              min: 0
+                              max: 100
+                            dmarc:
+                              average: 96.15
+                              min: 81.1
+                              max: 99.9
+                            tls_inbound:
+                              min: 100
+                              average: 100
+                              max: 100
+                            tls_outbound:
+                              min: 100
+                              average: 100
+                              max: 100
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}:
+    get:
+      operationId: googlePostmasterToolsDomainOverview
+      summary: Domain - Overview
+      tags:
+      - Apps & Integrations
+      description: Retrieves the high-level overview of a specific domain in your Google Postmaster Tools integration.
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      errors:
+                        type: string
+                      domainreputation:
+                        type: string
+                      ipreputation:
+                        type: string
+                      spam:
+                        type: string
+                      feedback:
+                        type: string
+                      authentication:
+                        type: string
+                  domain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        created:
+                          type: string
+                        lastseen:
+                          type: string
+                        unique_ips:
+                          type: integer
+                        status:
+                          type: string
+                        endpoints:
+                          type: array
+                          items:
+                            type: string
+                        results:
+                          type: object
+                          properties:
+                            errors:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    'TempFail: Suspected spam':
+                                      type: integer
+                                    'TempFail: Rate limit exceeded':
+                                      type: integer
+                                    'Reject: Suspected spam':
+                                      type: integer
+                                    'Reject: Dmarc policy of the sender domain':
+                                      type: integer
+                                    'Reject: Bad or unsupported attachment':
+                                      type: integer
+                                    'Reject: Email content is possibly spammy':
+                                      type: integer
+                            domainreputation:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    bad:
+                                      type: integer
+                                    low:
+                                      type: integer
+                                    medium:
+                                      type: integer
+                                    high:
+                                      type: integer
+                                day:
+                                  type: object
+                                  properties:
+                                    '2019-09-01':
+                                      type: string
+                                    '2019-09-02':
+                                      type: string
+                                    '2019-09-03':
+                                      type: string
+                            ipreputation:
+                              type: object
+                              properties:
+                                meta:
+                                  type: object
+                                  properties:
+                                    totals:
+                                      type: string
+                                totals:
+                                  type: object
+                                  properties:
+                                    bad:
+                                      type: integer
+                                    low:
+                                      type: integer
+                                    medium:
+                                      type: integer
+                                    high:
+                                      type: integer
+                            spam:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    spam_rate:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                            feedback:
+                              type: object
+                              properties:
+                                totals:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      identifier:
+                                        type: number
+                                      spam_rate:
+                                        type: number
+                            authentication:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    spf:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    dkim:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    dmarc:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                                    tls_inbound:
+                                      type: object
+                                      properties:
+                                        min:
+                                          type: integer
+                                        average:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    tls_outbound:
+                                      type: object
+                                      properties:
+                                        min:
+                                          type: integer
+                                        average:
+                                          type: integer
+                                        max:
+                                          type: integer
+              examples:
+                Get Domain Overview:
+                  value:
+                    meta:
+                      errors: 'Deliver Errors: shows rejected/temp-failed traffic vs all authenticated traffic coming from each domain. Messages are typically rejected or temp-failed with the SMTP error codes 550 or 421 respectively.'
+                      domainreputation: 'Domain Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/medium/good domain classifications during the provided date range.'
+                      ipreputation: 'IP Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/bad/medium/good IP classifications during the provided date range.'
+                      spam: 'User Reported Spam Rate: shows the volume of user-report spam vs. email that was sent to the inbox. Only emails authenticated by DKIM are eligible for spam rate calculation.'
+                      feedback: 'Spam Feedback Loop: for senders who have implemented the Gmail Spam Feedback Loop (FBL), this shows the identifiers flagged by FBL and their corresponding spam rates.'
+                      authentication: 'Authenticated Traffic: shows traffic that passed SPF, DKIM & DMARC, over all received traffic that attempted authentication.'
+                    domain:
+                    - domain: domain.com
+                      created: '2019-08-23 15:29:47'
+                      lastseen: '2019-08-23'
+                      unique_ips: 1513
+                      status: verified
+                      endpoints:
+                      - domains/domain.com/errors
+                      - domains/domain.com/domainreputation
+                      - domains/domain.com/ipreputation/bad
+                      - domains/domain.com/ipreputation/low
+                      - domains/domain.com/ipreputation/medium
+                      - domains/domain.com/ipreputation/high
+                      - domains/domain.com/spam
+                      - domains/domain.com/feedback
+                      - domains/domain.com/authentication
+                      results:
+                        errors:
+                          totals:
+                            'TempFail: Suspected spam': 30
+                            'TempFail: Rate limit exceeded': 11
+                            'Reject: Suspected spam': 26
+                            'Reject: Dmarc policy of the sender domain': 21
+                            'Reject: Bad or unsupported attachment': 22
+                            'Reject: Email content is possibly spammy': 18
+                        domainreputation:
+                          totals:
+                            bad: 0
+                            low: 0
+                            medium: 0
+                            high: 3
+                          day:
+                            '2019-09-01': high
+                            '2019-09-02': high
+                            '2019-09-03': high
+                        ipreputation:
+                          meta:
+                            totals: For a total number of unique IPs tracked in Postmaster Tools, refer to the results.{domain}.unique_ips integer. The ipreputation.totals counts are not the number of unique IP addresses, but instead the total count of low/bad/medium/good IP classifications during the provided date range.
+                          totals:
+                            bad: 45
+                            low: 32
+                            medium: 536
+                            high: 3100
+                        spam:
+                          totals:
+                            spam_rate:
+                              average: 0.1
+                              min: 0.1
+                              max: 0.1
+                        feedback:
+                          totals:
+                          - identifier: 1018400.1034969
+                            spam_rate: 0.6
+                          - identifier: 248182.259494
+                            spam_rate: 1.4
+                          - identifier: 1028704.1046041
+                            spam_rate: 0.6
+                        authentication:
+                          totals:
+                            spf:
+                              average: 96.15
+                              min: 0
+                              max: 100
+                            dkim:
+                              average: 96.15
+                              min: 0
+                              max: 100
+                            dmarc:
+                              average: 96.15
+                              min: 81.1
+                              max: 99.9
+                            tls_inbound:
+                              min: 100
+                              average: 100
+                              max: 100
+                            tls_outbound:
+                              min: 100
+                              average: 100
+                              max: 100
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}/errors:
+    get:
+      operationId: googlePostmasterToolsDomainErrors
+      summary: Domain - Errors
+      tags:
+      - Apps & Integrations
+      description: Shows rejected/temp-failed traffic vs all authenticated traffic coming from each domain. Messages are typically rejected or temp-failed with the SMTP error codes 550 or 421 respectively.
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"errors\": \"Deliver Errors: shows rejected/temp-failed traffic vs all authenticated traffic coming from each domain. Messages are typically rejected or temp-failed with the SMTP error codes 550 or 421 respectively.\"\n    },\n    \"domain\": [\n        {\n            \"domain\": \"domain.com\",\n            \"created\": \"2019-08-23 15:29:47\",\n            \"lastseen\": \"2019-08-23\",\n            \"status\": \"verified\",\n            \"results\": {\n                \"errors\": {\n                    \"totals\": {\n                        \"TempFail: Suspected spam\": 1,\n                        \"TempFail: Rate limit exceeded\": 3,\n                        \"Reject: Suspected spam\": 1,\n                        \"Reject: Dmarc policy of the sender domain\": 1,\n                        \"Reject: Bad or unsupported attachment\": 1,\n                        \"Reject: Email content is possibly spammy\": 2\n                    },\n                    \"day\": {\n                        \"2019-08-01\": {\n                            \"TempFail: Suspected spam\": 1,\n                            \"TempFail: Rate limit exceeded\": 1,\n                            \"Reject: Suspected spam\": 1,\n                            \"Reject: Dmarc policy of the sender domain\": 1,\n                            \"Reject: Bad or unsupported attachment\": 0,\n                            \"Reject: Email content is possibly spammy\": 1\n                        },\n                        \"2019-08-02\": {\n                            \"TempFail: Suspected spam\": 0,\n                            \"TempFail: Rate limit exceeded\": 1,\n                            \"Reject: Suspected spam\": 0,\n                            \"Reject: Dmarc policy of the sender domain\": 0,\n                            \"Reject: Bad or unsupported attachment\": 0,\n                            \"Reject: Email content is possibly spammy\": 0\n                        },\n                        \"2019-08-03: {\n                            \"TempFail: Suspected spam\": 0,\n                       "
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}/domainreputation:
+    get:
+      operationId: googlePostmasterToolsDomainReputation
+      summary: Domain - Reputation
+      tags:
+      - Apps & Integrations
+      description: Provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The 'totals' object contains the total count of low/medium/good domain classifications during the provided date range.
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      domainreputation:
+                        type: string
+                  domain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        created:
+                          type: string
+                        lastseen:
+                          type: string
+                        status:
+                          type: string
+                        results:
+                          type: object
+                          properties:
+                            domainreputation:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    bad:
+                                      type: integer
+                                    low:
+                                      type: integer
+                                    medium:
+                                      type: integer
+                                    high:
+                                      type: integer
+                                day:
+                                  type: object
+                                  properties:
+                                    '2019-08-01':
+                                      type: object
+                                      properties:
+                                        bad:
+                                          type: integer
+                                        low:
+                                          type: integer
+                                        medium:
+                                          type: integer
+                                        high:
+                                          type: integer
+                                    '2019-08-02':
+                                      type: object
+                                      properties:
+                                        bad:
+                                          type: integer
+                                        low:
+                                          type: integer
+                                        medium:
+                                          type: integer
+                                        high:
+                                          type: integer
+                                    '2019-08-03':
+                                      type: object
+                                      properties:
+                                        bad:
+                                          type: integer
+                                        low:
+                                          type: integer
+                                        medium:
+                                          type: integer
+                                        high:
+                                          type: integer
+              examples:
+                Get Domain - Reputation:
+                  value:
+                    meta:
+                      domainreputation: 'Domain Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/medium/good domain classifications during the provided date range.'
+                    domain:
+                    - domain: domain.com
+                      created: '2019-08-23 15:29:47'
+                      lastseen: '2019-08-23'
+                      status: verified
+                      results:
+                        domainreputation:
+                          totals:
+                            bad: 0
+                            low: 0
+                            medium: 0
+                            high: 3
+                          day:
+                            '2019-08-01':
+                              bad: 0
+                              low: 0
+                              medium: 0
+                              high: 1
+                            '2019-08-02':
+                              bad: 0
+                              low: 0
+                              medium: 0
+                              high: 0
+                            '2019-08-03':
+                              bad: 0
+                              low: 0
+                              medium: 0
+                              high: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}/ipreputation/high:
+    get:
+      operationId: googlePostmasterToolsDomainIPReputation
+      summary: Domain - IP Reputation
+      tags:
+      - Apps & Integrations
+      description: Provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The 'totals' object contains the total count of low/bad/medium/good IP classifications during the provided date range.
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      errors:
+                        type: string
+                      domainreputation:
+                        type: string
+                      ipreputation:
+                        type: string
+                      spam:
+                        type: string
+                      feedback:
+                        type: string
+                      authentication:
+                        type: string
+                  domain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        created:
+                          type: string
+                        lastseen:
+                          type: string
+                        unique_ips:
+                          type: integer
+                        status:
+                          type: string
+                        endpoints:
+                          type: array
+                          items:
+                            type: string
+                        results:
+                          type: object
+                          properties:
+                            ipreputation:
+                              type: object
+                              properties:
+                                meta:
+                                  type: object
+                                  properties:
+                                    totals:
+                                      type: string
+                                totals:
+                                  type: object
+                                  properties:
+                                    bad:
+                                      type: integer
+                                    low:
+                                      type: integer
+                                    medium:
+                                      type: integer
+                                    high:
+                                      type: integer
+              examples:
+                Get Domain - IP Reputation:
+                  value:
+                    meta:
+                      errors: 'Deliver Errors: shows rejected/temp-failed traffic vs all authenticated traffic coming from each domain. Messages are typically rejected or temp-failed with the SMTP error codes 550 or 421 respectively.'
+                      domainreputation: 'Domain Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/medium/good domain classifications during the provided date range.'
+                      ipreputation: 'IP Reputation: provides a sense of whether the Gmail spam filter might mark emails from that Domain or IP as spam or not. The ''totals'' object contains the total count of low/bad/medium/good IP classifications during the provided date range.'
+                      spam: 'User Reported Spam Rate: shows the volume of user-report spam vs. email that was sent to the inbox. Only emails authenticated by DKIM are eligible for spam rate calculation.'
+                      feedback: 'Spam Feedback Loop: for senders who have implemented the Gmail Spam Feedback Loop (FBL), this shows the identifiers flagged by FBL and their corresponding spam rates.'
+                      authentication: 'Authenticated Traffic: shows traffic that passed SPF, DKIM & DMARC, over all received traffic that attempted authentication.'
+                    domain:
+                    - domain: domain.com
+                      created: '2019-08-23 15:29:47'
+                      lastseen: '2019-08-23'
+                      unique_ips: 1504
+                      status: verified
+                      endpoints:
+                      - domains/domain.com/ipreputation/bad
+                      - domains/domain.com/ipreputation/low
+                      - domains/domain.com/ipreputation/medium
+                      - domains/domain.com/ipreputation/high
+                      results:
+                        ipreputation:
+                          meta:
+                            totals: The ipreputation.totals counts are not the number of unique IP addresses, but instead the total count of low/bad/medium/good IP classifications during the provided date range. For a total number of unique IPs tracked in Postmaster Tools, refer to the results.{domain}.unique_ips integer.
+                          totals:
+                            bad: 37
+                            low: 29
+                            medium: 507
+                            high: 2889
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}/spam:
+    get:
+      operationId: googlePostmasterToolsDomainSpamRates
+      summary: Domain - Spam Rates
+      tags:
+      - Apps & Integrations
+      description: Shows the volume of user-report spam vs. email that was sent to the inbox. Only emails authenticated by DKIM are eligible for spam rate calculation (User Reported Spam Rate).
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      spam:
+                        type: string
+                  domain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        created:
+                          type: string
+                        lastseen:
+                          type: string
+                        status:
+                          type: string
+                        results:
+                          type: object
+                          properties:
+                            spam:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    spam_rate:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: number
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                                day:
+                                  type: object
+                                  properties:
+                                    '2019-09-02':
+                                      type: number
+                                    '2019-09-03':
+                                      type: number
+                                    '2019-09-04':
+                                      type: number
+                                    '2019-09-05':
+                                      type: number
+              examples:
+                Get Domain - Spam Rates:
+                  value:
+                    meta:
+                      spam: 'User Reported Spam Rate: shows the volume of user-report spam vs. email that was sent to the inbox. Only emails authenticated by DKIM are eligible for spam rate calculation.'
+                    domain:
+                    - domain: domain.com
+                      created: '2019-08-23 15:29:47'
+                      lastseen: '2019-08-23'
+                      status: verified
+                      results:
+                        spam:
+                          totals:
+                            spam_rate:
+                              average: 0.1
+                              min: 0.1
+                              max: 0.1
+                          day:
+                            '2019-09-02': 0.1
+                            '2019-09-03': 0.1
+                            '2019-09-04': 0.1
+                            '2019-09-05': 0.1
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}/feedback:
+    get:
+      operationId: googlePostmasterToolsDomainFeedbackLoops
+      summary: Domain - Feedback Loops
+      tags:
+      - Apps & Integrations
+      description: For senders who have implemented the Gmail Spam Feedback Loop (FBL), this shows the identifiers flagged by FBL and their corresponding spam rates.
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"feedback\": \"Spam Feedback Loop: for senders who have implemented the Gmail Spam Feedback Loop (FBL), this shows the identifiers flagged by FBL and their corresponding spam rates.\"\n    },\n    \"domain\": [\n        {\n            \"domain\": \"domain.com\",\n            \"created\": \"2019-08-23 15:29:47\",\n            \"lastseen\": \"2019-08-23\",\n            \"status\": \"verified\",\n            \"results\": {\n                \"feedback\": {\n                    \"totals\": [\n                        {\n                            \"identifier\": 0000.1111,\n                            \"spam_rate\": 0.6\n                        },\n                        {\n                            \"identifier\": 0000.2222,\n                            \"spam_rate\": 1.4\n                        },\n                        {\n                            \"identifier\": 0000.3333,\n                            \"spam_rate\": 0.6\n                        }\n                    ],\n                    \"day\": {\n                        \"2019-09-03\": [\n                            {\n                                \"identifier\": 0000.1111,\n                                \"spam_rate\": 0.6\n                            },\n                            {\n                                \"identifier\": 0000.2222,\n                                \"spam_rate\": 0.6\n                            }\n                        ],\n                        \"2019-09-04\": [\n                            {\n                                \"identifier\": 0000.3333,\n                                \"spam_rate\": 1.4\n                            }\n                        ]\n                    }\n                }\n            }\n        }\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/gpt/domains/{domain}/authentication:
+    get:
+      operationId: googlePostmasterToolsDomainAuthentication
+      summary: Domain - Authentication
+      tags:
+      - Apps & Integrations
+      description: 'Authenticated Traffic: shows traffic that passed SPF, DKIM & DMARC, over all received traffic that attempted authentication. Inbound and Outbound TLS encyryption rates are also included.'
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      authentication:
+                        type: string
+                  domain:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        created:
+                          type: string
+                        lastseen:
+                          type: string
+                        status:
+                          type: string
+                        results:
+                          type: object
+                          properties:
+                            authentication:
+                              type: object
+                              properties:
+                                totals:
+                                  type: object
+                                  properties:
+                                    spf:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: integer
+                                        min:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    dkim:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: integer
+                                        min:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    dmarc:
+                                      type: object
+                                      properties:
+                                        average:
+                                          type: integer
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                                    tls_inbound:
+                                      type: object
+                                      properties:
+                                        min:
+                                          type: integer
+                                        average:
+                                          type: integer
+                                        max:
+                                          type: integer
+                                    tls_outbound:
+                                      type: object
+                                      properties:
+                                        min: {}
+                                        average: {}
+                                        max: {}
+                                day:
+                                  type: object
+                                  properties:
+                                    '2019-09-01':
+                                      type: object
+                                      properties:
+                                        spf:
+                                          type: integer
+                                        dkim:
+                                          type: integer
+                                        dmarc:
+                                          type: number
+                                        tls_inbound:
+                                          type: integer
+                                        tls_outbound:
+                                          type: integer
+                                    '2019-09-02':
+                                      type: object
+                                      properties:
+                                        spf:
+                                          type: integer
+                                        dkim:
+                                          type: integer
+                                        dmarc:
+                                          type: number
+                                        tls_inbound:
+                                          type: integer
+                                        tls_outbound:
+                                          type: integer
+                                    '2019-09-03':
+                                      type: object
+                                      properties:
+                                        spf:
+                                          type: integer
+                                        dkim:
+                                          type: integer
+                                        dmarc:
+                                          type: number
+                                        tls_inbound:
+                                          type: integer
+                                        tls_outbound:
+                                          type: integer
+              examples:
+                Get Domain - Authentication:
+                  value:
+                    meta:
+                      authentication: 'Authenticated Traffic: shows traffic that passed SPF, DKIM & DMARC, over all received traffic that attempted authentication.'
+                    domain:
+                    - domain: domain.com
+                      created: '2019-08-23 15:29:47'
+                      lastseen: '2019-08-23'
+                      status: verified
+                      results:
+                        authentication:
+                          totals:
+                            spf:
+                              average: 100
+                              min: 100
+                              max: 100
+                            dkim:
+                              average: 100
+                              min: 100
+                              max: 100
+                            dmarc:
+                              average: 100
+                              min: 95.7
+                              max: 95.7
+                            tls_inbound:
+                              min: 100
+                              average: 100
+                              max: 100
+                            tls_outbound:
+                              min: null
+                              average: null
+                              max: null
+                          day:
+                            '2019-09-01':
+                              spf: 100
+                              dkim: 100
+                              dmarc: 96.3
+                              tls_inbound: 100
+                              tls_outbound: 0
+                            '2019-09-02':
+                              spf: 100
+                              dkim: 100
+                              dmarc: 81.1
+                              tls_inbound: 100
+                              tls_outbound: 0
+                            '2019-09-03':
+                              spf: 100
+                              dkim: 100
+                              dmarc: 92.7
+                              tls_inbound: 100
+                              tls_outbound: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/integrations/signalspam:
+    get:
+      operationId: signalSpamSignalSpamOverview
+      summary: Signal Spam - Overview
+      tags:
+      - Apps & Integrations
+      description: Signal Spam - Overview
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/integrations/signalspam/day:
+    get:
+      operationId: signalSpamSignalSpamByDay
+      summary: Signal Spam - By Day
+      tags:
+      - Apps & Integrations
+      x-api-version: '2.0'
+      parameters:
+      - name: startdate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: YYYY-MM-DD. Optional, if omitted defaults to 30 days prior.
+        example: '2021-04-17'
+      - name: enddate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: YYYY-MM-DD. Optional, if omitted defaults to the current day.
+        example: '2021-05-17'
+      - name: ip
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Optional.  IP address or IP address wildcard (right side).
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/integrations/signalspam/ip:
+    get:
+      operationId: signalSpamSignalSpamByIP
+      summary: Signal Spam - By IP
+      tags:
+      - Apps & Integrations
+      x-api-version: '2.0'
+      parameters:
+      - name: startdate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: YYYY-MM-DD. Optional, if omitted defaults to 30 days prior.
+        example: '2021-04-17'
+      - name: enddate
+        in: query
+        required: false
+        schema:
+          type: string
+        description: YYYY-MM-DD. Optional, if omitted defaults to the current day.
+        example: '2021-05-17'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/integrations/errors:
+    get:
+      operationId: webhookErrors
+      summary: Webhook Errors
+      tags:
+      - Apps & Integrations
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

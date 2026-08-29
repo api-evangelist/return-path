@@ -1,0 +1,4117 @@
+openapi: 3.2.0
+info:
+  title: Everest Inbox Placement API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Inbox Placement
+paths:
+  /2.0/inbox/seeds:
+    get:
+      operationId: seedListsSeedList
+      summary: Seed List
+      tags:
+      - Inbox Placement
+      description: Seed List returns a full list of seed addresses for an account.
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      pages:
+                        type: integer
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                Seed List:
+                  value:
+                    meta:
+                      pages: 1
+                      total: 3
+                    results:
+                    - seed1@domain.com
+                    - seed2@domain.com
+                    - seed3@domain.com
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: seedListsUpdateSeedList
+      summary: Update Seed List
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                regions:
+                  type: string
+                  description: (Required) Either an array or comma separated list of region ids.
+            example:
+              regions: 1,2,3,6,7,8,9,13,15
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+              examples:
+                Update Seed List:
+                  value:
+                    results:
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/seeds/providers:
+    get:
+      operationId: seedListsRegionsProviders
+      summary: Regions & Providers
+      tags:
+      - Inbox Placement
+      description: Regions & Providers returns a region along with the supported ISPs within it, or a list of targetable regions to configure your seed list.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/optimizer:
+    get:
+      operationId: listOptimizerAllLists
+      summary: All Lists
+      tags:
+      - Inbox Placement
+      description: All Lists provides an overview of each available mailing list.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        status:
+                          type: string
+                        size:
+                          type: integer
+                        domains:
+                          type: integer
+                        created:
+                          type: string
+              examples:
+                All Lists:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - id: 1
+                      name: Customer List 1
+                      status: complete
+                      size: 497783
+                      domains: 32685
+                      created: '2020-06-26 16:22:36'
+                    - id: 2
+                      name: Customer List 2
+                      status: complete
+                      size: 547764
+                      domains: 30119
+                      created: '2016-06-09 17:20:23'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: listOptimizerCreateList
+      summary: Create List
+      tags:
+      - Inbox Placement
+      description: Create List allows submitting a new mailing list sample for analysis.
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the list
+                list:
+                  type: string
+                  description: List of email addresses or (preferably) the domain portion of the addresses
+                delimiter:
+                  type: string
+                  description: Separator between email addresses (defaults to new line)
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/optimizer/{optimizerId}:
+    get:
+      operationId: listOptimizerListByID
+      summary: List by ID
+      tags:
+      - Inbox Placement
+      description: List by ID provides detailed information about a specified mailing list including a full breakdown of each mailbox provider.
+      x-api-version: '2.0'
+      parameters:
+      - name: optimizerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      status:
+                        type: string
+                      size:
+                        type: integer
+                      known:
+                        type: integer
+                      unknown:
+                        type: integer
+                      weighting_applied:
+                        type: boolean
+                      created:
+                        type: string
+                      regions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            providers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  name:
+                                    type: string
+                                  domains:
+                                    type: integer
+                                  percent:
+                                    type: integer
+                                  has_seeds:
+                                    type: boolean
+                                  matches:
+                                    type: string
+              examples:
+                List by ID:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      name: Customer List 1
+                      status: complete
+                      size: 500112
+                      known: 468228
+                      unknown: 29555
+                      weighting_applied: true
+                      created: '2020-06-26 16:22:36'
+                      regions:
+                      - id: 3
+                        name: Global
+                        providers:
+                        - id: 111
+                          name: Gmail
+                          domains: 201291
+                          percent: 43
+                          has_seeds: true
+                          matches: /api/2.0/inbox/optimizer/1/domains/111
+                        - id: 222
+                          name: AOL
+                          domains: 50132
+                          percent: 10.7
+                          has_seeds: true
+                          matches: /api/2.0/inbox/optimizer/1/domains/222
+                        - id: 333
+                          name: Hotmail
+                          domains: 40353
+                          percent: 8.6
+                          has_seeds: true
+                          matches: /api/2.0/inbox/optimizer/1/domains/333
+                      - id: 1
+                        name: North America
+                        providers: []
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: listOptimizerDeleteList
+      summary: Delete List
+      tags:
+      - Inbox Placement
+      description: Delete List allows you to delete one of your mailing list samples.
+      x-api-version: '2.0'
+      parameters:
+      - name: optimizerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: listOptimizerApplyListWeighting
+      summary: Apply List Weighting
+      tags:
+      - Inbox Placement
+      description: Apply List Weighting enables you to weight your seedlist based on the results of a Seedlist Optimizer sample. See Create List for instructions on how to upload a list sample for optimization.
+      x-api-version: '2.0'
+      parameters:
+      - name: optimizerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: include_zero
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/optimizer/{optimizerId}/domains/{domainId}:
+    get:
+      operationId: listOptimizerDomainsByList
+      summary: Domains by List
+      tags:
+      - Inbox Placement
+      description: Domains by List provides a full breakdown of domain distribution from your mailing list sample.
+      x-api-version: '2.0'
+      parameters:
+      - name: optimizerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        domain:
+                          type: string
+                        size:
+                          type: integer
+              examples:
+                Domains by List:
+                  value:
+                    meta: {}
+                    results:
+                    - id: 1
+                      domain: gmail.com
+                      size: 201247
+                    - id: 2
+                      domain: googlemail.com
+                      size: 43
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/tests:
+    get:
+      operationId: inboxTestsAllInboxTests
+      summary: All Inbox Tests
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          page: {}
+                          limit: {}
+                          enddate:
+                            type: string
+                          ip: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          region_id: {}
+                      pages:
+                        type: integer
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        created:
+                          type: string
+                        subject:
+                          type: string
+                        xheader:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                            value:
+                              type: string
+                        from:
+                          type: string
+                        friendlyfrom:
+                          type: string
+                        seeds:
+                          type: object
+                          properties:
+                            inbox:
+                              type: integer
+                            spam:
+                              type: integer
+                            missing:
+                              type: integer
+                        placement:
+                          type: object
+                          properties:
+                            inbox:
+                              type: number
+                            spam:
+                              type: number
+                            missing:
+                              type: number
+                        authentication:
+                          type: object
+                          properties:
+                            spf:
+                              type: number
+                            dkim:
+                              type: integer
+                            dmarc:
+                              type: integer
+                        status:
+                          type: string
+                        mtr:
+                          type: number
+                        overage:
+                          type: boolean
+              examples:
+                All Inbox Tests:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-01-01T05:00:00+00:00'
+                        page: null
+                        limit: null
+                        enddate: '1970-01-01T00:00:00+00:00'
+                        ip: null
+                        spfdomain: null
+                        dkimdomain: null
+                        region_id: null
+                      pages: 1
+                      total: 1
+                    results:
+                    - id: 1
+                      created: '2021-01-03 18:02:45'
+                      subject: Inbox Test 1
+                      xheader:
+                        key: X-250ok-CID
+                        value: '1111.2222'
+                      from: from@domain.com
+                      friendlyfrom: Your Friendly From
+                      seeds:
+                        inbox: 781
+                        spam: 101
+                        missing: 14
+                      placement:
+                        inbox: 87.2
+                        spam: 11.3
+                        missing: 1.5
+                      authentication:
+                        spf: 96.9
+                        dkim: 100
+                        dmarc: 100
+                      status: processing
+                      mtr: 2.6
+                      overage: false
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/tests/{testId}:
+    get:
+      operationId: inboxTestsInboxTestByID
+      summary: Inbox Test by ID
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      created:
+                        type: string
+                      subject:
+                        type: string
+                      xheader:
+                        type: object
+                        properties:
+                          key:
+                            type: string
+                          value:
+                            type: string
+                      from:
+                        type: string
+                      friendlyfrom:
+                        type: string
+                      seeds:
+                        type: object
+                        properties:
+                          inbox:
+                            type: integer
+                          spam:
+                            type: integer
+                          missing:
+                            type: integer
+                      placement:
+                        type: object
+                        properties:
+                          inbox:
+                            type: number
+                          spam:
+                            type: number
+                          missing:
+                            type: number
+                      authentication:
+                        type: object
+                        properties:
+                          spf:
+                            type: number
+                          dkim:
+                            type: integer
+                          dmarc:
+                            type: integer
+                      status:
+                        type: string
+                      mtr:
+                        type: number
+                      overage:
+                        type: string
+              examples:
+                Inbox Test by ID:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      created: '2021-01-01 09:16:54'
+                      subject: 'Inbox Test #1'
+                      xheader:
+                        key: X-250ok-CID
+                        value: '1111.2222'
+                      from: from@domain.com
+                      friendlyfrom: Acme Co.
+                      seeds:
+                        inbox: 791
+                        spam: 100
+                        missing: 5
+                      placement:
+                        inbox: 88.3
+                        spam: 11.2
+                        missing: 0.5
+                      authentication:
+                        spf: 97.1
+                        dkim: 100
+                        dmarc: 100
+                      status: processing
+                      mtr: 8.6
+                      overage: 'No'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: inboxTestsDeleteTest
+      summary: Delete Test
+      tags:
+      - Inbox Placement
+      description: Delete Test allows you to manually delete an Inbox test.
+      x-api-version: '2.0'
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/tests/{testId}/message:
+    get:
+      operationId: inboxTestsInboxTestFullMessage
+      summary: 'Inbox Test: Full Message'
+      tags:
+      - Inbox Placement
+      description: Full Message provides the full raw message, html and text version, and headers from a particular Inbox test.
+      x-api-version: '2.0'
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/tests/{testId}/providers:
+    get:
+      operationId: inboxTestsInboxTestAllProviders
+      summary: 'Inbox Test: All Providers'
+      tags:
+      - Inbox Placement
+      description: All Providers returns detailed mailbox performance for all providers in a given Inbox test.
+      x-api-version: '2.0'
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate: {}
+                          enddate: {}
+                          ip: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                  results:
+                    type: object
+                    properties:
+                      placement:
+                        type: object
+                        properties:
+                          inbox:
+                            type: number
+                          spam:
+                            type: number
+                          missing:
+                            type: number
+                      test:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                      providers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            region:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                            provider:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                            placement:
+                              type: object
+                              properties:
+                                inbox:
+                                  type: integer
+                                spam:
+                                  type: integer
+                                missing:
+                                  type: integer
+                                spf:
+                                  type: integer
+                                dkim:
+                                  type: integer
+                                dmarc:
+                                  type: integer
+                                mtr:
+                                  type: number
+              examples:
+                Inbox Test All Providers:
+                  value:
+                    meta:
+                      params:
+                        startdate: null
+                        enddate: null
+                        ip: null
+                        spfdomain: null
+                        dkimdomain: null
+                    results:
+                      placement:
+                        inbox: 88.3
+                        spam: 11.2
+                        missing: 0.5
+                      test:
+                        id: 1
+                      providers:
+                      - region:
+                          id: 1
+                          name: North America
+                        provider:
+                          id: 1
+                          name: ATT
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          spf: 100
+                          dkim: 100
+                          dmarc: 100
+                          mtr: 0.6
+                      - region:
+                          id: 1
+                          name: North America
+                        provider:
+                          id: 2
+                          name: Bell Canada
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          spf: 0
+                          dkim: 0
+                          dmarc: 0
+                          mtr: 0.6
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/tests/{testId}/providers/{providerId}:
+    get:
+      operationId: inboxTestsInboxTestProviderByID
+      summary: 'Inbox Test: Provider by ID'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: providerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate: {}
+                          enddate: {}
+                          ip: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                  results:
+                    type: object
+                    properties:
+                      placement:
+                        type: object
+                        properties:
+                          inbox:
+                            type: number
+                          spam:
+                            type: number
+                          missing:
+                            type: number
+                      test:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                      provider:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                      seeds:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            recipient:
+                              type: string
+                            placement:
+                              type: string
+                            tab:
+                              type: string
+                            spf:
+                              type: string
+                            dkim:
+                              type: string
+                            dmarc:
+                              type: string
+                            sending_ip:
+                              type: string
+                            received:
+                              type: string
+                            headers:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                url:
+                                  type: string
+              examples:
+                Inbox Test Performance by Provider:
+                  value:
+                    meta:
+                      params:
+                        startdate: null
+                        enddate: null
+                        ip: null
+                        spfdomain: null
+                        dkimdomain: null
+                    results:
+                      placement:
+                        inbox: 88.3
+                        spam: 11.2
+                        missing: 0.5
+                      test:
+                        id: 1
+                      provider:
+                        id: 34
+                        name: Gmail
+                      seeds:
+                      - id: 1
+                        recipient: seed1@gmail.com
+                        placement: inbox
+                        tab: primary
+                        spf: pass
+                        dkim: pass
+                        dmarc: pass
+                        sending_ip: 127.0.0.1
+                        received: '2021-01-01 09:17:57'
+                        headers:
+                          id: 1234
+                          url: https://appdev.250ok.com/api/2.0/inbox/tests/1/providers/34/headers/1234
+                      - id: 2
+                        recipient: seed20@gmail.com
+                        placement: inbox
+                        tab: primary
+                        spf: pass
+                        dkim: pass
+                        dmarc: pass
+                        sending_ip: 127.0.0.1
+                        received: '2021-01-01 09:17:59'
+                        headers:
+                          id: 5678
+                          url: https://appdev.250ok.com/api/2.0/inbox/tests/1/providers/34/headers/5678
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/tests/{testId}/providers/{providerId}/headers/{headerId}:
+    get:
+      operationId: inboxTestsInboxTestHeadersByMailboxID
+      summary: 'Inbox Test: Headers by Mailbox ID'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: providerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: headerId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      test:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                      header:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                      headers:
+                        type: string
+              examples:
+                Inbox Test Headers by Provider  Mailbox ID:
+                  value:
+                    meta: {}
+                    results:
+                      test:
+                        id: '3542086'
+                      header:
+                        id: '2346219767'
+                      headers: 'Delivered-To: ...'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/aggregates/region:
+    get:
+      operationId: aggregateReportsInboxPlacementRegion
+      summary: 'Inbox Placement: Region'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        region:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                        placement:
+                          type: object
+                          properties:
+                            inbox:
+                              type: number
+                            spam:
+                              type: number
+                            missing:
+                              type: integer
+                        authentication:
+                          type: object
+                          properties:
+                            spf:
+                              type: integer
+                            dkim:
+                              type: integer
+                            dmarc:
+                              type: integer
+              examples:
+                Inbox Placement Region:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - region:
+                        id: 1
+                        name: North America
+                      placement:
+                        inbox: 87.7
+                        spam: 12.3
+                        missing: 0
+                      authentication:
+                        spf: 100
+                        dkim: 100
+                        dmarc: 100
+                    - region:
+                        id: 2
+                        name: South America
+                      placement:
+                        inbox: 100
+                        spam: 0
+                        missing: 0
+                      authentication:
+                        spf: 100
+                        dkim: 100
+                        dmarc: 100
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/aggregates/b2b:
+    get:
+      operationId: aggregateReportsInboxPlacementB2B
+      summary: 'Inbox Placement: B2B'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        provider:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                        placement:
+                          type: object
+                          properties:
+                            inbox:
+                              type: integer
+                            spam:
+                              type: integer
+                            missing:
+                              type: integer
+                        authentication:
+                          type: object
+                          properties:
+                            spf:
+                              type: integer
+                            dkim:
+                              type: integer
+                            dmarc:
+                              type: integer
+              examples:
+                Inbox Placement B2B:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - provider:
+                        id: 12
+                        name: Amazon WorkMail
+                      placement:
+                        inbox: 100
+                        spam: 0
+                        missing: 0
+                      authentication:
+                        spf: 0
+                        dkim: 0
+                        dmarc: 0
+                    - provider:
+                        id: 16
+                        name: Barracuda
+                      placement:
+                        inbox: 100
+                        spam: 0
+                        missing: 0
+                      authentication:
+                        spf: 0
+                        dkim: 0
+                        dmarc: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/aggregates/b2c:
+    get:
+      operationId: aggregateReportsInboxPlacementB2C
+      summary: 'Inbox Placement: B2C'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        provider:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                        placement:
+                          type: object
+                          properties:
+                            inbox:
+                              type: integer
+                            spam:
+                              type: integer
+                            missing:
+                              type: integer
+                        authentication:
+                          type: object
+                          properties:
+                            spf:
+                              type: integer
+                            dkim:
+                              type: integer
+                            dmarc:
+                              type: integer
+              examples:
+                Inbox Placement B2C:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - provider:
+                        id: 1
+                        name: 126.com
+                      placement:
+                        inbox: 100
+                        spam: 0
+                        missing: 0
+                      authentication:
+                        spf: 0
+                        dkim: 0
+                        dmarc: 0
+                    - provider:
+                        id: 2
+                        name: 139.com
+                      placement:
+                        inbox: 100
+                        spam: 0
+                        missing: 0
+                      authentication:
+                        spf: 0
+                        dkim: 0
+                        dmarc: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/aggregates/fromdomain:
+    get:
+      operationId: aggregateReportsInboxPlacementFromDomain
+      summary: 'Inbox Placement: From Domain'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        fromdomain:
+                          type: string
+                        placement:
+                          type: object
+                          properties:
+                            inbox:
+                              type: number
+                            spam:
+                              type: number
+                            missing:
+                              type: number
+                        authentication:
+                          type: object
+                          properties:
+                            spf:
+                              type: integer
+                            dkim:
+                              type: number
+                            dmarc:
+                              type: integer
+              examples:
+                Inbox Placement From Domain:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - fromdomain: mail.domain.com
+                      placement:
+                        inbox: 95.9
+                        spam: 3.8
+                        missing: 0.3
+                      authentication:
+                        spf: 98
+                        dkim: 99.9
+                        dmarc: 100
+                    - fromdomain: email.domain.com
+                      placement:
+                        inbox: 87
+                        spam: 11.8
+                        missing: 1.2
+                      authentication:
+                        spf: 97.2
+                        dkim: 99.9
+                        dmarc: 99.9
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/aggregates/fromaddress:
+    get:
+      operationId: aggregateReportsInboxPlacementFromAddress
+      summary: 'Inbox Placement: From Address'
+      tags:
+      - Inbox Placement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/inbox/health:
+    get:
+      operationId: aggregateReportsMailboxProviderHealth
+      summary: Mailbox Provider Health
+      tags:
+      - Inbox Placement
+      description: 'Mailbox Provider health shows daily deliverability (Inbox, Spam, Missing) averages and trends across the Everest community. This can be used as a benchmark to compare your deliverability results with other Everest users. It will show a sum Inbox, Spam, and Missing % for the time range, and then it will show those same numbers broken down by day.
+
+
+        Accepts additional parameters as filters:
+
+
+        provider  (i.e. /inbox/health/1/provider/15/)
+
+
+        region  (i.e. /inbox/health/1/)
+
+
+        startdate
+
+
+        enddate
+
+
+        Which are documented in the request examples.'
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        providers:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              name:
+                                type: string
+                              country:
+                                type: string
+                              placement:
+                                type: object
+                                properties:
+                                  inbox:
+                                    type: integer
+                                  spam:
+                                    type: integer
+                                  missing:
+                                    type: integer
+                                  mtr:
+                                    type: integer
+                              daily:
+                                type: object
+                                properties:
+                                  '2020-10-17':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-18':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-19':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-20':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-21':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-22':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-23':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-24':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-25':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-26':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-27':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-28':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-29':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-30':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-10-31':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-01':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-02':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-03':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-04':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-05':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-06':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-07':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-08':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-09':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-10':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-11':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-12':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-13':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-14':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+                                  '2020-11-15':
+                                    type: object
+                                    properties:
+                                      inbox:
+                                        type: integer
+                                      spam:
+                                        type: integer
+                                      missing:
+                                        type: integer
+              examples:
+                Mailbox Provider Health Provider by day:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-10-17'
+                        enddate: '2020-11-16'
+                      total: 1
+                    results:
+                    - id: 1
+                      name: North America
+                      providers:
+                      - id: 15
+                        name: ATT
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        daily:
+                          '2020-10-17':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-18':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-19':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-20':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-21':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-22':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-23':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-24':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-25':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-26':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-27':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-28':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-29':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-30':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-10-31':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-01':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-02':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-03':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-04':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-05':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-06':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-07':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-08':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-09':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-10':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-11':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-12':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-13':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-14':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                          '2020-11-15':
+                            inbox: 100
+                            spam: 0
+                            missing: 0
+                Mailbox Provider Health All Regions  Providers:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-10-17'
+                        enddate: '2020-11-16'
+                      total: 8
+                    results:
+                    - id: 3
+                      name: Global
+                      providers:
+                      - id: 13
+                        name: AOL
+                        country: ZZ
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 14
+                        name: Apple
+                        country: ZZ
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 476
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 34
+                        name: Gmail
+                        country: ZZ
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 40
+                        name: Hotmail
+                        country: ZZ
+                        placement:
+                          inbox: 69.8
+                          spam: 30.3
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: -0.1
+                          spam: 0.1
+                          missing: 0
+                          mtr: 0
+                    - id: 1
+                      name: North America
+                      providers:
+                      - id: 15
+                        name: ATT
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 17
+                        name: Bell Canada
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 21
+                        name: Cablevision
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 150
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 108
+                        name: CenturyLink
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 23
+                        name: Charter
+                        country: US
+                        placement:
+                          inbox: 37.8
+                          spam: 62.3
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 27
+                        name: Comcast
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 11
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 28
+                        name: Cox
+                        country: US
+                        placement:
+                          inbox: 44.8
+                          spam: 55.3
+                          missing: 0
+                          mtr: 5
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 29
+                        name: Earthlink
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 55
+                        name: NetZero
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 74
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 66
+                        name: RCN
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 68
+                        name: Roadrunner
+                        country: US
+                        placement:
+                          inbox: 33.8
+                          spam: 66.2
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0.2
+                          spam: -0.2
+                          missing: 0
+                          mtr: 0
+                      - id: 69
+                        name: Rogers
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 73
+                        name: Shaw
+                        country: CA
+                        placement:
+                          inbox: 32.4
+                          spam: 44.1
+                          missing: 23.5
+                          mtr: 3
+                        trend:
+                          inbox: 1.8
+                          spam: 2.5
+                          missing: -4.2
+                          mtr: 0
+                      - id: 81
+                        name: Teksavvy
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 33
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 112
+                        name: TelMex
+                        country: MX
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 4
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 88
+                        name: Videotron
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 94
+                        name: Yahoo!
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                    - id: 2
+                      name: South America
+                      providers:
+                      - id: 19
+                        name: BOL
+                        country: BR
+                        placement:
+                          inbox: 97.9
+                          spam: 0
+                          missing: 2.1
+                          mtr: 1
+                        trend:
+                          inbox: -0.1
+                          spam: 0
+                          missing: 0.1
+                          mtr: 0
+                      - id: 30
+                        name: Fibertel
+                        country: AR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 18
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: -4
+                      - id: 83
+                        name: Terra Brasil
+                        country: BR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 107
+                        name: UOL
+                        country: BR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 86
+                        name: Vera
+                        country: UY
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: -80
+                    - id: 6
+                      name: Europe
+                      providers:
+                      - id: 9
+                        name: Alice
+                        country: FR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 10
+                        name: Alice.it
+                        country: IT
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 106
+                        name: Bluewin
+                        country: CH
+                        placement:
+                          inbox: 51.7
+                          spam: 48.3
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 20
+                        name: BT Mail
+                        country: GB
+                        placement:
+                          inbox: 99.1
+                          spam: 0
+                          missing: 0.9
+                          mtr: 1
+                        trend:
+                          inbox: 0.2
+                          spam: 0
+                          missing: -0.2
+                          mtr: 0
+                      - id: 22
+                        name: Centrum-VOLNY
+                        country: CZ
+                        placement:
+                          inbox: 53.3
+                          spam: 46.7
+                          missing: 0
+                          mtr: 5
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 31
+                        name: Free.fr
+                        country: FR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 109
+                        name: freemail.hu
+                        country: HU
+                        placement:
+                          inbox: 96
+                          spam: 0
+                          missing: 4
+                          mtr: 776
+                        trend:
+                          inbox: 0.5
+                          spam: 0
+                          missing: -0.5
+                          mtr: 0
+                      - id: 32
+                        name: Freenet
+                        country: DE
+                        placement:
+                          inbox: 86.3
+                          spam: 13.3
+                          missing: 0.3
+                          mtr: 3
+                        trend:
+                          inbox: 0.8
+                          spam: -0.9
+                          missing: 0
+                          mtr: 0
+                      - id: 35
+                        name: GMX
+                        country: DE
+                        placement:
+                          inbox: 14.7
+                          spam: 85.3
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 43
+                        name: Interia
+                        country: PL
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 5
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 44
+                        name: Jubii
+                        country: DK
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 5
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 45
+                        name: LaPoste
+                        country: FR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 46
+                        name: Libero.it
+                        country: IT
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 48
+                        name: Mail.com
+                        country: EU
+                        placement:
+                          inbox: 38
+                          spam: 62
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 49
+                        name: Mail.ru
+                        country: RU
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 56
+                        name: o2.pl
+                        country: PL
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 58
+                        name: Onet
+                        country: PL
+                        placement:
+                          inbox: 6.7
+                          spam: 93.3
+                          missing: 0
+                          mtr: 9
+                        trend:
+                          inbox: 0.2
+                          spam: -0.2
+                          missing: 0
+                          mtr: 0
+                      - id: 59
+                        name: Orange
+                        country: FR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 111
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 60
+                        name: Plusnet
+                        country: GB
+                        placement:
+                          inbox: 90
+                          spam: 0
+                          missing: 10
+                          mtr: 2
+                        trend:
+                          inbox: -0.3
+                          spam: 0
+                          missing: 0.3
+                          mtr: 0
+                      - id: 65
+                        name: Rambler
+                        country: RU
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 70
+                        name: Sapo
+                        country: PT
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 71
+                        name: Seznam.cz
+                        country: CZ
+                        placement:
+                          inbox: 99
+                          spam: 1
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 72
+                        name: SFR
+                        country: FR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 25
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 74
+                        name: Skynet Proximus
+                        country: BE
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 181
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 79
+                        name: t-online.de
+                        country: DE
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 7
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 80
+                        name: TalkTalk
+                        country: GB
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 105
+                        name: Tiscali
+                        country: IT
+                        placement:
+                          inbox: 53.8
+                          spam: 46.2
+                          missing: 0
+                          mtr: 76
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 90
+                        name: Web.de
+                        country: DE
+                        placement:
+                          inbox: 51.7
+                          spam: 48.3
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 92
+                        name: WP.pl
+                        country: PL
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 188
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 98
+                        name: Yahoo! UK
+                        country: GB
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 99
+                        name: Yandex
+                        country: RU
+                        placement:
+                          inbox: 95.1
+                          spam: 4.5
+                          missing: 0.4
+                          mtr: 5
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 101
+                        name: Ziggo
+                        country: NL
+                        placement:
+                          inbox: 51.7
+                          spam: 48.3
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                    - id: 8
+                      name: Asia
+                      providers:
+                      - id: 1
+                        name: 126.com
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 2
+                        name: 139.com
+                        country: CN
+                        placement:
+                          inbox: 78.3
+                          spam: 21.7
+                          missing: 0
+                          mtr: 5
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 3
+                        name: 163.com
+                        country: CN
+                        placement:
+                          inbox: 98.1
+                          spam: 0
+                          missing: 1.9
+                          mtr: 3
+                        trend:
+                          inbox: -0.1
+                          spam: 0
+                          missing: 0.1
+                          mtr: 0
+                      - id: 4
+                        name: 189.cn
+                        country: CN
+                        placement:
+                          inbox: 71.7
+                          spam: 0
+                          missing: 28.3
+                          mtr: 0
+                        trend:
+                          inbox: -0.9
+                          spam: 0
+                          missing: 0.9
+                          mtr: 0
+                      - id: 5
+                        name: 21cn
+                        country: CN
+                        placement:
+                          inbox: 99.7
+                          spam: 0
+                          missing: 0.3
+                          mtr: 0
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 6
+                        name: 263.net
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 7
+                        name: 35.com
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 8
+                        name: ABCHK
+                        country: HK
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 11
+                        name: Aliyun
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 38
+                        name: Hanmail
+                        country: KR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 6
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 39
+                        name: HK.com
+                        country: HK
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 41
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 52
+                        name: Nate
+                        country: KR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 355
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 53
+                        name: Naver
+                        country: KR
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 62
+                        name: QQ
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 67
+                        name: Rediff
+                        country: IN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 103
+                        name: Sina
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 4
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 75
+                        name: Sohu
+                        country: CN
+                        placement:
+                          inbox: 92.9
+                          spam: 0
+                          missing: 7.1
+                          mtr: 214
+                        trend:
+                          inbox: -0.2
+                          spam: 0
+                          missing: 0.2
+                          mtr: 0
+                      - id: 104
+                        name: Tom
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 24
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 91
+                        name: wo.cn
+                        country: CN
+                        placement:
+                          inbox: 89
+                          spam: 0
+                          missing: 11
+                          mtr: 390
+                        trend:
+                          inbox: -0.4
+                          spam: 0
+                          missing: 0.4
+                          mtr: 0
+                      - id: 93
+                        name: Xin Net
+                        country: CN
+                        placement:
+                          inbox: 89.3
+                          spam: 0
+                          missing: 10.7
+                          mtr: 76
+                        trend:
+                          inbox: -0.3
+                          spam: 0
+                          missing: 0.3
+                          mtr: 0
+                      - id: 95
+                        name: Yahoo! HK
+                        country: HK
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 96
+                        name: Yahoo! JP
+                        country: JP
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: -3
+                      - id: 97
+                        name: Yahoo! TW
+                        country: TW
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 100
+                        name: Yeah.net
+                        country: CN
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                    - id: 9
+                      name: Oceania
+                      providers:
+                      - id: 18
+                        name: BigPond
+                        country: AU
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 113
+                        name: iinet
+                        country: AU
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 9
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 84
+                        name: TPG
+                        country: AU
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 21
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                    - id: 13
+                      name: Hosting Companies
+                      providers:
+                      - id: 12
+                        name: Amazon WorkMail
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 36
+                        name: GoDaddy
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 37
+                        name: Google Apps
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 41
+                        name: Hover
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 54
+                        name: Network Solutions
+                        country: ''
+                        placement:
+                          inbox: 99.2
+                          spam: 0
+                          missing: 0.8
+                          mtr: 5
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 57
+                        name: Office 365
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 64
+                        name: Rackspace
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 102
+                        name: Zoho
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                    - id: 15
+                      name: Filter Companies
+                      providers:
+                      - id: 16
+                        name: Barracuda
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 25
+                        name: Cisco Email Security
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 26
+                        name: Cloudmark
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 110
+                        name: Mimecast
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 61
+                        name: Proofpoint
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 159
+                        name: Sophos
+                        country: ''
+                        placement:
+                          inbox: 99.3
+                          spam: 0
+                          missing: 0.7
+                          mtr: 6
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 111
+                        name: SpamExperts
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 78
+                        name: Symantec
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 85
+                        name: Trend Micro
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 89
+                        name: Virusfree.cz
+                        country: ''
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                Mailbox Provider Health Regional:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-10-17'
+                        enddate: '2020-11-16'
+                      total: 1
+                    results:
+                    - id: 1
+                      name: North America
+                      providers:
+                      - id: 15
+                        name: ATT
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 17
+                        name: Bell Canada
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 21
+                        name: Cablevision
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 150
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 108
+                        name: CenturyLink
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 23
+                        name: Charter
+                        country: US
+                        placement:
+                          inbox: 37.8
+                          spam: 62.3
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 27
+                        name: Comcast
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 11
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 28
+                        name: Cox
+                        country: US
+                        placement:
+                          inbox: 44.8
+                          spam: 55.3
+                          missing: 0
+                          mtr: 5
+                        trend:
+                          inbox: 0.1
+                          spam: -0.1
+                          missing: 0
+                          mtr: 0
+                      - id: 29
+                        name: Earthlink
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 1
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 55
+                        name: NetZero
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 74
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 66
+                        name: RCN
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 3
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 68
+                        name: Roadrunner
+                        country: US
+                        placement:
+                          inbox: 33.8
+                          spam: 66.2
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0.2
+                          spam: -0.2
+                          missing: 0
+                          mtr: 0
+                      - id: 69
+                        name: Rogers
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 73
+                        name: Shaw
+                        country: CA
+                        placement:
+                          inbox: 32.4
+                          spam: 44.1
+                          missing: 23.5
+                          mtr: 3
+                        trend:
+                          inbox: 1.8
+                          spam: 2.5
+                          missing: -4.2
+                          mtr: 0
+                      - id: 81
+                        name: Teksavvy
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 33
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 112
+                        name: TelMex
+                        country: MX
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 4
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 88
+                        name: Videotron
+                        country: CA
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+                      - id: 94
+                        name: Yahoo!
+                        country: US
+                        placement:
+                          inbox: 100
+                          spam: 0
+                          missing: 0
+                          mtr: 2
+                        trend:
+                          inbox: 0
+                          spam: 0
+                          missing: 0
+                          mtr: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

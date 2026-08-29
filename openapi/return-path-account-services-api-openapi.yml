@@ -1,0 +1,3334 @@
+openapi: 3.2.0
+info:
+  title: Everest Account Services API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Account Services
+paths:
+  /2.0/accounts:
+    get:
+      operationId: accountsAccounts
+      summary: Accounts
+      tags:
+      - Account Services
+      description: 'loginslug specifies an account''s SSO endpoint name
+
+
+        owner_email specifies the account owner''s email address
+
+
+        owner_firstname specifies the account owner''s first name
+
+
+        owner_lastnamespecifies the account owner''s last name'
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        owner_email:
+                          type: string
+                        owner_firstname:
+                          type: string
+                        owner_lastname:
+                          type: string
+                        package:
+                          type: string
+                        expiration:
+                          type: string
+                        volumetier:
+                          type: integer
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        descendent_of:
+                          type: integer
+                        loginslug:
+                          type: string
+                        preferences:
+                          type: object
+                          properties:
+                            enforce_passwords:
+                              type: integer
+                            enforce_mfa:
+                              type: integer
+                            sso_enabled:
+                              type: integer
+                            timezone:
+                              type: string
+                            global_stats:
+                              type: integer
+                        subscription:
+                          type: object
+                          properties:
+                            addons:
+                              type: object
+                              properties:
+                                validation:
+                                  type: integer
+                                optimizedseeds:
+                                  type: integer
+                                design:
+                                  type: integer
+                                vto:
+                                  type: integer
+                                competitive:
+                                  type: integer
+                                certification:
+                                  type: integer
+                            products:
+                              type: object
+                              properties:
+                                certification:
+                                  type: object
+                                  properties:
+                                    quantity:
+                                      type: string
+                                design:
+                                  type: object
+                                  properties:
+                                    quantity:
+                                      type: integer
+                                engagement:
+                                  type: object
+                                  properties:
+                                    quantity:
+                                      type: integer
+                                inbox:
+                                  type: object
+                                  properties:
+                                    quantity:
+                                      type: integer
+                                reputation:
+                                  type: object
+                                  properties:
+                                    quantity:
+                                      type: integer
+                                validation:
+                                  type: object
+                                  properties:
+                                    quantity:
+                                      type: integer
+              examples:
+                Accounts:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - id: 1
+                      name: Everest by Validity
+                      owner_email: sales@validity.com
+                      owner_firstname: Everest
+                      owner_lastname: API
+                      package: Enterprise
+                      expiration: '2026-12-31'
+                      volumetier: 8
+                      created: '2012-05-23T14:56:36+00:00'
+                      updated: '2020-12-16T17:44:30+00:00'
+                      descendent_of: 0
+                      loginslug: everest-by-validity
+                      preferences:
+                        enforce_passwords: 0
+                        enforce_mfa: 0
+                        sso_enabled: 0
+                        timezone: America/New_York
+                        global_stats: 1
+                      subscription:
+                        addons:
+                          validation: 0
+                          optimizedseeds: 0
+                          design: 0
+                          vto: 1
+                          competitive: 0
+                          certification: 1
+                        products:
+                          certification:
+                            quantity: N/A
+                          design:
+                            quantity: 100
+                          engagement:
+                            quantity: 1000000
+                          inbox:
+                            quantity: 10000
+                          reputation:
+                            quantity: 10000
+                          validation:
+                            quantity: 1000000
+                    - id: 2
+                      name: Everest Child Account
+                      owner_email: sales@validity.com
+                      owner_firstname: Everest
+                      owner_lastname: API
+                      package: ''
+                      expiration: ''
+                      volumetier: 0
+                      created: '2012-05-23T14:56:36+00:00'
+                      updated: '2020-12-16T17:44:30+00:00'
+                      descendent_of: 1
+                      loginslug: everest-child-account
+                      preferences:
+                        enforce_passwords: 0
+                        enforce_mfa: 0
+                        sso_enabled: 0
+                        timezone: ''
+                      subscription:
+                        addons:
+                          validation: 0
+                          optimizedseeds: 0
+                          design: 0
+                          vto: 0
+                          competitive: 0
+                          certification: 0
+                        products:
+                          certification:
+                            quantity: N/A
+                          inbox:
+                            quantity: 100
+                          reputation:
+                            quantity: 100000000
+                          validation:
+                            quantity: 100000000
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: accountsCreateAccount
+      summary: Create Account
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                package:
+                  type: string
+                external_id:
+                  type: string
+                start:
+                  type: string
+                expiration:
+                  type: string
+                includeglobalstats:
+                  type: integer
+                inboxseedlistgroup:
+                  type: integer
+                inboxreset:
+                  type: string
+                subscription:
+                  type: object
+                  properties:
+                    addons:
+                      type: object
+                      properties:
+                        competitive:
+                          type: integer
+                        optimizedseeds:
+                          type: integer
+                        design:
+                          type: integer
+                        validation:
+                          type: integer
+                        vto:
+                          type: integer
+                    products:
+                      type: object
+                      properties:
+                        analytics:
+                          type: integer
+                        blacklist:
+                          type: integer
+                        certification:
+                          type: integer
+                        design:
+                          type: integer
+                        dmarc:
+                          type: integer
+                        engagement:
+                          type: integer
+                        inbox:
+                          type: integer
+                        reputation:
+                          type: integer
+                        validation:
+                          type: integer
+                plan:
+                  type: object
+                  properties:
+                    slug:
+                      type: string
+                permissions:
+                  type: object
+                  properties:
+                    reputation:
+                      type: string
+                    design:
+                      type: string
+            example:
+              name: Account Name
+              package: Professional
+              external_id: external-id
+              start: '2023-01-01'
+              expiration: '2025-12-31'
+              includeglobalstats: 0
+              inboxseedlistgroup: 1
+              inboxreset: annual
+              subscription:
+                addons:
+                  competitive: 1
+                  optimizedseeds: 1
+                  design: 1
+                  validation: 1
+                  vto: 1
+                products:
+                  analytics: 100
+                  blacklist: 100
+                  certification: 100
+                  design: 100
+                  dmarc: 100
+                  engagement: 100
+                  inbox: 100
+                  reputation: 100
+                  validation: 100
+              plan:
+                slug: plan-slug
+              permissions:
+                reputation: inactive
+                design: active
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      id:
+                        type: integer
+              examples:
+                Create Account:
+                  value:
+                    meta: {}
+                    results:
+                      status: success
+                      id: 1018853
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}:
+    get:
+      operationId: accountsAccountUsage
+      summary: Account & Usage
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      usage_vto:
+                        type: string
+                      volume_tiers:
+                        type: array
+                        items:
+                          type: string
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      owner_email:
+                        type: string
+                      owner_firstname:
+                        type: string
+                      owner_lastname:
+                        type: string
+                      package:
+                        type: string
+                      expiration:
+                        type: string
+                      volumetier:
+                        type: integer
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      descendent_of:
+                        type: integer
+                      external_id:
+                        type: string
+                      loginslug:
+                        type: string
+                      preferences:
+                        type: object
+                        properties:
+                          enforce_passwords:
+                            type: integer
+                          enforce_mfa:
+                            type: integer
+                          sso_enabled:
+                            type: integer
+                          timezone:
+                            type: string
+                          global_stats:
+                            type: integer
+                      subscription:
+                        type: object
+                        properties:
+                          addons:
+                            type: object
+                            properties:
+                              validation:
+                                type: integer
+                              optimizedseeds:
+                                type: integer
+                              design:
+                                type: integer
+                              vto:
+                                type: integer
+                              competitive:
+                                type: integer
+                              certification:
+                                type: integer
+                          products:
+                            type: object
+                            properties:
+                              certification:
+                                type: object
+                                properties:
+                                  quantity:
+                                    type: string
+                              design:
+                                type: object
+                                properties:
+                                  quantity:
+                                    type: integer
+                                  usage:
+                                    type: integer
+                              engagement:
+                                type: object
+                                properties:
+                                  quantity:
+                                    type: integer
+                                  usage:
+                                    type: integer
+                              inbox:
+                                type: object
+                                properties:
+                                  quantity:
+                                    type: integer
+                                  usage:
+                                    type: integer
+                              reputation:
+                                type: object
+                                properties:
+                                  quantity:
+                                    type: integer
+                                  usage:
+                                    type: integer
+                              validation:
+                                type: object
+                                properties:
+                                  quantity:
+                                    type: integer
+                                  usage:
+                                    type: integer
+              examples:
+                Get Account:
+                  value:
+                    meta:
+                      usage_vto: /api/2.0/vto/usage
+                      volume_tiers:
+                      - 1 (< 1M)
+                      - 2 (< 3M)
+                      - 3 (3-12M)
+                      - 4 (12-36M)
+                      - 5 (36-120M)
+                      - 6 (120-240M)
+                      - 7 (240M-600M)
+                      - 8 (600M+)
+                    results:
+                      id: 30
+                      name: Everest by Validity
+                      owner_email: sales@validity.com
+                      owner_firstname: Everest
+                      owner_lastname: API
+                      package: Enterprise
+                      expiration: '2026-12-31'
+                      volumetier: 8
+                      created: '2012-05-23T14:56:36+00:00'
+                      updated: '2020-12-16T17:44:30+00:00'
+                      descendent_of: 0
+                      external_id: abc123
+                      loginslug: everest-by-validity
+                      preferences:
+                        enforce_passwords: 0
+                        enforce_mfa: 0
+                        sso_enabled: 0
+                        timezone: America/New_York
+                        global_stats: 1
+                      subscription:
+                        addons:
+                          validation: 0
+                          optimizedseeds: 0
+                          design: 0
+                          vto: 1
+                          competitive: 0
+                          certification: 1
+                        products:
+                          certification:
+                            quantity: N/A
+                          design:
+                            quantity: 100
+                            usage: 19
+                          engagement:
+                            quantity: 1000000
+                            usage: 37529
+                          inbox:
+                            quantity: 10000
+                            usage: 3769
+                          reputation:
+                            quantity: 10000
+                            usage: 37820
+                          validation:
+                            quantity: 1000000
+                            usage: 1019411
+                Get Account using External Id:
+                  value:
+                    meta:
+                      usage_vto: /api/2.0/vto/usage
+                      volume_tiers:
+                      - 1 (< 1M)
+                      - 2 (< 3M)
+                      - 3 (3-12M)
+                      - 4 (12-36M)
+                      - 5 (36-120M)
+                      - 6 (120-240M)
+                      - 7 (240M-600M)
+                      - 8 (600M+)
+                    results:
+                      id: 30
+                      name: Everest by Validity
+                      owner_email: sales@validity.com
+                      owner_firstname: Everest
+                      owner_lastname: API
+                      package: Enterprise
+                      expiration: '2026-12-31'
+                      volumetier: 8
+                      created: '2012-05-23T14:56:36+00:00'
+                      updated: '2020-12-16T17:44:30+00:00'
+                      descendent_of: 0
+                      external_id: abc123
+                      loginslug: everest-by-validity
+                      preferences:
+                        enforce_passwords: 0
+                        enforce_mfa: 0
+                        sso_enabled: 0
+                        timezone: America/New_York
+                        global_stats: 1
+                      subscription:
+                        addons:
+                          validation: 0
+                          optimizedseeds: 0
+                          design: 0
+                          vto: 1
+                          competitive: 0
+                          certification: 1
+                        products:
+                          certification:
+                            quantity: N/A
+                          design:
+                            quantity: 100
+                            usage: 19
+                          engagement:
+                            quantity: 1000000
+                            usage: 37529
+                          inbox:
+                            quantity: 10000
+                            usage: '3769'
+                          reputation:
+                            quantity: 10000
+                            usage: '37820'
+                          validation:
+                            quantity: 1000000
+                            usage: 1019411
+                          vto:
+                            quantity: N/A
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{userId}:
+    put:
+      operationId: accountsUpdateAccount
+      summary: Update Account
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{user_id}}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                package:
+                  type: string
+                external_id:
+                  type: string
+                includeglobalstats:
+                  type: integer
+                inboxseedlistgroup:
+                  type: integer
+                inboxreset:
+                  type: string
+                subscription:
+                  type: object
+                  properties:
+                    products:
+                      type: object
+                      properties:
+                        analytics:
+                          type: integer
+                        blacklist:
+                          type: integer
+                        certification:
+                          type: integer
+                        design:
+                          type: integer
+                        dmarc:
+                          type: integer
+                        engagement:
+                          type: integer
+                        inbox:
+                          type: integer
+                        reputation:
+                          type: integer
+                        validation:
+                          type: integer
+                plan:
+                  type: object
+                  properties:
+                    slug:
+                      type: string
+                permissions:
+                  type: object
+                  properties:
+                    reputation:
+                      type: string
+                    design:
+                      type: string
+            example:
+              name: Account Name
+              package: Professional
+              external_id: external-id
+              includeglobalstats: 0
+              inboxseedlistgroup: 1
+              inboxreset: annual
+              subscription:
+                products:
+                  analytics: 100
+                  blacklist: 100
+                  certification: 100
+                  design: 100
+                  dmarc: 100
+                  engagement: 100
+                  inbox: 100
+                  reputation: 100
+                  validation: 100
+              plan:
+                slug: 5EH934FIOU
+              permissions:
+                reputation: inactive
+                design: inactive
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+              examples:
+                Update Account:
+                  value:
+                    meta: {}
+                    results:
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: accountsDeleteAccount
+      summary: Delete Account
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{user_id}}'
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Error Account does not exist:
+                  value:
+                    status: Account does not exist
+                Error Root account deletion:
+                  value:
+                    status: This API does not support deleting your root account. Please contact support for assistance.
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Delete Account:
+                  value:
+                    meta: {}
+                    results:
+                      id: 74
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/plans:
+    get:
+      operationId: accountsPlan
+      summary: Plan
+      tags:
+      - Account Services
+      description: GET Plans will return all plans your account owns as well as detailed information about each plan. This endpoint is intended to be used by Resellers to manage their child accounts. Other account types are not supported in this endpoint.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: object
+                        properties:
+                          page_num:
+                            type: integer
+                          page_size:
+                            type: integer
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        slug:
+                          type: string
+                        sales_strategy:
+                          type: string
+                        status:
+                          type: string
+                        plan_permissions_id:
+                          type: string
+                        created_by:
+                          type: string
+                        owner_user_id:
+                          type: string
+                        external_plancode: {}
+                        external_planid: {}
+                        external_plantype:
+                          type: string
+                        created:
+                          type: string
+                        updated:
+                          type: string
+              examples:
+                Plans:
+                  value:
+                    meta:
+                      page:
+                        page_num: 1
+                        page_size: 5
+                      total: 28
+                    results:
+                    - name: '"Test Ivan"'
+                      slug: UK4HZVI93T
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '7990'
+                      created_by: '1'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-11-28 19:44:35'
+                      updated: '2023-12-05 18:24:08'
+                    - name: aaqa "test"
+                      slug: M58RO04K9P
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: null
+                      created_by: '1'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-12-06 16:45:50'
+                      updated: null
+                    - name: Advisor
+                      slug: 14KGVZOFB7
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '14'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Certification
+                      slug: 4COUG19Y7V
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '4'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:40'
+                    - name: CICD PLAN UPDATED 1701670877863
+                      slug: MWEH5UJ8VD
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '8120'
+                      created_by: '991063'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: salesforce
+                      created: '2023-12-04 06:15:06'
+                      updated: '2023-12-04 06:21:18'
+                    - name: Elements_100k
+                      slug: 2FJOWMIK8C
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '11'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_100k
+                      external_planid: 'NULL'
+                      external_plantype: recurly
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:40'
+                    - name: Elements_10k
+                      slug: PJW4DRKNCL
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_10k
+                      external_planid: 'NULL'
+                      external_plantype: recurly
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Elements_20k
+                      slug: 25XWJVPTUK
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '8'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_20k
+                      external_planid: 'NULL'
+                      external_plantype: recurly
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Elements_50k
+                      slug: QEFPDHVANR
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '9'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_50k
+                      external_planid: 'NULL'
+                      external_plantype: recurly
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:40'
+                    - name: Elements_5k
+                      slug: ZYTBMGWP9C
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '6'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_5k
+                      external_planid: 'NULL'
+                      external_plantype: recurly
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:40'
+                    - name: Elements_60k
+                      slug: KJEBI8LH56
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '10'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_60k
+                      external_planid: 'NULL'
+                      external_plantype: recurly
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:40'
+                    - name: Enterprise
+                      slug: 5EH934FIOU
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '2'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Essentials
+                      slug: VAJRGN8U1C
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '5'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Everest Elements - 100k
+                      slug: QZLK8N0V3E
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7562'
+                      created_by: '971377'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_100k
+                      external_planid: qaiyudccrl48
+                      external_plantype: recurly
+                      created: '2023-11-16 16:25:44'
+                      updated: '2023-12-04 20:44:47'
+                    - name: Everest Elements - 10k
+                      slug: 2V1XW8GOY6
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7566'
+                      created_by: '971377'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_10k
+                      external_planid: qaiw0h3m542v
+                      external_plantype: recurly
+                      created: '2023-11-16 16:25:45'
+                      updated: null
+                    - name: Everest Elements - 20k
+                      slug: CS48GM72YN
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7565'
+                      created_by: '971377'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_20k
+                      external_planid: qaiwhfnvivqi
+                      external_plantype: recurly
+                      created: '2023-11-16 16:25:45'
+                      updated: null
+                    - name: Everest Elements - 50k
+                      slug: H207T5MW8Y
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7564'
+                      created_by: '971377'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_50k
+                      external_planid: qaiwsx1uz2a1
+                      external_plantype: recurly
+                      created: '2023-11-16 16:25:45'
+                      updated: null
+                    - name: Everest Elements - 5k
+                      slug: LVCMZD6TSB
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7567'
+                      created_by: '971377'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_5k
+                      external_planid: q7k4nah9rny6
+                      external_plantype: recurly
+                      created: '2023-11-16 16:25:46'
+                      updated: null
+                    - name: Everest Elements - 60k
+                      slug: E274YIFRMG
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7563'
+                      created_by: '971377'
+                      owner_user_id: '30'
+                      external_plancode: everest_elements_60k
+                      external_planid: qaiy827hmaoo
+                      external_plantype: recurly
+                      created: '2023-11-16 16:25:44'
+                      updated: null
+                    - name: No Plan
+                      slug: 5e2ef5a247
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '1'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: none
+                      created: '2023-10-27 19:04:38'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Partner
+                      slug: KVG0ILSZ2A
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '12'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:52'
+                      updated: '2023-12-01 21:24:41'
+                    - name: Partner led - inactive
+                      slug: 6XCPR4G10Y
+                      sales_strategy: partner_led
+                      status: live
+                      plan_permissions_id: '7613'
+                      created_by: '1'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-11-17 21:20:31'
+                      updated: '2023-11-20 20:42:46'
+                    - name: 'Professional '
+                      slug: L4KVR5O38C
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '3'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-01 21:24:41'
+                    - name: QA test - 11.21.2023
+                      slug: 1EQGHA8SPN
+                      sales_strategy: product_led
+                      status: live
+                      plan_permissions_id: '7693'
+                      created_by: '1'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-11-21 15:59:11'
+                      updated: '2023-12-05 19:11:20'
+                    - name: Reseller
+                      slug: Q5Z2YXTHCS
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '13'
+                      created_by: '970759'
+                      owner_user_id: '30'
+                      external_plancode: 'NULL'
+                      external_planid: 'NULL'
+                      external_plantype: salesforce
+                      created: '2023-11-10 20:06:53'
+                      updated: '2023-12-04 20:38:54'
+                    - name: reseller test
+                      slug: UK694J3XIH
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '7499'
+                      created_by: '1'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-11-15 11:08:37'
+                      updated: '2023-11-15 11:08:37'
+                    - name: test upsell 1
+                      slug: OUNKLE1XQA
+                      sales_strategy: partner_led
+                      status: live
+                      plan_permissions_id: '7726'
+                      created_by: '1'
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-11-22 15:37:33'
+                      updated: '2023-11-22 15:37:37'
+                    - name: unsubscribed
+                      slug: bdc475cbe4
+                      sales_strategy: sales_led
+                      status: live
+                      plan_permissions_id: '7410'
+                      created_by: null
+                      owner_user_id: '30'
+                      external_plancode: null
+                      external_planid: null
+                      external_plantype: none
+                      created: '2023-11-13 06:43:48'
+                      updated: null
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/subscriptions/{subscriptionId}:
+    get:
+      operationId: accountsSubscription
+      summary: Subscription
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{subscription_id}}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: object
+                        properties:
+                          page_num:
+                            type: integer
+                          page_size:
+                            type: integer
+                          sort_by:
+                            type: string
+                          sort_order:
+                            type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        admin_id:
+                          type: string
+                        externalsubscriptionid:
+                          type: string
+                        parent_id:
+                          type: string
+                        root_user_id:
+                          type: string
+                        user_id:
+                          type: string
+                        allow_overage:
+                          type: boolean
+                        external_subscription_type:
+                          type: string
+                        status:
+                          type: string
+                        usageperiod:
+                          type: string
+                        cancelled: {}
+                        created:
+                          type: string
+                        ingested_date: {}
+                        nextreplenish:
+                          type: string
+                        replenished:
+                          type: string
+                        subscriptionstart:
+                          type: string
+                        subscriptionexpire:
+                          type: string
+                        updated:
+                          type: string
+                        suspended_date: {}
+                        analyticsquantity:
+                          type: integer
+                        analyticsusage:
+                          type: integer
+                        certificationquantity:
+                          type: integer
+                        competitivequantity:
+                          type: integer
+                        designquantity:
+                          type: integer
+                        designusage:
+                          type: integer
+                        inboxquantity:
+                          type: integer
+                        inboxusage:
+                          type: integer
+                        reputationquantity:
+                          type: integer
+                        reputationusage:
+                          type: integer
+                        validationquantity:
+                          type: integer
+                        validationusage:
+                          type: integer
+                        vtoquantity:
+                          type: integer
+                        dmarcquantity:
+                          type: integer
+                        alias_max:
+                          type: integer
+                        certification_ip_max:
+                          type: integer
+                        monitoring_addresses_max:
+                          type: integer
+                        notes:
+                          type: string
+                        reason:
+                          type: string
+                        subscriptiontype:
+                          type: string
+              examples:
+                Subscription:
+                  value:
+                    meta:
+                      page:
+                        page_num: 1
+                        page_size: 50
+                        sort_by: subscriptionexpire
+                        sort_order: ASC
+                    results:
+                    - id: '10'
+                      admin_id: ''
+                      externalsubscriptionid: ''
+                      parent_id: ''
+                      root_user_id: ''
+                      user_id: '1'
+                      allow_overage: true
+                      external_subscription_type: ''
+                      status: active
+                      usageperiod: annual
+                      cancelled: null
+                      created: '2024-09-13 08:33:52'
+                      ingested_date: null
+                      nextreplenish: '2025-09-13 00:00:00'
+                      replenished: '2024-09-13 00:00:00'
+                      subscriptionstart: '2024-09-13 00:00:00'
+                      subscriptionexpire: '2029-12-04 23:59:59'
+                      updated: '2024-09-13 08:33:52'
+                      suspended_date: null
+                      analyticsquantity: 100
+                      analyticsusage: 5
+                      certificationquantity: 10
+                      competitivequantity: 0
+                      designquantity: 100
+                      designusage: 40
+                      inboxquantity: 100
+                      inboxusage: 20
+                      reputationquantity: 0
+                      reputationusage: 0
+                      validationquantity: 100
+                      validationusage: 90
+                      vtoquantity: 100
+                      dmarcquantity: 0
+                      alias_max: 1
+                      certification_ip_max: 0
+                      monitoring_addresses_max: 200
+                      notes: Everest
+                      reason: Provisioning
+                      subscriptiontype: ''
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/subscriptions/{subscriptionId}:
+    get:
+      operationId: accountsAccountSubscription
+      summary: Account Subscription
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{subscription_id}}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: object
+                        properties:
+                          page_num:
+                            type: integer
+                          page_size:
+                            type: integer
+                          sort_by:
+                            type: string
+                          sort_order:
+                            type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        admin_id:
+                          type: string
+                        externalsubscriptionid:
+                          type: string
+                        parent_id:
+                          type: string
+                        root_user_id:
+                          type: string
+                        user_id:
+                          type: string
+                        allow_overage:
+                          type: boolean
+                        external_subscription_type:
+                          type: string
+                        status:
+                          type: string
+                        usageperiod:
+                          type: string
+                        cancelled: {}
+                        created:
+                          type: string
+                        ingested_date: {}
+                        nextreplenish:
+                          type: string
+                        replenished:
+                          type: string
+                        subscriptionstart:
+                          type: string
+                        subscriptionexpire:
+                          type: string
+                        updated:
+                          type: string
+                        suspended_date: {}
+                        analyticsquantity:
+                          type: integer
+                        analyticsusage:
+                          type: integer
+                        certificationquantity:
+                          type: integer
+                        competitivequantity:
+                          type: integer
+                        designquantity:
+                          type: integer
+                        designusage:
+                          type: integer
+                        inboxquantity:
+                          type: integer
+                        inboxusage:
+                          type: integer
+                        reputationquantity:
+                          type: integer
+                        reputationusage:
+                          type: integer
+                        validationquantity:
+                          type: integer
+                        validationusage:
+                          type: integer
+                        vtoquantity:
+                          type: integer
+                        dmarcquantity:
+                          type: integer
+                        alias_max:
+                          type: integer
+                        certification_ip_max:
+                          type: integer
+                        monitoring_addresses_max:
+                          type: integer
+                        notes:
+                          type: string
+                        reason:
+                          type: string
+                        subscriptiontype:
+                          type: string
+              examples:
+                Subscription:
+                  value:
+                    meta:
+                      page:
+                        page_num: 1
+                        page_size: 50
+                        sort_by: subscriptionexpire
+                        sort_order: ASC
+                    results:
+                    - id: '10'
+                      admin_id: ''
+                      externalsubscriptionid: ''
+                      parent_id: ''
+                      root_user_id: ''
+                      user_id: '1'
+                      allow_overage: true
+                      external_subscription_type: ''
+                      status: active
+                      usageperiod: annual
+                      cancelled: null
+                      created: '2024-09-13 08:33:52'
+                      ingested_date: null
+                      nextreplenish: '2025-09-13 00:00:00'
+                      replenished: '2024-09-13 00:00:00'
+                      subscriptionstart: '2024-09-13 00:00:00'
+                      subscriptionexpire: '2029-12-04 23:59:59'
+                      updated: '2024-09-13 08:33:52'
+                      suspended_date: null
+                      analyticsquantity: 100
+                      analyticsusage: 5
+                      certificationquantity: 10
+                      competitivequantity: 0
+                      designquantity: 100
+                      designusage: 40
+                      inboxquantity: 100
+                      inboxusage: 20
+                      reputationquantity: 0
+                      reputationusage: 0
+                      validationquantity: 100
+                      validationusage: 90
+                      vtoquantity: 100
+                      dmarcquantity: 0
+                      alias_max: 1
+                      certification_ip_max: 0
+                      monitoring_addresses_max: 200
+                      notes: Everest
+                      reason: Provisioning
+                      subscriptiontype: ''
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/users:
+    get:
+      operationId: usersUsers
+      summary: Users
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        first:
+                          type: string
+                        last:
+                          type: string
+                        title:
+                          type: string
+                        phone:
+                          type: string
+                        email:
+                          type: string
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        permissions:
+                          type: object
+                          properties:
+                            owner:
+                              type: integer
+                            admin:
+                              type: integer
+                        mfa:
+                          type: object
+                          properties:
+                            enabled:
+                              type: integer
+                            type:
+                              type: string
+                            recipient:
+                              type: string
+                            verified:
+                              type: integer
+                        security:
+                          type: object
+                          properties:
+                            failed_logins:
+                              type: integer
+                            locked_out:
+                              type: integer
+              examples:
+                Users:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - id: 1
+                      first: John
+                      last: Smith
+                      title: VP Engineering
+                      phone: '1112223333'
+                      email: john.smith@domain.com
+                      created: '2019-01-01T00:00:08+00:00'
+                      updated: '2020-12-16T19:09:09+00:00'
+                      permissions:
+                        owner: 1
+                        admin: 1
+                      mfa:
+                        enabled: 1
+                        type: email
+                        recipient: john.smith@domain.com
+                        verified: 1
+                      security:
+                        failed_logins: 0
+                        locked_out: 0
+                    - id: 2
+                      first: Jane
+                      last: Smith
+                      title: CTO
+                      phone: '1112223333'
+                      email: jane.smith@domain.com
+                      created: '2019-01-01T00:00:08+00:00'
+                      updated: '2020-12-16T19:09:09+00:00'
+                      permissions:
+                        owner: 1
+                        admin: 1
+                      mfa:
+                        enabled: 1
+                        type: sms
+                        recipient: '|1112223333'
+                        verified: 1
+                      security:
+                        failed_logins: 0
+                        locked_out: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: usersCreateUser
+      summary: Create User
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: (Required) Unique email address of the user
+                first:
+                  type: string
+                  description: (Required) First name
+                last:
+                  type: string
+                  description: (Required) Last name
+                title:
+                  type: string
+                  description: (Optional) Job title
+                password:
+                  type: string
+                  description: (Optional) If you use SSO/SAML, we will generate a randomly hashed password for you. If you leave the password field blank, a random password will be generated and the user will be forced to change their password on first login.
+                phone:
+                  type: string
+                  description: (Optional) Phone number
+                forcepasswordreset:
+                  type: string
+                  description: '[0, 1] Option to force a password reset on first login.'
+                emailcredentials:
+                  type: string
+                  description: '[0, 1] Option to email the new user their login Instructions.'
+                admin:
+                  type: string
+                  description: '[0, 1] Option to add the new user as an account admin.'
+            example:
+              email: john.smith@domain.com
+              first: John
+              last: Smith
+              title: VP Engineering
+              password: pass1234
+              phone: '1112223333'
+              forcepasswordreset: '0'
+              emailcredentials: '1'
+              admin: '0'
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Error User already exists in your account:
+                  value:
+                    status: User already exists in your account.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  user_id:
+                    type: string
+                  endpoint:
+                    type: string
+              examples:
+                Error Email already in use:
+                  value:
+                    status: This email address is already in use by another user, but you can still add them to your account.
+                    user_id: '264'
+                    endpoint: /accounts/30/users/264
+            text/plain:
+              example: "{\n    \"meta\": {},\n    \"results\": {\n        \"status\": \"success\",\n        \"account.id\": {{user_id}},\n        \"user.id\": 100\n    }\n}"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      errors:
+                        type: array
+                        items:
+                          type: string
+              examples:
+                Error Missing fields:
+                  value:
+                    meta: {}
+                    results:
+                      status: error
+                      errors:
+                      - The last name field is required.
+                      - The password field is required.
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/users/{userId}:
+    get:
+      operationId: usersUserByID
+      summary: User by ID
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        first:
+                          type: string
+                        last:
+                          type: string
+                        title:
+                          type: string
+                        phone:
+                          type: string
+                        email:
+                          type: string
+                        created:
+                          type: string
+                        updated:
+                          type: string
+                        permissions:
+                          type: object
+                          properties:
+                            owner:
+                              type: integer
+                            admin:
+                              type: integer
+                        mfa:
+                          type: object
+                          properties:
+                            enabled:
+                              type: integer
+                            type:
+                              type: string
+                            recipient:
+                              type: string
+                            verified:
+                              type: integer
+                        security:
+                          type: object
+                          properties:
+                            failed_logins:
+                              type: integer
+                            locked_out:
+                              type: integer
+              examples:
+                User by ID:
+                  value:
+                    meta:
+                      total: 1
+                    results:
+                    - id: 1
+                      first: John
+                      last: Smith
+                      title: VP Engineering
+                      phone: '1112223333'
+                      email: john.smith@domain.com
+                      created: '2019-01-01T00:00:08+00:00'
+                      updated: '2020-12-16T19:09:09+00:00'
+                      permissions:
+                        owner: 1
+                        admin: 1
+                      mfa:
+                        enabled: 1
+                        type: email
+                        recipient: john.smith@domain.com
+                        verified: 1
+                      security:
+                        failed_logins: 0
+                        locked_out: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: usersUpdateUser
+      summary: Update User
+      tags:
+      - Account Services
+      description: This endpoint is specifically for promoting users to account administrators, or unlocking users after too many failed login attempts. Since users can belong to multiple accounts, editing functionality is limited to protect their privacy.
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                admin:
+                  type: string
+                  description: Pass 1 to promote the user to an admin of the account.
+                unlock:
+                  type: string
+                  description: Pass 1 to unlock a user's account after too many failed login attempts.
+            example:
+              admin: '1'
+              unlock: '1'
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      account:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          first:
+                            type: string
+                          last:
+                            type: string
+                          title:
+                            type: string
+                          phone: {}
+                          email:
+                            type: string
+                          created:
+                            type: string
+                          updated:
+                            type: string
+                          permissions:
+                            type: object
+                            properties:
+                              owner:
+                                type: integer
+                              admin:
+                                type: integer
+                          mfa:
+                            type: object
+                            properties:
+                              enabled:
+                                type: integer
+                              type:
+                                type: string
+                              recipient:
+                                type: string
+                              verified:
+                                type: integer
+                          security:
+                            type: object
+                            properties:
+                              failed_logins:
+                                type: integer
+                              locked_out:
+                                type: integer
+              examples:
+                Update User:
+                  value:
+                    meta: {}
+                    results:
+                      status: success
+                      account:
+                        id: 1
+                      user:
+                        id: 100
+                        first: John
+                        last: Smith
+                        title: VP Engineering
+                        phone: null
+                        email: john.smith@domain.com
+                        created: '2020-12-17T13:17:44+00:00'
+                        updated: '1970-01-01T00:00:00+00:00'
+                        permissions:
+                          owner: 0
+                          admin: 1
+                        mfa:
+                          enabled: 0
+                          type: ''
+                          recipient: ''
+                          verified: 0
+                        security:
+                          failed_logins: 0
+                          locked_out: 0
+                Error No changes were made to the account:
+                  value:
+                    status: No changes were made to the account.
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: usersAddUserToAccount
+      summary: Add User to Account
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {},\n    \"results\": {\n        \"account_id\": {{user_id}},\n        \"user_id\": 1,\n        \"status\": \"success\"\n    }\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: usersDeleteUserFromAccount
+      summary: Delete User from Account
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Error Account does not exist:
+                  value:
+                    status: Account does not exist
+                Error User does not exist:
+                  value:
+                    status: User does not exist
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {},\n    \"results\": {\n        \"account_id\": {{user_id}},\n        \"user_id\": 1,\n        \"status\": \"success\"\n    }\n}"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Error Invalid user_id parameter:
+                  value:
+                    status: Invalid ../users/:user_id parameter.
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/sso:
+    get:
+      operationId: usersRetrieveSSOToken
+      summary: Retrieve SSO Token
+      tags:
+      - Account Services
+      description: 'This endpoint will return a token that can be appended to any Everest URL using a ​?sso=​ parameter. The token expires every 2 minutes and you’ll need to retrieve a new one.
+
+
+        Sample Response:
+
+        "22aaa33bb1188ff5522dba"
+
+
+        Accessing Everest via Single Sign On:
+
+        https://everest.validity.com/account?sso=22aaa33bb1188ff5522dba'
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Optional email address to be Included for the SSO login. If the 'email' parameter Is blank, it will log In using the default user on the account.
+        example: john.smith@domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                Retrieve SSO Token:
+                  value: 22aaa33bb1188ff5522dba
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/keys:
+    get:
+      operationId: apiKeysAPIKeys
+      summary: API Keys
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        api_limit:
+                          type: integer
+                        description:
+                          type: string
+                        expiration: {}
+                        created:
+                          type: string
+              examples:
+                API Keys:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - key: aaaassssddddffff1234
+                      api_limit: 500
+                      description: first key
+                      expiration: null
+                      created: '2020-08-16T12:21:46+00:00'
+                    - key: aaaassssddddffff5678
+                      api_limit: 500
+                      description: second key
+                      expiration: '2019-12-20T19:48:21+00:00'
+                      created: '2019-11-20T19:48:21+00:00'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: apiKeysCreateAPIKey
+      summary: Create API Key
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: (Optional) A description of the key
+                expiration:
+                  type: string
+                  description: '(Optional) The key''s expiration date and time (format: YYYY-MM-DD HH:MM:SS)'
+            example:
+              description: This is an API key!
+              expiration: '2021-12-31 23:59:59'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Create API Key:
+                  value:
+                    meta: {}
+                    results:
+                      key: aaaassssddddffff1234
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/keys/{key}:
+    delete:
+      operationId: apiKeysDeleteAPIKey
+      summary: Delete API Key
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+        example: aaaassssddddffff1234
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Error API key does not exist:
+                  value:
+                    status: API key does not exist
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Delete API Key:
+                  value:
+                    meta: {}
+                    results:
+                      key: aaaassssddddffff1234
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: apiKeysUpdateAPIKey
+      summary: Update API Key
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+        example: aaaassssddddffff1234
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: (Optional) A description of the key
+                expiration:
+                  type: string
+                  description: '(Optional) The key''s expiration date and time (format: YYYY-MM-DD HH:MM:SS)'
+            example:
+              description: This is an API key!
+              expiration: '2021-12-31 23:59:59'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      description:
+                        type: string
+                      expiration: {}
+                      status:
+                        type: string
+              examples:
+                Update API Key:
+                  value:
+                    meta: {}
+                    results:
+                      key: aaaassssddddffff1234
+                      description: This is an API key!
+                      expiration: null
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/webhooks:
+    get:
+      operationId: webhookEndpointsWebhookEndpoints
+      summary: Webhook Endpoints
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '100'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: string
+                          page:
+                            type: string
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        description:
+                          type: string
+                        require_auth:
+                          type: integer
+                        endpoint:
+                          type: string
+                        last_seen:
+                          type: string
+                        total_events:
+                          type: integer
+                        created:
+                          type: string
+              examples:
+                Webhook Endpoints:
+                  value:
+                    meta:
+                      params:
+                        limit: '100'
+                        page: '1'
+                      total: 2
+                      limit: 100
+                      pages: 1
+                    results:
+                    - key: AAAASSSSDDDFFF11223344
+                      description: Test Endpoint 1
+                      require_auth: 1
+                      endpoint: https://analytics.250ok.com/webhooks/AAAASSSSDDDFFF11223344
+                      last_seen: '2019-02-12T16:16:00+00:00'
+                      total_events: 1
+                      created: '2017-08-25T18:18:41+00:00'
+                    - key: AAAASSSSDDDFFF55667788
+                      description: Test Endpoint 2
+                      require_auth: 0
+                      endpoint: https://analytics.250ok.com/webhooks/AAAASSSSDDDFFF55667788
+                      last_seen: null
+                      total_events: 0
+                      created: '2020-09-01T22:59:09+00:00'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: webhookEndpointsCreateWebhookEndpoint
+      summary: Create Webhook Endpoint
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                require_auth:
+                  type: string
+                  description: '[0, 1] Optionally require API key authentication for Inbound webhook events'
+            example:
+              description: Test Endpoint
+              require_auth: '0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      endpoint:
+                        type: string
+                      description:
+                        type: string
+                      require_auth:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Create Webhook Endpoint:
+                  value:
+                    meta: {}
+                    results:
+                      key: AAAASSSSDDDFFF11223344
+                      endpoint: https://analytics.250ok.com/webhooks/AAAASSSSDDDFFF11223344
+                      description: Test Endpoint
+                      require_auth: 0
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/accounts/{accountId}/webhooks/{webhookKey}:
+    put:
+      operationId: webhookEndpointsUpdateWebhookEndpoint
+      summary: Update Webhook Endpoint
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: webhookKey
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 92468364E6F7447AA1E623B53978BB69
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                require_auth:
+                  type: integer
+            example:
+              description: Testing new description!
+              require_auth: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      endpoint:
+                        type: string
+                      description:
+                        type: string
+                      require_auth:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Update Webhook Endpoint:
+                  value:
+                    meta: {}
+                    results:
+                      key: AAAASSSSDDDFFF11223344
+                      endpoint: https://analytics.250ok.com/webhooks/4AAAASSSSDDDFFF11223344
+                      description: Testing new description!
+                      require_auth: 0
+                      status: success
+                Enable Webhook Authentication:
+                  value:
+                    meta: {}
+                    results:
+                      key: AAAASSSSDDDFFF11223344
+                      endpoint: https://analytics.250ok.com/webhooks/4AAAASSSSDDDFFF11223344
+                      description: Testing new description!
+                      require_auth: 0
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: webhookEndpointsDeleteWebhookEndpoint
+      summary: Delete Webhook Endpoint
+      tags:
+      - Account Services
+      x-api-version: '2.0'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{account_id}}'
+      - name: webhookKey
+        in: path
+        required: true
+        schema:
+          type: string
+        example: AAAASSSSDDDFFF11223344
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Error Webhook endpoint does not exist:
+                  value:
+                    status: Webhook endpoint does not exist.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Delete Webhook Endpoint:
+                  value:
+                    meta: {}
+                    results:
+                      key: AAAASSSSDDDFFF11223344
+                      status: success
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

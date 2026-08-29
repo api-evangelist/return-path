@@ -1,0 +1,4886 @@
+openapi: 3.2.0
+info:
+  title: Everest Engagement API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Engagement
+paths:
+  /2.0/analytics/events/read:
+    get:
+      operationId: engagementOverviewDetailedReadEvents
+      summary: Detailed Read Events
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/events/click:
+    get:
+      operationId: engagementOverviewDetailedClickEvents
+      summary: Detailed Click Events
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/events/forward:
+    get:
+      operationId: engagementOverviewDetailedForwardEvents
+      summary: Detailed Forward Events
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/events/print:
+    get:
+      operationId: engagementOverviewDetailedPrintEvents
+      summary: Detailed Print Events
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/distribution/desktop:
+    get:
+      operationId: engagementOverviewPlatformRecipients
+      summary: Platform Recipients
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"startdate\": \"2021-09-06T00:00:00+00:00\",\n            \"enddate\": \"2021-10-05T00:00:00+00:00\",\n            \"source\": null,\n            \"integrationkey\": null,\n            \"provider\": null,\n            \"todomain\": null,\n            \"pixel\": null,\n            \"campaign_id\": null,\n            \"platform\": null,\n            \"country\": null,\n            \"region\": null,\n            \"city\": null,\n            \"enthusiasm\": null,\n            \"timeofday\": null,\n            \"timezone\": null,\n            \"recipient\": null\n        },\n        \"total\": 3,\n        \"limit\": 5000,\n        \"pages\": 1\n    },\n    \"results\": [\n        {\n            \"toaddress\": \"recipient1@domain.com\",\n            \"firstseen\": \"9/6/2021\",\n            \"lastseen\": \"10/4/2021\",\n            \"country\": null,\n            \"region\": null,\n            \"city\": null,\n            \"platform\": \"Desktop\",\n            \"device\": \"Windows\",\n            \"client\": \"Edge\",\n            \"timezone\": null\n        },\n        {\n            \"toaddress\": \"recipient2@domain.com\",\n            \"firstseen\": \"9/17/2021\",\n            \"lastseen\": \"9/17/2021\",\n            \"country\": null,\n            \"region\": null,\n            \"city\": null,\n            \"platform\": \"Desktop\",\n            \"device\": \"Windows\",\n            \"client\": \"Edge\",\n            \"timezone\": null\n        },\n        {\n            \"toaddress\": \"recipient3@domain.com\",\n            \"firstseen\": \"9/14/2021\",\n            \"lastseen\": \"9/21/2021\",\n            \"country\": null,\n            \"region\": null,\n            \"city\": null,\n            \"platform\": \"Desktop\",\n            \"device\": \"Windows\",\n            \"client\": \"Edge\",\n            \"timezone\": null\n        }, ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/engagement/activity:
+    get:
+      operationId: engagementOverviewRecentActivity
+      summary: Recent Activity
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          timeofday:
+                            type: array
+                            items:
+                              type: string
+                          platform:
+                            type: array
+                            items:
+                              type: string
+                          country:
+                            type: array
+                            items:
+                              type: string
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      opens:
+                        type: integer
+                      uniques:
+                        type: integer
+                      forwards:
+                        type: integer
+                      uniqueforwards:
+                        type: integer
+                      prints:
+                        type: integer
+                      uniqueprints:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day:
+                          type: string
+                        opens:
+                          type: integer
+                        uniques:
+                          type: integer
+                        forwards:
+                          type: integer
+                        uniqueforwards:
+                          type: integer
+                        prints:
+                          type: integer
+                        uniqueprints:
+                          type: integer
+              examples:
+                Recent Activity:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-12-15T05:00:00+00:00'
+                        enddate: '2021-01-14T05:00:00+00:00'
+                        timeofday:
+                        - morning
+                        platform:
+                        - desktop
+                        - mobile
+                        country:
+                        - US
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      opens: 4896
+                      uniques: 2072
+                      forwards: 17
+                      uniqueforwards: 14
+                      prints: 595
+                      uniqueprints: 365
+                    results:
+                    - day: '2020-12-15'
+                      opens: 198
+                      uniques: 104
+                      forwards: 3
+                      uniqueforwards: 2
+                      prints: 14
+                      uniqueprints: 12
+                    - day: '2020-12-16'
+                      opens: 228
+                      uniques: 111
+                      forwards: 3
+                      uniqueforwards: 3
+                      prints: 19
+                      uniqueprints: 15
+                    - day: '2020-12-17'
+                      opens: 58
+                      uniques: 29
+                      forwards: 6
+                      uniqueforwards: 4
+                      prints: 12
+                      uniqueprints: 5
+                    - day: '2020-12-18'
+                      opens: 76
+                      uniques: 36
+                      forwards: 3
+                      uniqueforwards: 3
+                      prints: 5
+                      uniqueprints: 5
+                    - day: '2020-12-19'
+                      opens: 29
+                      uniques: 16
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 3
+                      uniqueprints: 3
+                    - day: '2020-12-20'
+                      opens: 28
+                      uniques: 18
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 5
+                      uniqueprints: 3
+                    - day: '2020-12-21'
+                      opens: 278
+                      uniques: 111
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 27
+                      uniqueprints: 10
+                    - day: '2020-12-22'
+                      opens: 114
+                      uniques: 56
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 6
+                      uniqueprints: 6
+                    - day: '2020-12-23'
+                      opens: 121
+                      uniques: 63
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 23
+                      uniqueprints: 10
+                    - day: '2020-12-24'
+                      opens: 63
+                      uniques: 40
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 28
+                      uniqueprints: 19
+                    - day: '2020-12-25'
+                      opens: 24
+                      uniques: 20
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 14
+                      uniqueprints: 13
+                    - day: '2020-12-26'
+                      opens: 180
+                      uniques: 53
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 14
+                      uniqueprints: 13
+                    - day: '2020-12-27'
+                      opens: 37
+                      uniques: 15
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 9
+                      uniqueprints: 6
+                    - day: '2020-12-28'
+                      opens: 206
+                      uniques: 76
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 24
+                      uniqueprints: 14
+                    - day: '2020-12-29'
+                      opens: 179
+                      uniques: 69
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 11
+                      uniqueprints: 10
+                    - day: '2020-12-30'
+                      opens: 144
+                      uniques: 65
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 11
+                      uniqueprints: 10
+                    - day: '2020-12-31'
+                      opens: 112
+                      uniques: 60
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 20
+                      uniqueprints: 12
+                    - day: '2021-01-01'
+                      opens: 102
+                      uniques: 39
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 33
+                      uniqueprints: 14
+                    - day: '2021-01-02'
+                      opens: 60
+                      uniques: 33
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 11
+                      uniqueprints: 11
+                    - day: '2021-01-03'
+                      opens: 204
+                      uniques: 67
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 16
+                      uniqueprints: 10
+                    - day: '2021-01-04'
+                      opens: 433
+                      uniques: 119
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 29
+                      uniqueprints: 15
+                    - day: '2021-01-05'
+                      opens: 273
+                      uniques: 140
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 30
+                      uniqueprints: 21
+                    - day: '2021-01-06'
+                      opens: 367
+                      uniques: 130
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 21
+                      uniqueprints: 15
+                    - day: '2021-01-07'
+                      opens: 251
+                      uniques: 128
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 46
+                      uniqueprints: 22
+                    - day: '2021-01-08'
+                      opens: 127
+                      uniques: 70
+                      forwards: 1
+                      uniqueforwards: 1
+                      prints: 38
+                      uniqueprints: 20
+                    - day: '2021-01-09'
+                      opens: 185
+                      uniques: 66
+                      forwards: 1
+                      uniqueforwards: 1
+                      prints: 16
+                      uniqueprints: 12
+                    - day: '2021-01-10'
+                      opens: 81
+                      uniques: 47
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 17
+                      uniqueprints: 14
+                    - day: '2021-01-11'
+                      opens: 305
+                      uniques: 99
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 26
+                      uniqueprints: 14
+                    - day: '2021-01-12'
+                      opens: 304
+                      uniques: 123
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 31
+                      uniqueprints: 14
+                    - day: '2021-01-13'
+                      opens: 129
+                      uniques: 69
+                      forwards: 0
+                      uniqueforwards: 0
+                      prints: 36
+                      uniqueprints: 17
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/distribution:
+    get:
+      operationId: engagementOverviewPlatformDistribution
+      summary: Platform Distribution
+      tags:
+      - Engagement
+      description: 'The Apple Privacy Proxy pre-fetches images (upon delivery) for devices on a charger/internet connection, which will inflate your open counts but also serves as a strong indicator of valid addresses. Yahoo! Privacy Proxy is similar since they also pre-fetch images, but only in instances where the recipient is using the Yahoo! mail client. Gmail on the other hand does not pre-fetch images, so the open counts accurately reflect your audience''s open activity. Desktop, mobile, etc. will likely contain Yahoo! or Apple addresses where less restrictive mail clients were in use.
+
+
+        Please see timezone param list for details about the id''s.'
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          timezone: {}
+                          recipient: {}
+                      use_case:
+                        type: object
+                        properties:
+                          proxy_apple:
+                            type: string
+                          proxy_google:
+                            type: string
+                          proxy_yahoo:
+                            type: string
+                          desktop:
+                            type: string
+                          mobile:
+                            type: string
+                          tablet:
+                            type: string
+                          other:
+                            type: string
+                  results:
+                    type: object
+                    properties:
+                      proxy_apple:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: integer
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+                      proxy_google:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: number
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+                      proxy_yahoo:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: integer
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+                      desktop:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: number
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+                      mobile:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: number
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+                      tablet:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: integer
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+                      other:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                          percent:
+                            type: integer
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          endpoints:
+                            type: array
+                            items:
+                              type: string
+              examples:
+                Platform Distribution:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-09-06T00:00:00+00:00'
+                        enddate: '2021-10-05T00:00:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        city: null
+                        enthusiasm: null
+                        timeofday: null
+                        timezone: null
+                        recipient: null
+                      use_case:
+                        proxy_apple: Valid recipients
+                        proxy_google: Valid recipients, unique opens
+                        proxy_yahoo: Valid recipients
+                        desktop: Valid recipients, opens, geolocation, client/device
+                        mobile: Valid recipients, opens, geolocation, client/device
+                        tablet: Valid recipients, opens, geolocation, client/device
+                        other: otentially false positives (content scanners, bots)
+                    results:
+                      proxy_apple:
+                        label: Apple Privacy Proxy
+                        percent: 0
+                        recipients: 35
+                        opens: 269
+                        endpoints:
+                        - /analytics/distribution/proxy_apple
+                      proxy_google:
+                        label: Google Image Proxy
+                        percent: 17.6
+                        recipients: 458
+                        opens: 180572
+                        endpoints:
+                        - /analytics/distribution/proxy_google
+                      proxy_yahoo:
+                        label: Yahoo! Privacy Proxy
+                        percent: 0
+                        recipients: 3
+                        opens: 3
+                        endpoints:
+                        - /analytics/distribution/proxy_yahoo
+                      desktop:
+                        label: Desktop
+                        percent: 64.5
+                        recipients: 1113
+                        opens: 660392
+                        endpoints:
+                        - /analytics/distribution/desktop
+                      mobile:
+                        label: Mobile
+                        percent: 16.2
+                        recipients: 204
+                        opens: 166307
+                        endpoints:
+                        - /analytics/distribution/mobile
+                      tablet:
+                        label: Tablet
+                        percent: 0
+                        recipients: 5
+                        opens: 19
+                        endpoints:
+                        - /analytics/distribution/tablet
+                      other:
+                        label: Other
+                        percent: 1
+                        recipients: 69
+                        opens: 16317
+                        endpoints:
+                        - /analytics/distribution/other
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/events:
+    get:
+      operationId: engagementOverviewDetailedEvents
+      summary: Detailed Events
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/engagement:
+    get:
+      operationId: engagementOverviewOverview
+      summary: Overview
+      tags:
+      - Engagement
+      description: Please see timezone param list for details about the id's.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          timezone: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                  results:
+                    type: object
+                    properties:
+                      activity:
+                        type: object
+                        properties:
+                          recipients:
+                            type: integer
+                          opens:
+                            type: integer
+                          uniques:
+                            type: integer
+                      averages:
+                        type: object
+                        properties:
+                          opensperday:
+                            type: integer
+                          readtime:
+                            type: integer
+                      timeofday:
+                        type: object
+                        properties:
+                          morning:
+                            type: integer
+                          afternoon:
+                            type: integer
+                          evening:
+                            type: integer
+                          night:
+                            type: integer
+                          unknown:
+                            type: integer
+                      platforms:
+                        type: object
+                        properties:
+                          proxy_apple:
+                            type: integer
+                          proxy_google:
+                            type: integer
+                          proxy_yahoo:
+                            type: integer
+                          desktop:
+                            type: integer
+                          mobile:
+                            type: integer
+                          tablet:
+                            type: integer
+                          other:
+                            type: integer
+                      enthusiasm:
+                        type: object
+                        properties:
+                          glanced:
+                            type: integer
+                          skimmed:
+                            type: integer
+                          read:
+                            type: integer
+                      seconds:
+                        type: object
+                        properties:
+                          0s:
+                            type: integer
+                          1s:
+                            type: integer
+                          2s:
+                            type: integer
+                          3s:
+                            type: integer
+                          4s:
+                            type: integer
+                          5s:
+                            type: integer
+                          6s:
+                            type: integer
+                          7s:
+                            type: integer
+                          8s:
+                            type: integer
+              examples:
+                Overview:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-08-20T00:00:00+00:00'
+                        enddate: '2021-09-18T00:00:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        city: null
+                        enthusiasm: null
+                        timeofday: null
+                        timezone: null
+                        recipient: null
+                      total: 1306849
+                    results:
+                      activity:
+                        recipients: 1320
+                        opens: 1306849
+                        uniques: 111087
+                      averages:
+                        opensperday: 43562
+                        readtime: 11
+                      timeofday:
+                        morning: 249694
+                        afternoon: 399351
+                        evening: 317466
+                        night: 162735
+                        unknown: 186795
+                      platforms:
+                        proxy_apple: 247
+                        proxy_google: 186795
+                        proxy_yahoo: 3
+                        desktop: 903654
+                        mobile: 167606
+                        tablet: 38
+                        other: 57698
+                      enthusiasm:
+                        glanced: 46
+                        skimmed: 158
+                        read: 374
+                      seconds:
+                        0s: 12
+                        1s: 34
+                        2s: 20
+                        3s: 21
+                        4s: 10
+                        5s: 94
+                        6s: 6
+                        7s: 7
+                        8s: 1
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/sources:
+    get:
+      operationId: audienceExplorerDataSources
+      summary: Data Sources
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '100'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          timezone: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: string
+                        integration:
+                          type: string
+                        description:
+                          type: string
+                        events:
+                          type: integer
+                        lastseen:
+                          type: string
+              examples:
+                Data Sources:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2021-05-18T00:00:00+00:00'
+                        enddate: '2021-06-16T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        city: null
+                        enthusiasm: null
+                        timeofday: null
+                        timezone: null
+                        recipient: null
+                      total: 26
+                      limit: 100
+                      pages: 1
+                      opens: 177826
+                    results:
+                    - source: pixel
+                      integration: Everest Tracking Pixel
+                      description: Everest Tracking Pixel
+                      events: 582009
+                      lastseen: '2021-03-03T00:00:00+00:00'
+                    - source: AAAABBBBCCCCDDDD
+                      integration: Amazon SES
+                      description: AWS Transactional Mail
+                      events: 8646714
+                      lastseen: '2021-03-03T00:00:00+00:00'
+                    - source: EEEEFFFFGGGGHHHH
+                      integration: Salesforce Marketing Cloud
+                      description: Salesforce MC Account
+                      events: 4359479
+                      lastseen: '2021-03-03T00:00:00+00:00'
+                    - source: IIIIJJJJKKKKLLLL
+                      integration: SparkPost
+                      description: SparkPost Marketing Account
+                      events: 79089
+                      lastseen: '2021-03-03T00:00:00+00:00'
+                    - source: MMMMNNNNOOOOPPPP
+                      integration: SendGrid
+                      description: Triggered Campaigns
+                      events: 3612
+                      lastseen: '2021-03-03T00:00:00+00:00'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/providers:
+    get:
+      operationId: audienceExplorerMailboxProviders
+      summary: Mailbox Providers
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          timezone: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        provider:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Providers:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2021-05-18T00:00:00+00:00'
+                        enddate: '2021-06-16T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        city: null
+                        enthusiasm: null
+                        timeofday: null
+                        timezone: null
+                        recipient: null
+                      total: 32
+                      limit: 10
+                      pages: 4
+                      opens: 101453
+                    results:
+                    - provider: Microsoft
+                      count: 32957
+                    - provider: Freenet
+                      count: 26163
+                    - provider: Google Apps
+                      count: 20683
+                    - provider: Office 365
+                      count: 4884
+                    - provider: Mail.ru
+                      count: 4068
+                    - provider: Comcast
+                      count: 3171
+                    - provider: McAfee
+                      count: 2870
+                    - provider: AOL
+                      count: 987
+                    - provider: Barracuda
+                      count: 813
+                    - provider: Web.de
+                      count: 654
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/pixels:
+    get:
+      operationId: audienceExplorerPixels
+      summary: Pixels
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          timezone: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        pixel:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Pixels:
+                  value:
+                    meta:
+                      params:
+                        limit: 3
+                        page: 1
+                        startdate: '2021-05-18T00:00:00+00:00'
+                        enddate: '2021-06-16T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        city: null
+                        enthusiasm: null
+                        timeofday: null
+                        timezone: null
+                        recipient: null
+                      total: 54
+                      limit: 3
+                      pages: 18
+                      opens: 101808
+                    results:
+                    - id: 5614144
+                      pixel: This is a pixel name
+                      count: 28687
+                    - id: 5616220
+                      pixel: This is a subject line
+                      count: 312
+                    - id: 5614271
+                      pixel: This is a campaign description
+                      count: 246
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/platforms:
+    get:
+      operationId: audienceExplorerPlatforms
+      summary: Platforms
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          timezone: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        platform:
+                          type: string
+                        count:
+                          type: integer
+                        uniques:
+                          type: integer
+              examples:
+                Platforms:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-08-21T00:00:00+00:00'
+                        enddate: '2021-09-19T00:00:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        city: null
+                        enthusiasm: null
+                        timeofday: null
+                        timezone: null
+                        recipient: null
+                      total: 7
+                      limit: 100
+                      pages: 1
+                      opens: 1260897
+                    results:
+                    - platform: proxy_apple
+                      count: 249
+                      uniques: 7
+                    - platform: proxy_google
+                      count: 181455
+                      uniques: 433
+                    - platform: proxy_yahoo
+                      count: 3
+                      uniques: 3
+                    - platform: desktop
+                      count: 3
+                      uniques: 1
+                    - platform: mobile
+                      count: 54584
+                      uniques: 10
+                    - platform: tablet
+                      count: 2
+                      uniques: 1
+                    - platform: other
+                      count: 474
+                      uniques: 47
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/countries:
+    get:
+      operationId: audienceExplorerCountries
+      summary: Countries
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          provider: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Geolocation Countries:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2020-12-14T22:41:00+00:00'
+                        enddate: '2021-01-13T22:41:00+00:00'
+                        provider: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 34
+                      limit: 10
+                      pages: 4
+                      opens: 101493
+                    results:
+                    - country: US
+                      count: 15806
+                    - country: GB
+                      count: 339
+                    - country: FR
+                      count: 343
+                    - country: CA
+                      count: 284
+                    - country: IL
+                      count: 313
+                    - country: NL
+                      count: 133
+                    - country: TN
+                      count: 104
+                    - country: IE
+                      count: 97
+                    - country: LU
+                      count: 71
+                    - country: BR
+                      count: 73
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/regions:
+    get:
+      operationId: audienceExplorerRegions
+      summary: Regions
+      tags:
+      - Engagement
+      description: 'Hint: Pass a ''country'' parameter to view Regions by Country. Example: ?country=US'
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          provider: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        region:
+                          type: string
+                        latitude:
+                          type: number
+                        longitude:
+                          type: number
+                        count:
+                          type: integer
+              examples:
+                Regions:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2020-12-14T22:41:00+00:00'
+                        enddate: '2021-01-13T22:41:00+00:00'
+                        provider: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 128
+                      limit: 10
+                      pages: 13
+                      opens: 101488
+                    results:
+                    - region: Virginia
+                      latitude: 39.0438
+                      longitude: -77.4874
+                      count: 6904
+                    - region: California
+                      latitude: 37.3936
+                      longitude: -121.977
+                      count: 2351
+                    - region: New Jersey
+                      latitude: 41.0598
+                      longitude: -74.12
+                      count: 1181
+                    - region: Illinois
+                      latitude: 41.8781
+                      longitude: -87.6298
+                      count: 748
+                    - region: Massachusetts
+                      latitude: 42.2809
+                      longitude: -71.2378
+                      count: 720
+                    - region: New York
+                      latitude: 40.7903
+                      longitude: -73.9597
+                      count: 491
+                    - region: Florida
+                      latitude: 27.0998
+                      longitude: -82.4543
+                      count: 439
+                    - region: England
+                      latitude: 51.5524
+                      longitude: -0.2969
+                      count: 337
+                    - region: Île-de-France
+                      latitude: 48.892
+                      longitude: 2.3193
+                      count: 325
+                    - region: Washington
+                      latitude: 47.1301
+                      longitude: -119.278
+                      count: 312
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/timezones:
+    get:
+      operationId: audienceExplorerTimeZones
+      summary: Time Zones
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timezone:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Timezones:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2021-03-17T00:00:00+00:00'
+                        enddate: '2021-04-15T23:59:00+00:00'
+                        source: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 49
+                      limit: 10
+                      pages: 5
+                      opens: 724391
+                    results:
+                    - timezone: America/New_York
+                      count: 9664
+                    - timezone: America/Chicago
+                      count: 2246
+                    - timezone: America/Los_Angeles
+                      count: 1763
+                    - timezone: Europe/Paris
+                      count: 509
+                    - timezone: Europe/London
+                      count: 473
+                    - timezone: America/Toronto
+                      count: 343
+                    - timezone: Africa/Tunis
+                      count: 205
+                    - timezone: Asia/Kolkata
+                      count: 193
+                    - timezone: America/Denver
+                      count: 129
+                    - timezone: Asia/Jerusalem
+                      count: 121
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/enthusiasm:
+    get:
+      operationId: audienceExplorerEnthusiasm
+      summary: Enthusiasm
+      tags:
+      - Engagement
+      description: 'Read: 8 or more seconds.
+
+        Skimmed: 2 or more seconds, but less than 8 seconds.
+
+        Glanced: less than 2 seconds.'
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          provider: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        enthusiasm:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Enthusiasm:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-12-14T23:41:00+00:00'
+                        enddate: '2021-01-13T23:41:00+00:00'
+                        provider: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 17062
+                      limit: 100
+                      pages: 171
+                      opens: 101741
+                    results:
+                    - enthusiasm: read
+                      count: 4749
+                    - enthusiasm: skimmed
+                      count: 10590
+                    - enthusiasm: glancedorunread
+                      count: 1723
+                    - enthusiasm: imageproxy
+                      count: 84679
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/timeofday:
+    get:
+      operationId: audienceExplorerTimeOfDay
+      summary: Time of Day
+      tags:
+      - Engagement
+      description: 'Morning: 6 AM - Noon recipient local time.
+
+        Afternoon: Noon - 6 PM.
+
+        Evening: 6 PM - Midnight.
+
+        Late Night: Midnight - 6 AM.'
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          provider: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total: {}
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timeofday:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Time of Day:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-12-14T23:43:00+00:00'
+                        enddate: '2021-01-13T23:43:00+00:00'
+                        provider: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: null
+                      limit: 100
+                      pages: 0
+                      opens: 101741
+                    results:
+                    - timeofday: afternoon
+                      count: 31326
+                    - timeofday: evening
+                      count: 25569
+                    - timeofday: morning
+                      count: 20162
+                    - timeofday: night
+                      count: 13821
+                    - timeofday: unknown
+                      count: 12308
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/clients:
+    get:
+      operationId: audienceExplorerClients
+      summary: Clients
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        count:
+                          type: integer
+                        versions:
+                          type: object
+                          properties:
+                            '89':
+                              type: integer
+                            '88':
+                              type: integer
+                            '12':
+                              type: integer
+                            '84':
+                              type: integer
+                            '18':
+                              type: integer
+              examples:
+                Mail Clients:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2021-03-17T00:00:00+00:00'
+                        enddate: '2021-04-15T23:59:00+00:00'
+                        source: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 29
+                      limit: 10
+                      pages: 3
+                      opens: 724351
+                    results:
+                    - name: Edge
+                      count: 134858
+                      versions:
+                        '89': 92655
+                        '88': 23404
+                        '12': 18797
+                        '84': 1
+                        '18': 1
+                    - name: Google Image Proxy
+                      count: 131393
+                      versions:
+                        Google Image Proxy: 131393
+                    - name: Firefox
+                      count: 115496
+                      versions:
+                        '79': 76051
+                        '86': 39369
+                        '87': 60
+                        '78': 11
+                        '74': 3
+                        '82': 2
+                    - name: Chrome
+                      count: 115233
+                      versions:
+                        '63': 75947
+                        '89': 38635
+                        '76': 118
+                        '79': 107
+                        '83': 90
+                        '70': 62
+                        '80': 60
+                        '64': 35
+                        '84': 33
+                        '72': 32
+                        '87': 30
+                        '88': 19
+                        '67': 16
+                        '86': 10
+                        '57': 8
+                        '85': 7
+                        Unknown: 6
+                        '60': 5
+                        '81': 4
+                        '55': 3
+                        '73': 2
+                        '29': 1
+                        '74': 1
+                        '77': 1
+                        '23': 1
+                    - name: IE
+                      count: 82563
+                      versions:
+                        '10': 70556
+                        '11': 9269
+                        '8': 2483
+                        '5': 194
+                        '9': 61
+                    - name: Default Browser
+                      count: 54001
+                      versions:
+                        Unknown: 54001
+                    - name: Apple Mail
+                      count: 50444
+                      versions:
+                        '14': 48141
+                        '13': 2105
+                        '12': 108
+                        '7': 42
+                        '11': 37
+                        '10': 9
+                        '8': 2
+                    - name: Android WebView
+                      count: 27579
+                      versions:
+                        '52': 27577
+                        '83': 1
+                        '81': 1
+                    - name: Outlook
+                      count: 23072
+                      versions:
+                        4.40.0: 18525
+                        '2016': 4395
+                        Unknown: 132
+                        '2013': 18
+                        '2010': 2
+                    - name: Slack-ImgProxy
+                      count: 1252
+                      versions:
+                        Unknown: 1252
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/devices:
+    get:
+      operationId: audienceExplorerRecipientDevices
+      summary: Recipient Devices
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          provider: {}
+                          todomain: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        count:
+                          type: integer
+                        versions:
+                          type: object
+                          properties:
+                            '10':
+                              type: integer
+                            '8':
+                              type: integer
+                            '7':
+                              type: integer
+                            Unknown:
+                              type: integer
+                            '2000':
+                              type: integer
+                            XP:
+                              type: integer
+                            '8.1':
+                              type: integer
+              examples:
+                Devices:
+                  value:
+                    meta:
+                      params:
+                        limit: 10
+                        page: 1
+                        startdate: '2021-03-17T00:00:00+00:00'
+                        enddate: '2021-04-15T23:59:00+00:00'
+                        source: null
+                        provider: null
+                        todomain: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 11
+                      limit: 10
+                      pages: 2
+                      opens: 724222
+                    results:
+                    - name: Windows
+                      count: 451654
+                      versions:
+                        '10': 365371
+                        '8': 70548
+                        '7': 11839
+                        Unknown: 3631
+                        '2000': 194
+                        XP: 59
+                        '8.1': 12
+                    - name: Google Image Proxy
+                      count: 131364
+                      versions:
+                        Google Image Proxy: 131364
+                    - name: iPhone
+                      count: 66769
+                      versions:
+                        '14': 48127
+                        Unknown: 18522
+                        '13': 70
+                        '7': 42
+                        '12': 6
+                        '11': 2
+                    - name: Linux
+                      count: 54087
+                      versions:
+                        Unknown: 54087
+                    - name: Android
+                      count: 27685
+                      versions:
+                        7.1.2: 27571
+                        '11': 68
+                        8.1.0: 17
+                        '9': 15
+                        '10': 14
+                    - name: Mac
+                      count: 3121
+                      versions:
+                        OS X 10.15: 2348
+                        OS X 10.14: 410
+                        OS X 11.2: 210
+                        OS X 10.13: 56
+                        OS X 11.1: 30
+                        OS X 10.16: 26
+                        Unknown: 22
+                        OS X 10.12: 16
+                        OS X 10.10: 2
+                        OS X 11.0: 1
+                    - name: Unknown
+                      count: 1585
+                      versions:
+                        Unknown: 1585
+                    - name: Front
+                      count: 76
+                      versions:
+                        Image Proxy: 76
+                    - name: Yahoo
+                      count: 30
+                      versions:
+                        Yahoo Image Proxy: 30
+                    - name: Skype
+                      count: 21
+                      versions:
+                        Skype Uri Preview: 21
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/audience/recipients:
+    get:
+      operationId: audienceExplorerTopRecipients
+      summary: Top Recipients
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          provider: {}
+                          pixel: {}
+                          campaign_id: {}
+                          platform: {}
+                          country: {}
+                          region: {}
+                          timezone_id: {}
+                          enthusiasm: {}
+                          timeofday: {}
+                          device_id: {}
+                          client_id: {}
+                          recipient: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        recipient:
+                          type: string
+                        count:
+                          type: integer
+                        uniques:
+                          type: integer
+              examples:
+                Top Recipients:
+                  value:
+                    meta:
+                      params:
+                        limit: 3
+                        page: 1
+                        startdate: '2020-12-14T23:30:00+00:00'
+                        enddate: '2021-01-13T23:30:00+00:00'
+                        provider: null
+                        pixel: null
+                        campaign_id: null
+                        platform: null
+                        country: null
+                        region: null
+                        timezone_id: null
+                        enthusiasm: null
+                        timeofday: null
+                        device_id: null
+                        client_id: null
+                        recipient: null
+                      total: 810
+                      limit: 3
+                      pages: 270
+                      opens: 101714
+                    results:
+                    - recipient: address@domain.com
+                      count: 4903
+                      uniques: 1
+                    - recipient: address2@domain.com
+                      count: 4754
+                      uniques: 1
+                    - recipient: address3@domain.com
+                      count: 4482
+                      uniques: 1
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery:
+    get:
+      operationId: deliveryInsightsOverview
+      summary: Overview
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          ip: {}
+                  results:
+                    type: object
+                    properties:
+                      activity:
+                        type: object
+                        properties:
+                          messages:
+                            type: integer
+                          delivered:
+                            type: integer
+                          deferred:
+                            type: integer
+                          bounced:
+                            type: integer
+                          filtered:
+                            type: integer
+                      timetodelivery:
+                        type: object
+                        properties:
+                          0-3 min:
+                            type: integer
+                          4-6 min:
+                            type: integer
+                          7-15 min:
+                            type: integer
+                          16-60 min:
+                            type: integer
+                          61 min:
+                            type: integer
+              examples:
+                Overview:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-12-16T00:00:00+00:00'
+                        enddate: '2021-01-14T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        ip: null
+                    results:
+                      activity:
+                        messages: 514571
+                        delivered: 507373
+                        deferred: 664
+                        bounced: 7041
+                        filtered: 334
+                      timetodelivery:
+                        0-3 min: 250494
+                        4-6 min: 1412
+                        7-15 min: 805
+                        16-60 min: 956
+                        61 min: 2580
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/activity:
+    get:
+      operationId: deliveryInsightsRecentActivity
+      summary: Recent Activity
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          ip: {}
+                      messages:
+                        type: integer
+                      delivered:
+                        type: integer
+                      deferred:
+                        type: integer
+                      bounced:
+                        type: integer
+                      filtered:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day:
+                          type: string
+                        messages:
+                          type: integer
+                        delivered:
+                          type: integer
+                        deferred:
+                          type: integer
+                        bounced:
+                          type: integer
+                        filtered:
+                          type: integer
+              examples:
+                Recent Activity:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-12-16T00:00:00+00:00'
+                        enddate: '2021-01-14T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        ip: null
+                      messages: 505445
+                      delivered: 498329
+                      deferred: 664
+                      bounced: 6974
+                      filtered: 334
+                    results:
+                    - day: '2020-12-15'
+                      messages: 846
+                      delivered: 831
+                      deferred: 1
+                      bounced: 15
+                      filtered: 2
+                    - day: '2020-12-16'
+                      messages: 8145
+                      delivered: 7852
+                      deferred: 3
+                      bounced: 293
+                      filtered: 4
+                    - day: '2020-12-17'
+                      messages: 7586
+                      delivered: 7492
+                      deferred: 66
+                      bounced: 93
+                      filtered: 11
+                    - day: '2020-12-18'
+                      messages: 7591
+                      delivered: 7507
+                      deferred: 15
+                      bounced: 84
+                      filtered: 10
+                    - day: '2020-12-19'
+                      messages: 3904
+                      delivered: 3883
+                      deferred: 2
+                      bounced: 18
+                      filtered: 6
+                    - day: '2020-12-20'
+                      messages: 3085
+                      delivered: 3081
+                      deferred: 1
+                      bounced: 7
+                      filtered: 8
+                    - day: '2020-12-21'
+                      messages: 6934
+                      delivered: 6847
+                      deferred: 8
+                      bounced: 89
+                      filtered: 12
+                    - day: '2020-12-22'
+                      messages: 8965
+                      delivered: 8892
+                      deferred: 39
+                      bounced: 74
+                      filtered: 13
+                    - day: '2020-12-23'
+                      messages: 8160
+                      delivered: 8092
+                      deferred: 84
+                      bounced: 68
+                      filtered: 9
+                    - day: '2020-12-24'
+                      messages: 4753
+                      delivered: 4719
+                      deferred: 11
+                      bounced: 35
+                      filtered: 19
+                    - day: '2020-12-25'
+                      messages: 3597
+                      delivered: 3591
+                      deferred: 8
+                      bounced: 6
+                      filtered: 12
+                    - day: '2020-12-26'
+                      messages: 4962
+                      delivered: 4946
+                      deferred: 11
+                      bounced: 3
+                      filtered: 18
+                    - day: '2020-12-27'
+                      messages: 6800
+                      delivered: 6762
+                      deferred: 9
+                      bounced: 22
+                      filtered: 15
+                    - day: '2020-12-28'
+                      messages: 8670
+                      delivered: 8553
+                      deferred: 47
+                      bounced: 80
+                      filtered: 24
+                    - day: '2020-12-29'
+                      messages: 9949
+                      delivered: 9900
+                      deferred: 12
+                      bounced: 56
+                      filtered: 9
+                    - day: '2020-12-30'
+                      messages: 7437
+                      delivered: 7329
+                      deferred: 18
+                      bounced: 77
+                      filtered: 19
+                    - day: '2020-12-31'
+                      messages: 14658
+                      delivered: 14314
+                      deferred: 81
+                      bounced: 293
+                      filtered: 9
+                    - day: '2021-01-01'
+                      messages: 14036
+                      delivered: 13716
+                      deferred: 29
+                      bounced: 306
+                      filtered: 4
+                    - day: '2021-01-02'
+                      messages: 11475
+                      delivered: 11210
+                      deferred: 53
+                      bounced: 230
+                      filtered: 6
+                    - day: '2021-01-03'
+                      messages: 13203
+                      delivered: 12827
+                      deferred: 118
+                      bounced: 314
+                      filtered: 16
+                    - day: '2021-01-04'
+                      messages: 34205
+                      delivered: 32822
+                      deferred: 48
+                      bounced: 720
+                      filtered: 11
+                    - day: '2021-01-05'
+                      messages: 35426
+                      delivered: 35385
+                      deferred: 0
+                      bounced: 725
+                      filtered: 14
+                    - day: '2021-01-06'
+                      messages: 40564
+                      delivered: 40254
+                      deferred: 0
+                      bounced: 284
+                      filtered: 14
+                    - day: '2021-01-07'
+                      messages: 41896
+                      delivered: 41608
+                      deferred: 0
+                      bounced: 301
+                      filtered: 11
+                    - day: '2021-01-08'
+                      messages: 32544
+                      delivered: 32308
+                      deferred: 0
+                      bounced: 233
+                      filtered: 14
+                    - day: '2021-01-09'
+                      messages: 11449
+                      delivered: 11370
+                      deferred: 0
+                      bounced: 119
+                      filtered: 10
+                    - day: '2021-01-10'
+                      messages: 10662
+                      delivered: 10586
+                      deferred: 0
+                      bounced: 87
+                      filtered: 8
+                    - day: '2021-01-11'
+                      messages: 37273
+                      delivered: 35860
+                      deferred: 0
+                      bounced: 1423
+                      filtered: 10
+                    - day: '2021-01-12'
+                      messages: 38063
+                      delivered: 37667
+                      deferred: 0
+                      bounced: 362
+                      filtered: 5
+                    - day: '2021-01-13'
+                      messages: 41882
+                      delivered: 41376
+                      deferred: 0
+                      bounced: 435
+                      filtered: 9
+                    - day: '2021-01-14'
+                      messages: 26725
+                      delivered: 26749
+                      deferred: 0
+                      bounced: 122
+                      filtered: 2
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/sources:
+    get:
+      operationId: deliveryInsightsDataSources
+      summary: Data Sources
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          source:
+                            type: array
+                            items:
+                              type: string
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          integrationkey: {}
+                          todomain: {}
+                          ip: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        source:
+                          type: string
+                        name:
+                          type: string
+                        provider:
+                          type: string
+                        lastseen:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Data Sources:
+                  value:
+                    meta:
+                      params:
+                        source:
+                        - AAAABBBBCCCCDDDD1234
+                        startdate: '2020-12-16T00:00:00+00:00'
+                        enddate: '2021-01-14T23:59:00+00:00'
+                        integrationkey: null
+                        todomain: null
+                        ip: null
+                      total: 1
+                      limit: 100
+                      pages: 1
+                      opens: 0
+                    results:
+                    - source: AAAABBBBCCCCDDDD1234
+                      name: My Salesforce Account
+                      provider: Salesforce Marketing Cloud
+                      lastseen: '2019-08-09T01:33:00+00:00'
+                      count: 7127738
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/providers:
+    get:
+      operationId: deliveryInsightsMailboxProviders
+      summary: Mailbox Providers
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: provider
+        in: query
+        required: false
+        schema:
+          type: string
+        example: Microsoft
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          provider:
+                            type: array
+                            items:
+                              type: string
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          todomain: {}
+                          ip: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      opens:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        provider:
+                          type: string
+                        messages:
+                          type: integer
+                        delivered:
+                          type: integer
+                        deferred:
+                          type: integer
+                        bounced:
+                          type: integer
+                        filtered:
+                          type: integer
+                        opens:
+                          type: integer
+              examples:
+                Mailbox Providers:
+                  value:
+                    meta:
+                      params:
+                        provider:
+                        - Microsoft
+                        startdate: '2020-12-16T00:00:00+00:00'
+                        enddate: '2021-01-14T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        todomain: null
+                        ip: null
+                      total: 1
+                      limit: 100
+                      pages: 1
+                      opens: 32957
+                    results:
+                    - provider: Microsoft
+                      messages: 136456
+                      delivered: 136324
+                      deferred: 41
+                      bounced: 0
+                      filtered: 0
+                      opens: 28186
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/todomains:
+    get:
+      operationId: deliveryInsightsRecipientDomainsToDomains
+      summary: Recipient Domains (to-domains)
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          todomain: {}
+                          ip: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      events:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        todomain:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Recipient Domains to-domains:
+                  value:
+                    meta:
+                      params:
+                        limit: 5
+                        startdate: '2020-12-16T00:00:00+00:00'
+                        enddate: '2021-01-14T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        todomain: null
+                        ip: null
+                      total: 21
+                      limit: 5
+                      pages: 5
+                      events: 0
+                    results:
+                    - todomain: outlook.com
+                      count: 275391
+                    - todomain: comcast.net
+                      count: 141658
+                    - todomain: freenet.de
+                      count: 124733
+                    - todomain: mail.ru
+                      count: 101864
+                    - todomain: gmx.de
+                      count: 34266
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/ips:
+    get:
+      operationId: deliveryInsightsIPPerformance
+      summary: IP Performance
+      tags:
+      - Engagement
+      description: If your ESP does not provide volume statistics by IP address, IP performance may estimate based on the combined volume of message deliveries and bounces.
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          todomain: {}
+                          ip: {}
+                      total:
+                        type: integer
+                      limit:
+                        type: integer
+                      pages:
+                        type: integer
+                      events:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ip:
+                          type: string
+                        messages:
+                          type: integer
+                        delivered:
+                          type: integer
+                        deferred:
+                          type: integer
+                        bounced:
+                          type: integer
+                        filtered:
+                          type: integer
+              examples:
+                IP Performance:
+                  value:
+                    meta:
+                      params:
+                        limit: 5
+                        startdate: '2020-12-16T00:00:00+00:00'
+                        enddate: '2021-01-14T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        todomain: null
+                        ip: null
+                      total: 47
+                      limit: 5
+                      pages: 10
+                      events: 634053
+                    results:
+                    - ip: 127.0.0.1
+                      messages: 32703
+                      delivered: 31992
+                      deferred: 170
+                      bounced: 631
+                      filtered: 0
+                    - ip: 127.0.0.2
+                      messages: 32582
+                      delivered: 31907
+                      deferred: 198
+                      bounced: 581
+                      filtered: 0
+                    - ip: 127.0.0.3
+                      messages: 32529
+                      delivered: 31775
+                      deferred: 142
+                      bounced: 617
+                      filtered: 0
+                    - ip: 127.0.0.4
+                      messages: 32396
+                      delivered: 31642
+                      deferred: 154
+                      bounced: 661
+                      filtered: 0
+                    - ip: 127.0.0.5
+                      messages: 0
+                      delivered: 16303
+                      deferred: 0
+                      bounced: 0
+                      filtered: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/filtered:
+    get:
+      operationId: deliveryInsightsFilteredMessages
+      summary: Filtered Messages
+      tags:
+      - Engagement
+      description: Filtered messages are those suppressed prior to send by your email service provider, often times because of delivery issues in the past.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          ip: {}
+                      events:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        reason:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Filtered Messages:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-03-03T00:00:00+00:00'
+                        enddate: '2021-04-01T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        ip: null
+                      events: 213
+                    results:
+                    - reason: Bounced Address
+                      count: 213
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/delivery/nondeliveries:
+    get:
+      operationId: deliveryInsightsNonDeliveries
+      summary: Non-Deliveries
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          source: {}
+                          integrationkey: {}
+                          provider: {}
+                          todomain: {}
+                          ip: {}
+                      events:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        smtp:
+                          type: string
+                        code:
+                          type: integer
+                        category:
+                          type: string
+                        count:
+                          type: integer
+              examples:
+                Non-Deliveries:
+                  value:
+                    meta:
+                      params:
+                        limit: 3
+                        startdate: '2020-12-17T00:00:00+00:00'
+                        enddate: '2021-01-15T23:59:00+00:00'
+                        source: null
+                        integrationkey: null
+                        provider: null
+                        todomain: null
+                        ip: null
+                      events: 5003
+                    results:
+                    - smtp: smtp; 550 Spam message rejected
+                      code: 0
+                      category: Non-bounce
+                      count: 2003
+                    - smtp: 554 5.7.1 [internal] recipient address was suppressed due to customer policy
+                      code: 0
+                      category: Non-bounce
+                      count: 1726
+                    - smtp: smtp; 550 permanent failure for one or more recipients (user@domain.tld:blocked)
+                      code: 50
+                      category: General
+                      count: 1274
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/pixels:
+    get:
+      operationId: analyticsSettingsPixels
+      summary: Pixels
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          search:
+                            type: string
+                          limit:
+                            type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                      limit:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        guid:
+                          type: string
+                        domain:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            domain:
+                              type: string
+                        provider:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            provider:
+                              type: string
+                        created:
+                          type: string
+                        firstseen:
+                          type: string
+              examples:
+                Pixels:
+                  value:
+                    meta:
+                      params:
+                        search: test
+                        limit: 3
+                      total: 20
+                      pages: 7
+                      limit: 3
+                    results:
+                    - id: 1
+                      name: Testing 123
+                      description: Testing 123
+                      guid: aaaa1111
+                      domain:
+                        id: 1
+                        domain: analytics.domain.com
+                      provider:
+                        id: 1
+                        provider: MailChimp
+                      created: '2021-01-06T15:08:06+00:00'
+                      firstseen: '2020-07-01T12:36:49+00:00'
+                    - id: 2
+                      name: Another pixel matching 'test'
+                      description: Another pixel matching 'test'
+                      guid: bbbb2222
+                      domain:
+                        id: 1
+                        domain: analytics.domain.com
+                      provider:
+                        id: 1
+                        provider: MailChimp
+                      created: '2020-08-19T18:04:57+00:00'
+                      firstseen: '2020-07-01T12:36:49+00:00'
+                    - id: 3
+                      name: And another one because... test
+                      description: And another one because... test
+                      guid: cccc3333
+                      domain:
+                        id: 1
+                        domain: analytics.domain.com
+                      provider:
+                        id: 1
+                        provider: MailChimp
+                      created: '2020-06-30T12:36:49+00:00'
+                      firstseen: '2020-07-01T12:36:49+00:00'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: analyticsSettingsCreatePixel
+      summary: Create Pixel
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: (Required) The name or subject line of the pixel
+                provider_id:
+                  type: string
+                  description: '(Required) The provider ID of your email service provider, which can be retrieved from the Pixels: Providers endpoint. If your provider isn''t listed, you can submit ''0'''
+                domain_id:
+                  type: string
+                  description: (Required) The domain ID of your analytics tracking domain, which can be retrieved from the Custom Domains endpoint.
+                quotes:
+                  type: string
+                  description: '[single, double] Option to use double or single quotes for the tracking pixel HTML'
+                includecampaign:
+                  type: string
+                  description: '[0, 1] Option to include your custom properties and parameters'
+                includeparams:
+                  type: string
+                  description: '[0, 1] Option to include your custom properties and parameters'
+            example:
+              description: My Newsletter
+              provider_id: '35'
+              domain_id: '2'
+              quotes: single
+              includecampaign: '1'
+              includeparams: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Create Pixel:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/pixels/providers:
+    get:
+      operationId: analyticsSettingsPixelsProviders
+      summary: 'Pixels: Providers'
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {},\n    \"results\": [\n        {\n            \"id\": 1,\n            \"provider\": \"Acoustic\",\n            \"has_email_tag\": 1,\n            \"has_campaign_tag\": 1\n        },\n        {\n            \"id\": 2,\n            \"provider\": \"Act-On\",\n            \"has_email_tag\": 1,\n            \"has_campaign_tag\": 1\n        },\n        {\n            \"id\": 3,\n            \"provider\": \"MailChimp\",\n            \"has_email_tag\": 1,\n            \"has_campaign_tag\": 0\n        } // ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/pixels/{pixelId}/code:
+    get:
+      operationId: analyticsSettingsTrackingCodeByPixelID
+      summary: Tracking Code by Pixel ID
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: pixelId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: includecampaign
+        in: query
+        required: false
+        schema:
+          type: string
+        description: '[0, 1] Option to include a ''campaign'' parameter or tag'
+        example: '1'
+      - name: includeparams
+        in: query
+        required: false
+        schema:
+          type: string
+        description: '[0, 1] Option to include your custom properties and parameters'
+        example: '1'
+      - name: quotes
+        in: query
+        required: false
+        schema:
+          type: string
+        description: (Optional) [single, double]
+        example: single
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          includecampaign:
+                            type: string
+                          includeparams:
+                            type: string
+                  results:
+                    type: string
+              examples:
+                Pixel Tracking Code:
+                  value:
+                    meta:
+                      params:
+                        includecampaign: '1'
+                        includeparams: '1'
+                    results: '<style> @media print{ #_two50 { background-image:url(''http://customer.250analytics.com/ea/guid1234/?t=p&e=*|EMAIL|*&c=*|CAMPAIGN_UID|*&account_id=&age=*|AGE|*''); } } blockquote #_two50, #mailContainerBody #_two50, div.OutlookMessageHeader, table.moz-email-headers-table { background-image:url(''http://customer.250analytics.com/ea/guid1234/?t=p&e=*|EMAIL|*&c=*|CAMPAIGN_UID|*&account_id=&age=*|AGE|*''); } </style> <div id=''_two50''></div> <img id=''_two50_img'' src=''http://customer.250analytics.com/ea/guid1234/?t=p&e=*|EMAIL|*&c=*|CAMPAIGN_UID|*&account_id=&age=*|AGE|*'' width=''1'' height=''1'' style=''margin:0 !important; padding:0 !important; border:0 !important; height:1px !important; width:1px !important;'' />'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/pixels/{pixelId}:
+    delete:
+      operationId: analyticsSettingsDeletePixel
+      summary: Delete Pixel
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: pixelId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Delete Pixel:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/domains:
+    get:
+      operationId: analyticsSettingsCustomDomains
+      summary: Custom Domains
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      verified:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        verified:
+                          type: integer
+              examples:
+                Custom Domains:
+                  value:
+                    meta:
+                      total: 3
+                      verified: 2
+                    results:
+                    - id: 1
+                      name: analytics.domain.com
+                      verified: 1
+                    - id: 2
+                      name: click.domain.com
+                      verified: 1
+                    - id: 3
+                      name: tracking.domain.com
+                      verified: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: analyticsSettingsCreateDomain
+      summary: Create Domain
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                type:
+                  type: string
+                  description: '''domain'' or ''subdomain''. If using a subdomain, you the value must match ''{your_cname}.250analytics.com'''
+            example:
+              domain: analytics.customer.com
+              type: domain
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Create Domain Domain already exists:
+                  value:
+                    status: Domain already exists in your account.
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      domain:
+                        type: string
+                      type:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Create Domain Subdomain:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      domain: customer.250analytics.com
+                      type: subdomain
+                      status: success
+                Create Domain:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      domain: analytics.customer.com
+                      type: domain
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/analytics/domains/{domainId}:
+    put:
+      operationId: analyticsSettingsVerifyDomain
+      summary: Verify Domain
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Verify Domain Error:
+                  value:
+                    status: Error verifying domain. You must create a CNAME entry and point it to 250analytics.com. If you just made a DNS change, please wait a few minutes and try to verify again.
+                Verify Domain:
+                  value:
+                    status: success
+                    id: 1
+                    domain: domain.com
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: analyticsSettingsDeleteDomain
+      summary: Delete Domain
+      tags:
+      - Engagement
+      x-api-version: '2.0'
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      domain:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Delete Domain:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      domain: analytics.domain.com
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

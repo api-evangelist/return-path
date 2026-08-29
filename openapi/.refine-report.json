@@ -1,0 +1,29 @@
+{
+  "provider": "return-path",
+  "sources": [
+    "return-path-everest-api-openapi.yml"
+  ],
+  "outputs": [
+    "return-path-account-services-api-openapi.yml",
+    "return-path-apps-integrations-api-openapi.yml",
+    "return-path-certification-api-openapi.yml",
+    "return-path-competitive-intel-api-openapi.yml",
+    "return-path-engagement-api-openapi.yml",
+    "return-path-inbox-placement-api-openapi.yml",
+    "return-path-infrastructure-dmarc-api-openapi.yml",
+    "return-path-legacy-api-1-0-api-openapi.yml",
+    "return-path-list-validation-api-openapi.yml",
+    "return-path-reputation-api-openapi.yml",
+    "return-path-view-time-optimization-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/return-path-everest-api-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "return-path-everest-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+11 apis, 11 total)"
+  ],
+  "skipped": []
+}

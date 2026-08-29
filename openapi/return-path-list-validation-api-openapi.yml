@@ -1,0 +1,1443 @@
+openapi: 3.2.0
+info:
+  title: Everest List Validation API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: List Validation
+paths:
+  /2.0/validation/classifications:
+    get:
+      operationId: classifications
+      summary: Classifications
+      tags:
+      - List Validation
+      description: Returns a full list of Validation result classifications, along with the definition, risk, common reasons, and recommendation for each result type.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      valid:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items: {}
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      email_address_invalid:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items: {}
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      email_domain_invalid:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items: {}
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      mailbox_full:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                summary:
+                                  type: string
+                                details:
+                                  type: string
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      email_account_invalid:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items: {}
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      accept_all:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                summary:
+                                  type: string
+                                details:
+                                  type: string
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      role_address:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                summary:
+                                  type: string
+                                details:
+                                  type: string
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      disposable:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                summary:
+                                  type: string
+                                details:
+                                  type: string
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+                      unknown:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          status:
+                            type: string
+                          name:
+                            type: string
+                          definition:
+                            type: string
+                          reasons:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                summary:
+                                  type: string
+                                details:
+                                  type: string
+                          risk:
+                            type: string
+                          recommendation:
+                            type: string
+              examples:
+                Get Classifications Risk and Suggestions:
+                  value:
+                    meta: {}
+                    results:
+                      valid:
+                        category: valid
+                        status: valid
+                        name: Valid
+                        definition: The email has a valid account associated with it.
+                        reasons: []
+                        risk: low
+                        recommendation: send
+                      email_address_invalid:
+                        category: email_address_invalid
+                        status: invalid
+                        name: Address Invalid
+                        definition: The email address format is incorrect. For example, james0uwerwe#com is not in the correct email format of inbox@domain.com. Many of these can be prevented by applying simple regular expression to data prior to verification.
+                        reasons: []
+                        risk: very_high
+                        recommendation: suppress
+                      email_domain_invalid:
+                        category: email_domain_invalid
+                        status: invalid
+                        name: Domain Invalid
+                        definition: The email address is associated with a domain that doesn't exist. For example, evereeeeest.validity.com is not a real domain capable of sending and receiving email. So inbox@evereeeeest.validity.com is an invalid email since it pertains to a domain that does not exists.
+                        reasons: []
+                        risk: very_high
+                        recommendation: suppress
+                      mailbox_full:
+                        category: mailbox_full
+                        status: invalid
+                        name: Mailbox Full
+                        definition: The mailbox is full.
+                        reasons:
+                        - summary: Mailbox is full
+                          details: The mailbox is full.
+                        risk: medium
+                        recommendation: suppress
+                      email_account_invalid:
+                        category: email_account_invalid
+                        status: invalid
+                        name: Account Invalid
+                        definition: The email account (the inbox) does not exist at the given domain. For example, not-an-inbox@everest.validity.com results in a secondary status of Email Account Invalid.
+                        reasons: []
+                        risk: very_high
+                        recommendation: suppress
+                      accept_all:
+                        category: accept_all
+                        status: risky
+                        name: Accept-All
+                        definition: Accept-All emails are when a server is set to receive all emails at a specific domain, meaning these domains accept any email you send to them at first. So it appears as if all of the emails are Valid at that domain, but the company actually has a firewall or another spam tool that may remove the email message or send a bounce message at a later time.
+                        reasons:
+                        - summary: Address acccepts all mail
+                          details: Some domains do not distinguish between existing and non-existing addresses and accept all mail.
+                        risk: medium
+                        recommendation: caution
+                      role_address:
+                        category: role_address
+                        status: risky
+                        name: Role Address
+                        definition: Email address was created to message a function like sales@, support@, or postmaster@. While many Role Addresses are Valid, they typically underperform compared to addresses that message individuals. Unless you’re marketing to small businesses, Role addresses will often dilute the performance of your marketing program.
+                        reasons:
+                        - summary: Address matches known role email accounts such as sales@company or customerservice@company
+                          details: Role addresses belong to the end user and are deliverable, but include multiple end recipients as part of a larger distribution list. These kinds of addresses are usually not good for sending campaigns.
+                        risk: medium
+                        recommendation: caution
+                      disposable:
+                        category: disposable
+                        status: risky
+                        name: Disposable
+                        definition: 'Email address is disposable and the Inbox will self-destruct. Disposable addresses are created to be Valid only temporarily so their owners can sign up for promotions or services without using a primary address. Disposable addresses will not perform and typically just take up space in your database. '
+                        reasons:
+                        - summary: Address matches series of known disposable or temporary addresses in our database, like 10minutemail.com or 12houremail.com
+                          details: Disposable addresses are short-term email addresses that disappear or expire after a set time period. Therefore, these addresses are usually not good for sending campaigns.
+                        risk: medium
+                        recommendation: caution
+                      unknown:
+                        category: unknown
+                        status: risky
+                        name: Unknown
+                        definition: The email address looks good but the associated domain is not responding. This could be a temporary status for domains having intermittent issues or a permanent issue for dying domains.
+                        reasons:
+                        - summary: Unable to connect to email server
+                          details: Unable to connect and resolve to service during SMTP connection.
+                        - summary: Unresponsive SMTP server
+                          details: Unable to successfully get a response from SMTP server.
+                        - summary: Other unknown anomalies
+                          details: Address was outside known result definitions and criteria and was unable to be classified.
+                        risk: medium
+                        recommendation: caution
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/validation/addresses/{emailAddress}:
+    get:
+      operationId: singleAddress
+      summary: Single Address
+      tags:
+      - List Validation
+      description: "Returns validation results for a specific address.\n\nAfter processing, the results object contains the input address, the final result, and relevant diagnostic information.\n\nThe category will return one of the following: valid, email_address_invalid, email_domain_invalid, email_account_invalid, accept_all, role_address, disposable, unknown, but the diagnostics object may change depending on the result classification. \n\nFor example, if an email address is believed to contain a typo domain, the typo flag will be set to true and the typo_suggestion will contain what is believed to be the intended domain."
+      x-api-version: '2.0'
+      parameters:
+      - name: emailAddress
+        in: path
+        required: true
+        schema:
+          type: string
+        example: alextgriffis@gmai.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      category:
+                        type: string
+                      status:
+                        type: string
+                      name:
+                        type: string
+                      definition:
+                        type: string
+                      reasons:
+                        type: array
+                        items: {}
+                      risk:
+                        type: string
+                      recommendation:
+                        type: string
+                      address:
+                        type: string
+                      diagnostics:
+                        type: object
+                        properties:
+                          role_address:
+                            type: boolean
+                          disposable:
+                            type: boolean
+                          typo:
+                            type: boolean
+                          typo_suggestion:
+                            type: string
+              examples:
+                Single Address:
+                  value:
+                    meta: {}
+                    results:
+                      category: email_domain_invalid
+                      status: invalid
+                      name: Domain Invalid
+                      definition: The email address is associated with a domain that doesn't exist. For example, evereeeeest.validity.com is not a real domain capable of sending and receiving email. So inbox@evereeeeest.validity.com is an invalid email since it pertains to a domain that does not exists.
+                      reasons: []
+                      risk: very_high
+                      recommendation: suppress
+                      address: everest@gmai.com
+                      diagnostics:
+                        role_address: false
+                        disposable: false
+                        typo: true
+                        typo_suggestion: gmail.com
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/validation/lists:
+    post:
+      operationId: createList
+      summary: Create List
+      tags:
+      - List Validation
+      description: 'Allows batch validation of a new list using a description and a string of email addresses. By default, addresses will be parsed as a CSV using a comma as the delimiter.
+
+
+        Optional delimiter values:
+
+
+        , (comma)
+
+
+        ; (semicolon)
+
+
+        \n (new line)
+
+
+        \t (tab)
+
+
+        | (pipe)'
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: (Required) The name or description of the list
+                emails:
+                  type: string
+                  description: (Required) String of delimiter-separated email addresses
+                delimiter:
+                  type: string
+                  description: The delimiter separating the email addresses, such as commas (,) or new lines (\n)
+            example:
+              description: Checkout Customers
+              emails: email1@domain.com;email2@domain.com;email3@domain.com
+              delimiter: ;
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      created:
+                        type: string
+                      status:
+                        type: string
+                      description:
+                        type: string
+                      total:
+                        type: integer
+                      processed: {}
+                      invalid:
+                        type: integer
+                      results:
+                        type: object
+                        properties:
+                          valid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                          email_address_invalid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                          email_domain_invalid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                          email_account_invalid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                          accept_all:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                          role_address:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                          unknown:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct: {}
+                      endpoints:
+                        type: object
+                        properties:
+                          all:
+                            type: string
+                          valid:
+                            type: string
+                          email_address_invalid:
+                            type: string
+                          email_domain_invalid:
+                            type: string
+                          email_account_invalid:
+                            type: string
+                          accept_all:
+                            type: string
+                          role_address:
+                            type: string
+                          disposable:
+                            type: string
+                          unknown:
+                            type: string
+              examples:
+                Create List:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      created: '2019-02-12 17:32:02'
+                      status: processing
+                      description: Checkout Customers
+                      total: 100
+                      processed: null
+                      invalid: 0
+                      results:
+                        valid:
+                          count: 0
+                          pct: null
+                        email_address_invalid:
+                          count: 0
+                          pct: null
+                        email_domain_invalid:
+                          count: 0
+                          pct: null
+                        email_account_invalid:
+                          count: 0
+                          pct: null
+                        accept_all:
+                          count: 0
+                          pct: null
+                        role_address:
+                          count: 0
+                          pct: null
+                        unknown:
+                          count: 0
+                          pct: null
+                      endpoints:
+                        all: /validation/exports/1/all
+                        valid: /validation/exports/1/valid
+                        email_address_invalid: /validation/exports/1/email_address_invalid
+                        email_domain_invalid: /validation/exports/1/email_domain_invalid
+                        email_account_invalid: /validation/exports/1/email_account_invalid
+                        accept_all: /validation/exports/1/accept_all
+                        role_address: /validation/exports/1/role_address
+                        disposable: /validation/exports/1/disposable
+                        unknown: /validation/exports/1/unknown
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: allLists
+      summary: All Lists
+      tags:
+      - List Validation
+      description: 'Returns a full list of validation results from an account.  The status field may vary until all addresses have been scanned, at which time status will switch to complete.
+
+
+        During processing, the processed field will increment its percentage to reflect the progress of the scan.
+
+
+        After processing, the list results contain the total number (and percentage) of addressess classified under each result group. Those addresses can be exported or downloaded using the specific export endpoints listed in the endpoints object.'
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      classifications:
+                        type: object
+                        properties:
+                          valid:
+                            type: string
+                          email_address_invalid:
+                            type: string
+                          email_domain_invalid:
+                            type: string
+                          email_account_invalid:
+                            type: string
+                          accept_all:
+                            type: string
+                          role_address:
+                            type: string
+                          disposable:
+                            type: string
+                          unknown:
+                            type: string
+                          mailbox_full:
+                            type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        created:
+                          type: string
+                        expiration:
+                          type: string
+                        status:
+                          type: string
+                        description:
+                          type: string
+                        total:
+                          type: integer
+                        processed:
+                          type: integer
+                        invalid:
+                          type: integer
+                        results:
+                          type: object
+                          properties:
+                            valid:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            email_address_invalid:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            email_domain_invalid:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            email_account_invalid:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            mailbox_full:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            accept_all:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            role_address:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                            unknown:
+                              type: object
+                              properties:
+                                count:
+                                  type: integer
+                                pct:
+                                  type: integer
+                        endpoints:
+                          type: object
+                          properties:
+                            all:
+                              type: string
+                            valid:
+                              type: string
+                            email_address_invalid:
+                              type: string
+                            email_domain_invalid:
+                              type: string
+                            email_account_invalid:
+                              type: string
+                            accept_all:
+                              type: string
+                            role_address:
+                              type: string
+                            disposable:
+                              type: string
+                            unknown:
+                              type: string
+                            mailbox_full:
+                              type: string
+              examples:
+                All Lists:
+                  value:
+                    meta:
+                      classifications:
+                        valid: The email has a valid account associated with it.
+                        email_address_invalid: The email address format is incorrect. For example, james0uwerwe#com is not in the correct email format of inbox@domain.com. Many of these can be prevented by applying simple regular expression to data prior to verification.
+                        email_domain_invalid: The email address is associated with a domain that doesn't exist. For example, evereeeeest.validity.com is not a real domain capable of sending and receiving email. So inbox@evereeeeest.validity.com is an invalid email since it pertains to a domain that does not exists.
+                        email_account_invalid: The email account (the inbox) does not exist at the given domain. For example, not-an-inbox@everest.validity.com results in a secondary status of Email Account Invalid.
+                        accept_all: Accept-All emails are when a server is set to receive all emails at a specific domain, meaning these domains accept any email you send to them at first. So it appears as if all of the emails are Valid at that domain, but the company actually has a firewall or another spam tool that may remove the email message or send a bounce message at a later time.
+                        role_address: Email address was created to message a function like sales@, support@, or postmaster@. While many Role Addresses are Valid, they typically underperform compared to addresses that message individuals. Unless you’re marketing to small businesses, Role addresses will often dilute the performance of your marketing program.
+                        disposable: 'Email address is disposable and the Inbox will self-destruct. Disposable addresses are created to be Valid only temporarily so their owners can sign up for promotions or services without using a primary address. Disposable addresses will not perform and typically just take up space in your database. '
+                        unknown: The email address looks good but the associated domain is not responding. This could be a temporary status for domains having intermittent issues or a permanent issue for dying domains.
+                        mailbox_full: The mailbox is full.
+                    results:
+                    - id: 1
+                      created: '2021-10-21 20:21:48'
+                      expiration: '2021-10-28 16:23:00'
+                      status: complete
+                      description: File Upload
+                      total: 200
+                      processed: 100
+                      invalid: 22
+                      results:
+                        valid:
+                          count: 178
+                          pct: 89
+                        email_address_invalid:
+                          count: 0
+                          pct: 0
+                        email_domain_invalid:
+                          count: 4
+                          pct: 2
+                        email_account_invalid:
+                          count: 6
+                          pct: 3
+                        mailbox_full:
+                          count: 0
+                          pct: 0
+                        accept_all:
+                          count: 4
+                          pct: 2
+                        role_address:
+                          count: 0
+                          pct: 0
+                        unknown:
+                          count: 8
+                          pct: 4
+                      endpoints:
+                        all: /validation/exports/1/all
+                        valid: /validation/exports/1/valid
+                        email_address_invalid: /validation/exports/1/email_address_invalid
+                        email_domain_invalid: /validation/exports/1/email_domain_invalid
+                        email_account_invalid: /validation/exports/1/email_account_invalid
+                        accept_all: /validation/exports/1/accept_all
+                        role_address: /validation/exports/1/role_address
+                        disposable: /validation/exports/1/disposable
+                        unknown: /validation/exports/1/unknown
+                        mailbox_full: /validation/exports/1/mailbox_full
+                    - id: 2
+                      created: '2021-10-21 20:19:02'
+                      expiration: '2021-10-28 16:19:00'
+                      status: complete
+                      description: Pasted List
+                      total: 12
+                      processed: 100
+                      invalid: 4
+                      results:
+                        valid:
+                          count: 8
+                          pct: 66.7
+                        email_address_invalid:
+                          count: 0
+                          pct: 0
+                        email_domain_invalid:
+                          count: 0
+                          pct: 0
+                        email_account_invalid:
+                          count: 1
+                          pct: 8.3
+                        mailbox_full:
+                          count: 0
+                          pct: 0
+                        accept_all:
+                          count: 3
+                          pct: 25
+                        role_address:
+                          count: 0
+                          pct: 0
+                        unknown:
+                          count: 0
+                          pct: 0
+                      endpoints:
+                        all: /validation/exports/2/all
+                        valid: /validation/exports/2/valid
+                        email_address_invalid: /validation/exports/2/email_address_invalid
+                        email_domain_invalid: /validation/exports/2/email_domain_invalid
+                        email_account_invalid: /validation/exports/2/email_account_invalid
+                        accept_all: /validation/exports/2/accept_all
+                        role_address: /validation/exports/2/role_address
+                        disposable: /validation/exports/2/disposable
+                        unknown: /validation/exports/2/unknown
+                        mailbox_full: /validation/exports/2/mailbox_full
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/validation/lists/{listId}:
+    get:
+      operationId: listByID
+      summary: List by ID
+      tags:
+      - List Validation
+      description: "Returns a specific set of validation results from an account. The status field may vary until all addresses have been scanned, at which time status will switch to complete. \n\nDuring processing, the processed field will increment its percentage to reflect the progress of the scan.\n\nAfter processing, the list results contain the total number (and percentage) of addressess classified under each result group. Those addresses can be exported or downloaded using the specific export endpoints listed in the endpoints object."
+      x-api-version: '2.0'
+      parameters:
+      - name: listId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      classifications:
+                        type: object
+                        properties:
+                          valid:
+                            type: string
+                          email_address_invalid:
+                            type: string
+                          email_domain_invalid:
+                            type: string
+                          email_account_invalid:
+                            type: string
+                          accept_all:
+                            type: string
+                          role_address:
+                            type: string
+                          disposable:
+                            type: string
+                          unknown:
+                            type: string
+                          mailbox_full:
+                            type: string
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      created:
+                        type: string
+                      expiration:
+                        type: string
+                      status:
+                        type: string
+                      description:
+                        type: string
+                      total:
+                        type: integer
+                      processed:
+                        type: integer
+                      invalid:
+                        type: integer
+                      results:
+                        type: object
+                        properties:
+                          valid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          email_address_invalid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          email_domain_invalid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          email_account_invalid:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          mailbox_full:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          accept_all:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          role_address:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                          unknown:
+                            type: object
+                            properties:
+                              count:
+                                type: integer
+                              pct:
+                                type: integer
+                      endpoints:
+                        type: object
+                        properties:
+                          all:
+                            type: string
+                          valid:
+                            type: string
+                          email_address_invalid:
+                            type: string
+                          email_domain_invalid:
+                            type: string
+                          email_account_invalid:
+                            type: string
+                          accept_all:
+                            type: string
+                          role_address:
+                            type: string
+                          disposable:
+                            type: string
+                          unknown:
+                            type: string
+                          mailbox_full:
+                            type: string
+              examples:
+                List by ID:
+                  value:
+                    meta:
+                      classifications:
+                        valid: The email has a valid account associated with it.
+                        email_address_invalid: The email address format is incorrect. For example, james0uwerwe#com is not in the correct email format of inbox@domain.com. Many of these can be prevented by applying simple regular expression to data prior to verification.
+                        email_domain_invalid: The email address is associated with a domain that doesn't exist. For example, evereeeeest.validity.com is not a real domain capable of sending and receiving email. So inbox@evereeeeest.validity.com is an invalid email since it pertains to a domain that does not exists.
+                        email_account_invalid: The email account (the inbox) does not exist at the given domain. For example, not-an-inbox@everest.validity.com results in a secondary status of Email Account Invalid.
+                        accept_all: Accept-All emails are when a server is set to receive all emails at a specific domain, meaning these domains accept any email you send to them at first. So it appears as if all of the emails are Valid at that domain, but the company actually has a firewall or another spam tool that may remove the email message or send a bounce message at a later time.
+                        role_address: Email address was created to message a function like sales@, support@, or postmaster@. While many Role Addresses are Valid, they typically underperform compared to addresses that message individuals. Unless you’re marketing to small businesses, Role addresses will often dilute the performance of your marketing program.
+                        disposable: 'Email address is disposable and the Inbox will self-destruct. Disposable addresses are created to be Valid only temporarily so their owners can sign up for promotions or services without using a primary address. Disposable addresses will not perform and typically just take up space in your database. '
+                        unknown: The email address looks good but the associated domain is not responding. This could be a temporary status for domains having intermittent issues or a permanent issue for dying domains.
+                        mailbox_full: The mailbox is full.
+                    results:
+                      id: 1
+                      created: '2021-10-21 20:21:48'
+                      expiration: '2021-10-28 16:23:00'
+                      status: complete
+                      description: File Upload
+                      total: 200
+                      processed: 100
+                      invalid: 22
+                      results:
+                        valid:
+                          count: 178
+                          pct: 89
+                        email_address_invalid:
+                          count: 0
+                          pct: 0
+                        email_domain_invalid:
+                          count: 4
+                          pct: 2
+                        email_account_invalid:
+                          count: 6
+                          pct: 3
+                        mailbox_full:
+                          count: 0
+                          pct: 0
+                        accept_all:
+                          count: 4
+                          pct: 2
+                        role_address:
+                          count: 0
+                          pct: 0
+                        unknown:
+                          count: 8
+                          pct: 4
+                      endpoints:
+                        all: /validation/exports/1/all
+                        valid: /validation/exports/1/valid
+                        email_address_invalid: /validation/exports/1/email_address_invalid
+                        email_domain_invalid: /validation/exports/1/email_domain_invalid
+                        email_account_invalid: /validation/exports/1/email_account_invalid
+                        accept_all: /validation/exports/1/accept_all
+                        role_address: /validation/exports/1/role_address
+                        disposable: /validation/exports/1/disposable
+                        unknown: /validation/exports/1/unknown
+                        mailbox_full: /validation/exports/1/mailbox_full
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/validation/exports/{exportId}:
+    get:
+      operationId: listExports
+      summary: List - Exports
+      tags:
+      - List Validation
+      description: After processing is complete, results can be exported individually or in bulk, grouped by classification. The Get Exports endpoint will provide an endpoints:{} consisting of the individual export URLs.
+      x-api-version: '2.0'
+      parameters:
+      - name: exportId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      description:
+                        type: string
+                      created:
+                        type: string
+                      expiration:
+                        type: string
+                      status:
+                        type: string
+                      total:
+                        type: integer
+                      processed:
+                        type: integer
+                      percent_complete:
+                        type: integer
+                      endpoints:
+                        type: object
+                        properties:
+                          all:
+                            type: string
+                          valid:
+                            type: string
+                          email_address_invalid:
+                            type: string
+                          email_domain_invalid:
+                            type: string
+                          email_account_invalid:
+                            type: string
+                          accept_all:
+                            type: string
+                          role_address:
+                            type: string
+                          disposable:
+                            type: string
+                          unknown:
+                            type: string
+                          mailbox_full:
+                            type: string
+              examples:
+                List - Exports:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      description: File Upload
+                      created: '2021-10-21 20:21:48'
+                      expiration: '2021-10-28 16:23:00'
+                      status: complete
+                      total: 200
+                      processed: 200
+                      percent_complete: 100
+                      endpoints:
+                        all: /validation/exports/1/all
+                        valid: /validation/exports/1/valid
+                        email_address_invalid: /validation/exports/1/email_address_invalid
+                        email_domain_invalid: /validation/exports/1/email_domain_invalid
+                        email_account_invalid: /validation/exports/1/email_account_invalid
+                        accept_all: /validation/exports/1/accept_all
+                        role_address: /validation/exports/1/role_address
+                        disposable: /validation/exports/1/disposable
+                        unknown: /validation/exports/1/unknown
+                        mailbox_full: /validation/exports/1/mailbox_full
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/validation/exports/{exportId}/role:
+    get:
+      operationId: listExportByClassification
+      summary: List - Export by Classification
+      tags:
+      - List Validation
+      description: Returns a specific set of email addresses based on the result classifications retrieved from Get Lists, Get List, or Get Exports.
+      x-api-version: '2.0'
+      parameters:
+      - name: exportId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      unknown:
+                        type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                        classification:
+                          type: string
+              examples:
+                List - Export by unknown:
+                  value:
+                    meta:
+                      unknown: The email address looks good but the associated domain is not responding. This could be a temporary status for domains having intermittent issues or a permanent issue for dying domains.
+                    results:
+                    - email: address@domain.com
+                      classification: 'Risky: Unknown'
+                    - email: address2@domain.com
+                      classification: 'Risky: Unknown'
+                    - email: address3@domain.com
+                      classification: 'Risky: Unknown'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

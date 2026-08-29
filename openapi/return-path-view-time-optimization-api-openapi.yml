@@ -1,0 +1,1047 @@
+openapi: 3.2.0
+info:
+  title: Everest View Time Optimization API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: View Time Optimization
+paths:
+  /2.0/vto/credits:
+    get:
+      operationId: creditPurchases
+      summary: Credit Purchases
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        firstname:
+                          type: string
+                        lastname:
+                          type: string
+                        email:
+                          type: string
+                        phone:
+                          type: string
+                        vtobundle_id:
+                          type: integer
+                        name:
+                          type: string
+                        credits:
+                          type: integer
+                        memo: {}
+                        price:
+                          type: integer
+                        promotional:
+                          type: integer
+                        status:
+                          type: string
+                        created:
+                          type: string
+              examples:
+                Credit Purchases:
+                  value:
+                    meta: {}
+                    results:
+                    - id: 2
+                      firstname: John
+                      lastname: Smith
+                      email: purchaser@company.com
+                      phone: '+1112223333'
+                      vtobundle_id: 2
+                      name: VTO Placements Pack - One Time (2M)
+                      credits: 2000000
+                      memo: null
+                      price: 7500
+                      promotional: 0
+                      status: pending
+                      created: '2020-06-09 14:27:57'
+                    - id: 1
+                      firstname: Jane
+                      lastname: Smith
+                      email: purchaser@company.com
+                      phone: 1112223333
+                      vtobundle_id: 2
+                      name: VTO Placements Pack - One Time (2M)
+                      credits: 2000000
+                      memo: null
+                      price: 7500
+                      promotional: 0
+                      status: fulfilled
+                      created: '2020-05-25 12:00:00'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/vto/usage:
+    get:
+      operationId: usageHistory
+      summary: Usage History
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          description:
+                            type: string
+                          delivered:
+                            type: integer
+                          from:
+                            type: string
+                          starttime:
+                            type: string
+                          endtime:
+                            type: string
+              examples:
+                Usage History:
+                  value:
+                    meta:
+                      total: 2
+                    results:
+                    - - type: usage
+                        description: This is a subject line!
+                        delivered: 584620
+                        from: from@domain.com
+                        starttime: '2020-11-11 19:40:00'
+                        endtime: '2020-11-12 19:41:00'
+                    - - type: purchase
+                        name: VTO Placements Pack - One Time (2M)
+                        credits: 2000000
+                        price: 0.0
+                        promotional: 1
+                        created: '2020-10-21 14:57:56'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/vto/campaigns:
+    get:
+      operationId: campaigns
+      summary: Campaigns
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          from: {}
+                          status: {}
+                          dkimdomain: {}
+                          dkimselector: {}
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        vmg_id:
+                          type: string
+                        from:
+                          type: string
+                        description:
+                          type: string
+                        status:
+                          type: string
+                        identificationmethod:
+                          type: string
+                        vtoheadername:
+                          type: string
+                        vtoheadervalue:
+                          type: string
+                        dkimdomain:
+                          type: string
+                        dkimselector:
+                          type: string
+                        starttime:
+                          type: string
+                        endtime:
+                          type: string
+                        endresolutionmode:
+                          type: string
+                        optinforabtest:
+                          type: integer
+                        markerinbody:
+                          type: integer
+                        delivered:
+                          type: integer
+                        opened:
+                          type: integer
+                        link_clicked:
+                          type: integer
+                        created:
+                          type: string
+                        updated:
+                          type: string
+              examples:
+                Campaigns:
+                  value:
+                    meta:
+                      params:
+                        from: null
+                        status: null
+                        dkimdomain: null
+                        dkimselector: null
+                    results:
+                    - id: 1
+                      vmg_id: aaaa-ssss-dddd-ffff-12345hash
+                      from: validity@reply.validity.com
+                      description: This is a subject line!
+                      status: running
+                      identificationmethod: subject
+                      vtoheadername: Subject
+                      vtoheadervalue: This is a subject line!
+                      dkimdomain: reply.validity.com
+                      dkimselector: dkimselector1
+                      starttime: '2020-06-08 04:38:00'
+                      endtime: '2020-06-11 04:38:00'
+                      endresolutionmode: sendAll
+                      optinforabtest: 0
+                      markerinbody: 0
+                      delivered: 0
+                      opened: 0
+                      link_clicked: 0
+                      created: '2020-06-08 01:33:42'
+                      updated: '2020-06-08 01:34:12'
+                    - id: 2
+                      vmg_id: aaaa-ssss-dddd-ffff-12345hash
+                      from: validity@reply.validity.com
+                      description: This is also a subject line!
+                      status: running
+                      identificationmethod: subject
+                      vtoheadername: Subject
+                      vtoheadervalue: This is also a subject line!
+                      dkimdomain: reply.validity.com
+                      dkimselector: dkimselector1
+                      starttime: '2020-06-08 04:40:00'
+                      endtime: '2020-06-11 04:40:00'
+                      endresolutionmode: sendAll
+                      optinforabtest: 0
+                      markerinbody: 0
+                      delivered: 0
+                      opened: 0
+                      link_clicked: 0
+                      created: '2020-06-08 01:35:37'
+                      updated: '2020-06-08 01:35:49'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createCampaign
+      summary: Create Campaign
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  description: You can select to have all mail matching a specific from address to be optimized through VTO delivery as long as the DKIM domain and selector also match
+                subject:
+                  type: string
+                  description: Please provide the exact subject line string when provisioning campaigns. Please note that emojis or other special characters might result in issues.We recommend to check the exact subject string as it appears within a mail header by sending yourself a test email.
+                identificationmethod:
+                  type: string
+                  description: Available options are 'body-tag', 'subject', 'xheader-generate'.
+                dkimdomain:
+                  type: string
+                dkimselector:
+                  type: string
+                starttime:
+                  type: string
+                  description: The start date of the campaign In UTC
+                endtime:
+                  type: string
+                  description: An ideal campaign should run for at least 48 hours to take advantage of the VTO benefits. Maximum duration is 30 days
+                endresolutionmode:
+                  type: string
+                  description: 'A unique option of VTO campaigns is the ability to decide what to do with undelivered emails at the end of the campaign run time. Undelivered means recipients for that specific campaigns have notcome online during the campaign run time.
+
+
+                    ''sendAll'': Deliver all undelivered mail to the inbox (referred to as "Draining"; attempts normal delivery pattern)
+
+
+                    ''ignore'': Discard all undelivered mail'
+                optinforabtest:
+                  type: string
+                  description: Available options are 0 or 1. If we enable an A/B test we will automatically select a subset of the recipients targeted for a VTOcampaign and deliver emails without VTO optimization while the bulk of the emails will be optimizedthrough VTO.
+            example:
+              from: validity@reply.validity.com
+              subject: This is a subject line!
+              identificationmethod: subject
+              dkimdomain: reply.validity.com
+              dkimselector: dkimselector1
+              starttime: '2020-10-08 04:38:00'
+              endtime: '2020-10-14 04:38:00'
+              endresolutionmode: sendAll
+              optinforabtest: '1'
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Create Campaign Error Invalid identificationmethod:
+                  value:
+                    status: 'Bad Request: The ''identificationmethod'' value must equal ''body-tag'', ''subject'', ''xheader-custom'' or ''xheader-generate'''
+                Create Campaign Error Invalid optinforabtest:
+                  value:
+                    status: 'Bad Request: The optinforabtest field must be one of: 0,1.'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          identificationmethod:
+                            type: string
+                          messagecap: {}
+                          vtoheadername: {}
+                          vtoheadervalue: {}
+                          dkimselector:
+                            type: string
+                          dkimdomain:
+                            type: string
+                          description: {}
+                          from:
+                            type: string
+                          starttime:
+                            type: string
+                          endtime:
+                            type: string
+                          endresolutionmode:
+                            type: string
+                          optinforabtest:
+                            type: string
+                          subject:
+                            type: string
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Create Campaign:
+                  value:
+                    meta:
+                      params:
+                        identificationmethod: subject
+                        messagecap: null
+                        vtoheadername: null
+                        vtoheadervalue: null
+                        dkimselector: dkimselector1
+                        dkimdomain: reply.validity.com
+                        description: null
+                        from: validity@reply.validity.com
+                        starttime: '2020-10-30T02:35:19.605Z'
+                        endtime: '2020-10-31T02:35:19.605Z'
+                        endresolutionmode: sendAll
+                        optinforabtest: '1'
+                        subject: This is a subject line! - 2020-10-30T02:35:19.605Z
+                    results:
+                      id: 1
+                      status: success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Create Campaign Error Invalid start time:
+                  value:
+                    status: 'Bad Request: The start time field must be greater than or equal to 10/30/2020 1:36 AM UTC.'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/vto/campaigns/{campaignId}:
+    get:
+      operationId: campaignByID
+      summary: Campaign by ID
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          from: {}
+                          status: {}
+                          dkimdomain: {}
+                          dkimselector: {}
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      vmg_id:
+                        type: string
+                      from:
+                        type: string
+                      description:
+                        type: string
+                      status:
+                        type: string
+                      identificationmethod:
+                        type: string
+                      vtoheadername:
+                        type: string
+                      vtoheadervalue:
+                        type: string
+                      dkimdomain:
+                        type: string
+                      dkimselector:
+                        type: string
+                      starttime:
+                        type: string
+                      endtime:
+                        type: string
+                      endresolutionmode:
+                        type: string
+                      optinforabtest:
+                        type: integer
+                      markerinbody:
+                        type: integer
+                      delivered:
+                        type: integer
+                      opened:
+                        type: integer
+                      link_clicked:
+                        type: integer
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      stats:
+                        type: object
+                        properties:
+                          optimized:
+                            type: object
+                            properties:
+                              read:
+                                type: integer
+                              skimmed:
+                                type: integer
+                              glanced:
+                                type: integer
+                              delivered:
+                                type: integer
+                              opened:
+                                type: integer
+                              deleted:
+                                type: integer
+                              marked_read:
+                                type: integer
+                              forwarded:
+                                type: integer
+                              starred:
+                                type: integer
+                              archived:
+                                type: integer
+                              link_clicked:
+                                type: integer
+                              moved:
+                                type: integer
+                              push_notif_opened:
+                                type: integer
+                              replied:
+                                type: integer
+                              marked_spam:
+                                type: integer
+                          drained:
+                            type: object
+                            properties:
+                              read:
+                                type: integer
+                              skimmed:
+                                type: integer
+                              glanced:
+                                type: integer
+                              delivered:
+                                type: integer
+                              opened:
+                                type: integer
+                              deleted:
+                                type: integer
+                              marked_read:
+                                type: integer
+                              forwarded:
+                                type: integer
+                              starred:
+                                type: integer
+                              archived:
+                                type: integer
+                              link_clicked:
+                                type: integer
+                              moved:
+                                type: integer
+                              push_notif_opened:
+                                type: integer
+                              replied:
+                                type: integer
+                              marked_spam:
+                                type: integer
+                          vto_control_group:
+                            type: object
+                            properties:
+                              read:
+                                type: integer
+                              skimmed:
+                                type: integer
+                              glanced:
+                                type: integer
+                              delivered:
+                                type: integer
+                              opened:
+                                type: integer
+                              deleted:
+                                type: integer
+                              marked_read:
+                                type: integer
+                              forwarded:
+                                type: integer
+                              starred:
+                                type: integer
+                              archived:
+                                type: integer
+                              link_clicked:
+                                type: integer
+                              moved:
+                                type: integer
+                              push_notif_opened:
+                                type: integer
+                              replied:
+                                type: integer
+                              marked_spam:
+                                type: integer
+              examples:
+                Campaign by ID:
+                  value:
+                    meta:
+                      params:
+                        from: null
+                        status: null
+                        dkimdomain: null
+                        dkimselector: null
+                    results:
+                      id: 1
+                      vmg_id: aaaa-ssss-dddd-ffff-12345hash
+                      from: validity@reply.validity.com
+                      description: This is a subject line!
+                      status: running
+                      identificationmethod: subject
+                      vtoheadername: Subject
+                      vtoheadervalue: This is a subject line!
+                      dkimdomain: reply.validity.com
+                      dkimselector: dkimselector1
+                      starttime: '2020-06-08 04:38:00'
+                      endtime: '2020-06-11 04:38:00'
+                      endresolutionmode: sendAll
+                      optinforabtest: 0
+                      markerinbody: 0
+                      delivered: 0
+                      opened: 0
+                      link_clicked: 0
+                      created: '2020-06-08 01:33:42'
+                      updated: '2020-06-08 01:34:12'
+                      stats:
+                        optimized:
+                          read: 0
+                          skimmed: 0
+                          glanced: 0
+                          delivered: 0
+                          opened: 0
+                          deleted: 0
+                          marked_read: 0
+                          forwarded: 0
+                          starred: 0
+                          archived: 0
+                          link_clicked: 0
+                          moved: 0
+                          push_notif_opened: 0
+                          replied: 0
+                          marked_spam: 0
+                        drained:
+                          read: 0
+                          skimmed: 0
+                          glanced: 0
+                          delivered: 0
+                          opened: 0
+                          deleted: 0
+                          marked_read: 0
+                          forwarded: 0
+                          starred: 0
+                          archived: 0
+                          link_clicked: 0
+                          moved: 0
+                          push_notif_opened: 0
+                          replied: 0
+                          marked_spam: 0
+                        vto_control_group:
+                          read: 0
+                          skimmed: 0
+                          glanced: 0
+                          delivered: 0
+                          opened: 0
+                          deleted: 0
+                          marked_read: 0
+                          forwarded: 0
+                          starred: 0
+                          archived: 0
+                          link_clicked: 0
+                          moved: 0
+                          push_notif_opened: 0
+                          replied: 0
+                          marked_spam: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateCampaign
+      summary: Update Campaign
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                endtime:
+                  type: string
+            example:
+              endtime: '2020-10-01 04:45:00'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                          endtime: {}
+                          endresolutionmode: {}
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Update Campaign:
+                  value:
+                    meta:
+                      params:
+                        status: resume
+                        endtime: null
+                        endresolutionmode: null
+                    results:
+                      id: 1
+                      status: success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Update Campaign Error Invalid endtime:
+                  value:
+                    status: 'Bad Request: The start time field must be greater than or equal to 10/30/2020 1:36 AM UTC.'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteCampaign
+      summary: Delete Campaign
+      tags:
+      - View Time Optimization
+      x-api-version: '2.0'
+      parameters:
+      - name: campaignId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Delete Campaign:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

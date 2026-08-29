@@ -1,0 +1,1988 @@
+openapi: 3.2.0
+info:
+  title: Everest Infrastructure (DMARC) API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Infrastructure (DMARC)
+paths:
+  /2.0/infrastructure/domains:
+    get:
+      operationId: domainsPolicies
+      summary: Domains & Policies
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        policy:
+                          type: string
+                        volume:
+                          type: object
+                          properties:
+                            total:
+                              type: integer
+                            compliant:
+                              type: integer
+                            noncompliant:
+                              type: integer
+                            unauthenticated:
+                              type: integer
+                        compliance:
+                          type: object
+                          properties:
+                            compliant:
+                              type: integer
+                            noncompliant:
+                              type: integer
+                            unauthenticated:
+                              type: integer
+                        spf:
+                          type: object
+                          properties:
+                            record:
+                              type: string
+                            pass:
+                              type: integer
+                            aligned:
+                              type: integer
+                        dkim:
+                          type: object
+                          properties:
+                            pass:
+                              type: integer
+                            aligned:
+                              type: integer
+                        reports:
+                          type: string
+              examples:
+                Domains  Policies:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-01-04T00:00:00+00:00'
+                        enddate: '2021-02-02T00:00:00+00:00'
+                        page: 1
+                        limit: 100
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                      total: 15
+                      pages: 1
+                    results:
+                    - domain: domain.com
+                      policy: reject
+                      volume:
+                        total: 2617
+                        compliant: 2450
+                        noncompliant: 0
+                        unauthenticated: 167
+                      compliance:
+                        compliant: 94
+                        noncompliant: 0
+                        unauthenticated: 6
+                      spf:
+                        record: v=spf1 include:_spf.google.com ~all
+                        pass: 94
+                        aligned: 93
+                      dkim:
+                        pass: 94
+                        aligned: 94
+                      reports: dmarc_fr@domain.com
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createDomain
+      summary: Create Domain
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+            example:
+              domain: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      domain:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Create Domain:
+                  value:
+                    meta: {}
+                    results:
+                      domain: domain.com
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}:
+    get:
+      operationId: domainOverview
+      summary: Domain - Overview
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteDomain
+      summary: Delete Domain
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      domain:
+                        type: string
+                      status:
+                        type: string
+              examples:
+                Delete Domain:
+                  value:
+                    meta: {}
+                    results:
+                      domain: domain.com
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/mailorigins:
+    get:
+      operationId: domainMailOrigins
+      summary: Domain - Mail Origins
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      - name: classification
+        in: query
+        required: false
+        schema:
+          type: string
+        example: compliant
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"classification\": [\n                \"compliant\",\n                \"unauthenticated\",\n                \"non-compliant\"\n            ],\n            \"startdate\": \"2021-01-04T00:00:00+00:00\",\n            \"enddate\": \"2021-02-02T00:00:00+00:00\",\n            \"page\": 1,\n            \"limit\": 100,\n            \"forwarded\": null,\n            \"ip\": null,\n            \"mailorigin\": null,\n            \"spfdomain\": null,\n            \"dkimdomain\": null,\n            \"spfresult\": null,\n            \"dkimresult\": null,\n            \"country\": null,\n            \"region\": null,\n            \"city\": null\n        },\n        \"pages\": 76,\n        \"next\": \"/api/2.0/infrastructure/domains/domain.com/mailorigins/?page=2&classification[]=compliant&forwarded=exclude\",\n        \"total\": 7556\n    },\n    \"results\": [\n        {\n            \"rdns\": \"*.domain.com\",\n            \"category\": \"\",\n            \"organization\": \"\",\n            \"volume\": 16343130518\n        },\n        {\n            \"rdns\": \"*.gmail.com\",\n            \"category\": \"Webmail\",\n            \"organization\": \"Google\",\n            \"volume\": 20636945\n        },\n        {\n            \"rdns\": \"*.amazonses.com\",\n            \"category\": \"ESP\",\n            \"organization\": \"Amazon SES\",\n            \"volume\": 5675516\n        }, ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/ip:
+    get:
+      operationId: domainIPAddresses
+      summary: Domain - IP Addresses
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "{\n    \"meta\": {\n        \"params\": {\n            \"startdate\": \"2021-01-04T00:00:00+00:00\",\n            \"enddate\": \"2021-02-02T00:00:00+00:00\",\n            \"page\": 1,\n            \"limit\": 100,\n            \"forwarded\": null,\n            \"classification\": null,\n            \"ip\": null,\n            \"mailorigin\": null,\n            \"spfdomain\": null,\n            \"dkimdomain\": null,\n            \"spfresult\": null,\n            \"dkimresult\": null,\n            \"country\": null,\n            \"region\": null,\n            \"city\": null\n        },\n        \"total\": 50189,\n        \"pages\": 502\n    },\n    \"results\": [\n        {\n            \"ip\": \"127.0.0.1\",\n            \"rdns\": \"mta-1.domain.com\",\n            \"organization\": \"Contextlogic Inc\",\n            \"volume\": 188678452,\n            \"geolocation\": {\n                \"country\": \"US\",\n                \"state\": \"New Jersey\",\n                \"city\": \"Newark\"\n            }\n        },\n        {\n            \"ip\": \"127.0.0.2\",\n            \"rdns\": \"mta-2.domain.com\",\n            \"organization\": \"Contextlogic Inc\",\n            \"volume\": 188664694,\n            \"geolocation\": {\n                \"country\": \"US\",\n                \"state\": \"New Jersey\",\n                \"city\": \"Newark\"\n            }\n        },\n        {\n            \"ip\": \"127.0.0.3\",\n            \"rdns\": \"mta-3.domain.com\",\n            \"organization\": \"Contextlogic Inc\",\n            \"volume\": 188662548,\n            \"geolocation\": {\n                \"country\": \"US\",\n                \"state\": \"New Jersey\",\n                \"city\": \"Newark\"\n            }\n        }, ...\n    ]\n}"
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/spfdomains:
+    get:
+      operationId: domainSPFDomains
+      summary: Domain - SPF Domains
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        policy_domain:
+                          type: string
+                        organization:
+                          type: string
+                        volume:
+                          type: integer
+              examples:
+                Domain - SPF Domains:
+                  value:
+                    meta:
+                      params:
+                        limit: 5
+                        page: 1
+                        startdate: '2021-01-04T00:00:00+00:00'
+                        enddate: '2021-02-02T00:00:00+00:00'
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: null
+                        region: null
+                        city: null
+                      total: 36429
+                      pages: 3643
+                    results:
+                    - domain: mail.domain.com
+                      policy_domain: domain.com
+                      organization: Contextlogic Inc
+                      volume: 15158170388
+                    - domain: mail.domain.com
+                      policy_domain: domain.com
+                      organization: ''
+                      volume: 1871480439
+                    - domain: gmail.com
+                      policy_domain: domain.com
+                      organization: Google LLC
+                      volume: 14199273
+                    - domain: amazonses.com
+                      policy_domain: domain.com
+                      organization: Amazon Web Services, Inc.
+                      volume: 5352038
+                    - domain: domain.wish.com
+                      policy_domain: domain.com
+                      organization: Google LLC
+                      volume: 3754571
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/dkimdomains:
+    get:
+      operationId: domainDKIMDomains
+      summary: Domain - DKIM Domains
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '5'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        signing_domain:
+                          type: string
+                        policy_domain:
+                          type: string
+                        organization:
+                          type: string
+                        volume:
+                          type: integer
+              examples:
+                Domain - DKIM Domains:
+                  value:
+                    meta:
+                      params:
+                        limit: 5
+                        page: 1
+                        startdate: '2021-01-04T00:00:00+00:00'
+                        enddate: '2021-02-02T00:00:00+00:00'
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: null
+                        region: null
+                        city: null
+                      total: 36429
+                      pages: 3643
+                    results:
+                    - signing_domain: mail.domain.com
+                      policy_domain: domain.com
+                      organization: Contextlogic Inc
+                      volume: 15158170388
+                    - signing_domain: mail.domain.com
+                      policy_domain: domain.com
+                      organization: ''
+                      volume: 1871480439
+                    - signing_domain: gmail.com
+                      policy_domain: domain.com
+                      organization: Google LLC
+                      volume: 14199273
+                    - signing_domain: amazonses.com
+                      policy_domain: domain.com
+                      organization: Amazon Web Services, Inc.
+                      volume: 5352038
+                    - signing_domain: domain.wish.com
+                      policy_domain: domain.com
+                      organization: Google LLC
+                      volume: 3754571
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/spfresults:
+    get:
+      operationId: domainAuthenticationIssuesSPF
+      summary: 'Domain - Authentication Issues: SPF'
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day:
+                          type: string
+                        none:
+                          type: integer
+                        pass:
+                          type: integer
+                        fail:
+                          type: integer
+                        softfail:
+                          type: integer
+                        temperror:
+                          type: integer
+                        permerror:
+                          type: integer
+              examples:
+                Domain - Authentication Issues SPF:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-01-05T00:00:00+00:00'
+                        enddate: '2021-02-03T00:00:00+00:00'
+                        page: 1
+                        limit: 100
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: null
+                        region: null
+                        city: null
+                    results:
+                    - day: '2021-02-03'
+                      none: 31
+                      pass: 729
+                      fail: 268
+                      softfail: 12
+                      temperror: 0
+                      permerror: 0
+                    - day: '2021-02-02'
+                      none: 24403
+                      pass: 617230
+                      fail: 210053
+                      softfail: 10582
+                      temperror: 53
+                      permerror: 402
+                    - day: '2021-02-01'
+                      none: 22548
+                      pass: 638134
+                      fail: 157745
+                      softfail: 9152
+                      temperror: 56
+                      permerror: 360
+                    - day: '2021-01-31'
+                      none: 26564
+                      pass: 617492
+                      fail: 178779
+                      softfail: 10580
+                      temperror: 71
+                      permerror: 399
+                    - day: '2021-01-30'
+                      none: 25834
+                      pass: 549300
+                      fail: 177465
+                      softfail: 9990
+                      temperror: 93
+                      permerror: 352
+                    - day: '2021-01-29'
+                      none: 24098
+                      pass: 629526
+                      fail: 165808
+                      softfail: 9277
+                      temperror: 61
+                      permerror: 370
+                    - day: '2021-01-28'
+                      none: 29640
+                      pass: 945430
+                      fail: 194903
+                      softfail: 11267
+                      temperror: 72
+                      permerror: 458
+                    - day: '2021-01-27'
+                      none: 32261
+                      pass: 839031
+                      fail: 235694
+                      softfail: 12450
+                      temperror: 79
+                      permerror: 539
+                    - day: '2021-01-26'
+                      none: 25291
+                      pass: 619352
+                      fail: 164674
+                      softfail: 9287
+                      temperror: 91
+                      permerror: 375
+                    - day: '2021-01-25'
+                      none: 25164
+                      pass: 646310
+                      fail: 165412
+                      softfail: 9598
+                      temperror: 77
+                      permerror: 389
+                    - day: '2021-01-24'
+                      none: 57156
+                      pass: 1318160
+                      fail: 365200
+                      softfail: 21190
+                      temperror: 170
+                      permerror: 779
+                    - day: '2021-01-23'
+                      none: 29609
+                      pass: 667231
+                      fail: 186048
+                      softfail: 11123
+                      temperror: 91
+                      permerror: 427
+                    - day: '2021-01-22'
+                      none: 29277
+                      pass: 917934
+                      fail: 175945
+                      softfail: 11689
+                      temperror: 80
+                      permerror: 472
+                    - day: '2021-01-21'
+                      none: 32695
+                      pass: 1093240
+                      fail: 241296
+                      softfail: 12290
+                      temperror: 106
+                      permerror: 567
+                    - day: '2021-01-20'
+                      none: 31672
+                      pass: 848882
+                      fail: 232769
+                      softfail: 12048
+                      temperror: 93
+                      permerror: 588
+                    - day: '2021-01-19'
+                      none: 30411
+                      pass: 774550
+                      fail: 229355
+                      softfail: 12139
+                      temperror: 88
+                      permerror: 535
+                    - day: '2021-01-18'
+                      none: 25163
+                      pass: 630343
+                      fail: 172227
+                      softfail: 10017
+                      temperror: 62
+                      permerror: 400
+                    - day: '2021-01-17'
+                      none: 31654
+                      pass: 719916
+                      fail: 194120
+                      softfail: 11521
+                      temperror: 78
+                      permerror: 460
+                    - day: '2021-01-16'
+                      none: 35094
+                      pass: 816615
+                      fail: 259575
+                      softfail: 12842
+                      temperror: 145
+                      permerror: 626
+                    - day: '2021-01-15'
+                      none: 33362
+                      pass: 875880
+                      fail: 251687
+                      softfail: 13193
+                      temperror: 82
+                      permerror: 606
+                    - day: '2021-01-14'
+                      none: 31559
+                      pass: 1016701
+                      fail: 241813
+                      softfail: 13183
+                      temperror: 67
+                      permerror: 628
+                    - day: '2021-01-13'
+                      none: 32825
+                      pass: 798971
+                      fail: 246406
+                      softfail: 13172
+                      temperror: 78
+                      permerror: 564
+                    - day: '2021-01-12'
+                      none: 29162
+                      pass: 747826
+                      fail: 176146
+                      softfail: 10897
+                      temperror: 124
+                      permerror: 473
+                    - day: '2021-01-11'
+                      none: 31532
+                      pass: 880286
+                      fail: 244824
+                      softfail: 12559
+                      temperror: 107
+                      permerror: 592
+                    - day: '2021-01-10'
+                      none: 36711
+                      pass: 871076
+                      fail: 271923
+                      softfail: 14234
+                      temperror: 91
+                      permerror: 671
+                    - day: '2021-01-09'
+                      none: 37781
+                      pass: 883673
+                      fail: 273357
+                      softfail: 17213
+                      temperror: 97
+                      permerror: 688
+                    - day: '2021-01-08'
+                      none: 33383
+                      pass: 1089592
+                      fail: 240128
+                      softfail: 14709
+                      temperror: 75
+                      permerror: 605
+                    - day: '2021-01-07'
+                      none: 24508
+                      pass: 903187
+                      fail: 152661
+                      softfail: 12398
+                      temperror: 62
+                      permerror: 396
+                    - day: '2021-01-06'
+                      none: 27151
+                      pass: 658855
+                      fail: 158483
+                      softfail: 12604
+                      temperror: 64
+                      permerror: 439
+                    - day: '2021-01-05'
+                      none: 29127
+                      pass: 705908
+                      fail: 227306
+                      softfail: 11491
+                      temperror: 91
+                      permerror: 540
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/dkimresults:
+    get:
+      operationId: domainAuthenticationIssuesDKIM
+      summary: 'Domain - Authentication Issues: DKIM'
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day:
+                          type: string
+                        none:
+                          type: integer
+                        pass:
+                          type: integer
+                        fail:
+                          type: integer
+                        softfail:
+                          type: integer
+                        temperror:
+                          type: integer
+                        permerror:
+                          type: integer
+              examples:
+                Domain - Authentication Issues DKIM:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2021-01-05T00:00:00+00:00'
+                        enddate: '2021-02-03T00:00:00+00:00'
+                        page: 1
+                        limit: 100
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: null
+                        region: null
+                        city: null
+                    results:
+                    - day: '2021-02-03'
+                      none: 137
+                      pass: 3
+                      fail: 26
+                      softfail: 0
+                      temperror: 0
+                      permerror: 66
+                    - day: '2021-02-02'
+                      none: 917
+                      pass: 5068
+                      fail: 17622
+                      softfail: 0
+                      temperror: 6
+                      permerror: 155
+                    - day: '2021-02-01'
+                      none: 1330
+                      pass: 4683
+                      fail: 14677
+                      softfail: 0
+                      temperror: 7
+                      permerror: 189
+                    - day: '2021-01-31'
+                      none: 1682
+                      pass: 3864
+                      fail: 17096
+                      softfail: 0
+                      temperror: 6
+                      permerror: 346
+                    - day: '2021-01-30'
+                      none: 1366
+                      pass: 4002
+                      fail: 18710
+                      softfail: 0
+                      temperror: 5
+                      permerror: 200
+                    - day: '2021-01-29'
+                      none: 1471
+                      pass: 5482
+                      fail: 15856
+                      softfail: 0
+                      temperror: 3
+                      permerror: 217
+                    - day: '2021-01-28'
+                      none: 1965
+                      pass: 6402
+                      fail: 18714
+                      softfail: 0
+                      temperror: 6
+                      permerror: 250
+                    - day: '2021-01-27'
+                      none: 2337
+                      pass: 6722
+                      fail: 21500
+                      softfail: 0
+                      temperror: 6
+                      permerror: 38
+                    - day: '2021-01-26'
+                      none: 1442
+                      pass: 5321
+                      fail: 13308
+                      softfail: 0
+                      temperror: 4
+                      permerror: 30
+                    - day: '2021-01-25'
+                      none: 1696
+                      pass: 5459
+                      fail: 13734
+                      softfail: 0
+                      temperror: 6
+                      permerror: 100
+                    - day: '2021-01-24'
+                      none: 2670
+                      pass: 7226
+                      fail: 33264
+                      softfail: 0
+                      temperror: 6
+                      permerror: 254
+                    - day: '2021-01-23'
+                      none: 1686
+                      pass: 5057
+                      fail: 17257
+                      softfail: 0
+                      temperror: 4
+                      permerror: 90
+                    - day: '2021-01-22'
+                      none: 2384
+                      pass: 6361
+                      fail: 16636
+                      softfail: 0
+                      temperror: 4
+                      permerror: 118
+                    - day: '2021-01-21'
+                      none: 2215
+                      pass: 7413
+                      fail: 22617
+                      softfail: 0
+                      temperror: 7
+                      permerror: 156
+                    - day: '2021-01-20'
+                      none: 1849
+                      pass: 7726
+                      fail: 19986
+                      softfail: 0
+                      temperror: 3
+                      permerror: 97
+                    - day: '2021-01-19'
+                      none: 1825
+                      pass: 6499
+                      fail: 18207
+                      softfail: 0
+                      temperror: 3
+                      permerror: 87
+                    - day: '2021-01-18'
+                      none: 2116
+                      pass: 4836
+                      fail: 14933
+                      softfail: 0
+                      temperror: 5
+                      permerror: 244
+                    - day: '2021-01-17'
+                      none: 1967
+                      pass: 4120
+                      fail: 19768
+                      softfail: 0
+                      temperror: 4
+                      permerror: 256
+                    - day: '2021-01-16'
+                      none: 3379
+                      pass: 5321
+                      fail: 22668
+                      softfail: 0
+                      temperror: 4
+                      permerror: 157
+                    - day: '2021-01-15'
+                      none: 2354
+                      pass: 6228
+                      fail: 20858
+                      softfail: 0
+                      temperror: 5
+                      permerror: 158
+                    - day: '2021-01-14'
+                      none: 2295
+                      pass: 6546
+                      fail: 18386
+                      softfail: 0
+                      temperror: 3
+                      permerror: 141
+                    - day: '2021-01-13'
+                      none: 1741
+                      pass: 6638
+                      fail: 18126
+                      softfail: 0
+                      temperror: 3
+                      permerror: 42
+                    - day: '2021-01-12'
+                      none: 1931
+                      pass: 5943
+                      fail: 17790
+                      softfail: 0
+                      temperror: 5
+                      permerror: 75
+                    - day: '2021-01-11'
+                      none: 2012
+                      pass: 6136
+                      fail: 18237
+                      softfail: 0
+                      temperror: 10
+                      permerror: 209
+                    - day: '2021-01-10'
+                      none: 2216
+                      pass: 4643
+                      fail: 24400
+                      softfail: 0
+                      temperror: 17
+                      permerror: 467
+                    - day: '2021-01-09'
+                      none: 5593
+                      pass: 5884
+                      fail: 26169
+                      softfail: 0
+                      temperror: 5
+                      permerror: 181
+                    - day: '2021-01-08'
+                      none: 3333
+                      pass: 6555
+                      fail: 21312
+                      softfail: 0
+                      temperror: 4
+                      permerror: 113
+                    - day: '2021-01-07'
+                      none: 4327
+                      pass: 5552
+                      fail: 15392
+                      softfail: 0
+                      temperror: 4
+                      permerror: 54
+                    - day: '2021-01-06'
+                      none: 4854
+                      pass: 5648
+                      fail: 14337
+                      softfail: 0
+                      temperror: 6
+                      permerror: 121
+                    - day: '2021-01-05'
+                      none: 1819
+                      pass: 7146
+                      fail: 19508
+                      softfail: 0
+                      temperror: 4
+                      permerror: 91
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/geolocation:
+    get:
+      operationId: domainGeolocation
+      summary: Domain - Geolocation
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '10'
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+        example: US
+      - name: region
+        in: query
+        required: false
+        schema:
+          type: string
+        example: California
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country:
+                          type: string
+                        region:
+                          type: string
+                        city:
+                          type: string
+                        volume:
+                          type: integer
+              examples:
+                Domain - Geolocation:
+                  value:
+                    meta:
+                      params:
+                        page: 1
+                        limit: 10
+                        startdate: '2021-01-05T00:00:00+00:00'
+                        enddate: '2021-02-03T00:00:00+00:00'
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: null
+                        region: null
+                        city: null
+                      total: 2740
+                      pages: 274
+                    results:
+                    - country: US
+                      region: California
+                      city: San Francisco
+                      volume: 9266723411
+                    - country: US
+                      region: New Jersey
+                      city: Newark
+                      volume: 7832725921
+                    - country: US
+                      region: Virginia
+                      city: Ashburn
+                      volume: 7319303
+                    - country: US
+                      region: California
+                      city: Mountain View
+                      volume: 1247154
+                    - country: US
+                      region: New York
+                      city: New York
+                      volume: 464554
+                    - country: US
+                      region: Ohio
+                      city: Wauseon
+                      volume: 399919
+                    - country: US
+                      region: North Carolina
+                      city: Raleigh
+                      volume: 295781
+                    - country: GB
+                      region: England
+                      city: London
+                      volume: 247182
+                    - country: US
+                      region: California
+                      city: Santa Clara
+                      volume: 192858
+                    - country: US
+                      region: Georgia
+                      city: Atlanta
+                      volume: 186097
+                Domain - Geolocation Country  Region:
+                  value:
+                    meta:
+                      params:
+                        page: 1
+                        limit: 10
+                        startdate: '2021-01-06T00:00:00+00:00'
+                        enddate: '2021-02-04T00:00:00+00:00'
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: US
+                        region: California
+                        city: null
+                      total: 61
+                      pages: 7
+                    results:
+                    - country: US
+                      region: California
+                      city: San Francisco
+                      volume: 8993831696
+                    - country: US
+                      region: California
+                      city: Mountain View
+                      volume: 1202051
+                    - country: US
+                      region: California
+                      city: Santa Clara
+                      volume: 185707
+                    - country: US
+                      region: California
+                      city: Los Angeles
+                      volume: 141996
+                    - country: US
+                      region: California
+                      city: Cupertino
+                      volume: 57593
+                    - country: US
+                      region: California
+                      city: Brea
+                      volume: 27496
+                    - country: US
+                      region: California
+                      city: Pleasanton
+                      volume: 11170
+                    - country: US
+                      region: California
+                      city: San Jose
+                      volume: 7837
+                    - country: US
+                      region: California
+                      city: El Segundo
+                      volume: 4875
+                    - country: US
+                      region: California
+                      city: Palo Alto
+                      volume: 2628
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/infrastructure/domains/{domain}/reports:
+    get:
+      operationId: domainDetailedReports
+      summary: Domain - Detailed Reports
+      tags:
+      - Infrastructure (DMARC)
+      x-api-version: '2.0'
+      parameters:
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: domain.com
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '3'
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          limit:
+                            type: integer
+                          page:
+                            type: integer
+                          startdate:
+                            type: string
+                          enddate:
+                            type: string
+                          forwarded: {}
+                          classification: {}
+                          ip: {}
+                          mailorigin: {}
+                          spfdomain: {}
+                          dkimdomain: {}
+                          spfresult: {}
+                          dkimresult: {}
+                          country: {}
+                          region: {}
+                          city: {}
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day:
+                          type: string
+                        volume:
+                          type: integer
+                        policy_domain:
+                          type: string
+                        from_domain:
+                          type: string
+                        organization:
+                          type: string
+                        ip:
+                          type: string
+                        rdns:
+                          type: string
+                        isp:
+                          type: string
+                        spf:
+                          type: object
+                          properties:
+                            spfresult:
+                              type: string
+                            spfalign:
+                              type: string
+                            spfdomain:
+                              type: string
+                        dkim:
+                          type: object
+                          properties:
+                            dkimresult:
+                              type: string
+                            dkimalign:
+                              type: string
+                            dkimdomain:
+                              type: string
+                            dkimselector:
+                              type: string
+                        record:
+                          type: object
+                          properties:
+                            aspf:
+                              type: string
+                            adkim:
+                              type: string
+                            p:
+                              type: string
+                            sp:
+                              type: string
+                            pct:
+                              type: integer
+                            fo:
+                              type: string
+                        geolocation:
+                          type: object
+                          properties:
+                            country:
+                              type: string
+                            region:
+                              type: string
+                            city:
+                              type: string
+                        forwarded:
+                          type: integer
+              examples:
+                Domain - Detailed Reports:
+                  value:
+                    meta:
+                      params:
+                        limit: 3
+                        page: 1
+                        startdate: '2021-01-06T00:00:00+00:00'
+                        enddate: '2021-02-04T00:00:00+00:00'
+                        forwarded: null
+                        classification: null
+                        ip: null
+                        mailorigin: null
+                        spfdomain: null
+                        dkimdomain: null
+                        spfresult: null
+                        dkimresult: null
+                        country: null
+                        region: null
+                        city: null
+                      total: 4123613
+                      pages: 1374538
+                    results:
+                    - day: '2021-01-10'
+                      volume: 6730221
+                      policy_domain: domain.com
+                      from_domain: domain.com
+                      organization: google.com
+                      ip: 127.0.0.1
+                      rdns: mail.domain.com
+                      isp: Contextlogic Inc.
+                      spf:
+                        spfresult: pass
+                        spfalign: pass
+                        spfdomain: mail.domain.com
+                      dkim:
+                        dkimresult: pass
+                        dkimalign: pass
+                        dkimdomain: domain.com
+                        dkimselector: mail
+                      record:
+                        aspf: pass
+                        adkim: r
+                        p: reject
+                        sp: reject
+                        pct: 100
+                        fo: ''
+                      geolocation:
+                        country: US
+                        region: New Jersey
+                        city: Newark
+                      forwarded: 0
+                    - day: '2021-01-10'
+                      volume: 6729701
+                      policy_domain: domain.com
+                      from_domain: domain.com
+                      organization: google.com
+                      ip: 127.0.0.1
+                      rdns: mail.domain.com
+                      isp: Contextlogic Inc.
+                      spf:
+                        spfresult: pass
+                        spfalign: pass
+                        spfdomain: mail.domain.com
+                      dkim:
+                        dkimresult: pass
+                        dkimalign: pass
+                        dkimdomain: domain.com
+                        dkimselector: mail
+                      record:
+                        aspf: pass
+                        adkim: r
+                        p: reject
+                        sp: reject
+                        pct: 100
+                        fo: ''
+                      geolocation:
+                        country: US
+                        region: New Jersey
+                        city: Newark
+                      forwarded: 0
+                    - day: '2021-01-10'
+                      volume: 6729307
+                      policy_domain: domain.com
+                      from_domain: domain.com
+                      organization: google.com
+                      ip: 127.0.0.1
+                      rdns: mail.domain.com
+                      isp: Contextlogic Inc.
+                      spf:
+                        spfresult: pass
+                        spfalign: pass
+                        spfdomain: mail.domain.com
+                      dkim:
+                        dkimresult: pass
+                        dkimalign: pass
+                        dkimdomain: domain.com
+                        dkimselector: mail
+                      record:
+                        aspf: pass
+                        adkim: r
+                        p: reject
+                        sp: reject
+                        pct: 100
+                        fo: ''
+                      geolocation:
+                        country: US
+                        region: New Jersey
+                        city: Newark
+                      forwarded: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

@@ -1,0 +1,1354 @@
+openapi: 3.2.0
+info:
+  title: Everest Competitive Intel API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Competitive Intel
+paths:
+  /2.0/prospect/search:
+    get:
+      operationId: searchHistory
+      summary: Search History
+      tags:
+      - Competitive Intel
+      description: Returns a list of domains in your Prospect search history.
+      x-api-version: '2.0'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        domain: {}
+                        traps:
+                          type: integer
+                        volume:
+                          type: string
+                        matches:
+                          type: array
+                          items:
+                            type: string
+                        created:
+                          type: string
+                        endpoints:
+                          type: array
+                          items:
+                            type: string
+              examples:
+                Search History:
+                  value:
+                    meta: {}
+                    results:
+                    - id: 1
+                      domain: null
+                      traps: 3943568
+                      volume: '> 1B'
+                      matches:
+                      - example.com
+                      - app.example.com
+                      created: '1970-01-01 00:00:00'
+                      endpoints:
+                      - /prospect/search/1/esps
+                      - /prospect/search/1/traps
+                      - /prospect/search/1/blacklists
+                      - /prospect/search/1/authentication
+                      - /prospect/search/1/whois/:domain
+                    - id: 2
+                      domain: null
+                      traps: 3949109
+                      volume: '> 1B'
+                      matches:
+                      - example.com
+                      - app.example.com
+                      created: '1970-01-01 00:00:00'
+                      endpoints:
+                      - /prospect/search/2/esps
+                      - /prospect/search/2/traps
+                      - /prospect/search/2/blacklists
+                      - /prospect/search/2/authentication
+                      - /prospect/search/2/whois/:domain
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createSearch
+      summary: Create Search
+      tags:
+      - Competitive Intel
+      description: 'Returns a list of subdomains, exact matches, fuzzy matches, and related domains matching your search criteria. The 90-day trap counts for the domain matches are also included to determine which matches account for the most volume.
+
+
+        Error Responses
+
+
+        400 ''domain'' is a required field.
+
+        400 Invalid domain value.'
+      x-api-version: '2.0'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+            example:
+              domain: domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      domain:
+                        type: string
+                      matches:
+                        type: array
+                        items: {}
+              examples:
+                Create Search:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-07-30'
+                    results:
+                      id: 1
+                      domain: newdomainsearch.domain.com
+                      matches: []
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/prospect/search/{searchId}:
+    get:
+      operationId: searchOverview
+      summary: Search - Overview
+      tags:
+      - Competitive Intel
+      description: "Returns the 90-day blacklistings count, trap volume, estimated monthly sending volume, and a list of available endpoints to retrieve additional data feeds: traps by day, by ESP, blacklists, authentication, WHOIS, etc. \n\nYou can pass authenticated=1 to exclude unauthenticated mail from the data feeds and endpoints, which will remove illegitimate and spoofed traffic.\n\nError Responses\n\n400 Invalid search ID.\n400 No domain matches selected. Please refer to the 'Search - Select Matches (POST)' endpoint to select a minimum of 1 domain match.\n404 Search ID not found."
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      domain:
+                        type: string
+                      traps:
+                        type: integer
+                      volume:
+                        type: string
+                      matches:
+                        type: array
+                        items:
+                          type: string
+                      created:
+                        type: string
+                      endpoints:
+                        type: array
+                        items:
+                          type: string
+              examples:
+                Get Search - Overview:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      domain: domain.com
+                      traps: 31271
+                      volume: 30-40M
+                      matches:
+                      - domain.com
+                      - server.domain.com
+                      created: '2019-11-07 20:02:28'
+                      endpoints:
+                      - /prospect/search/1/esps
+                      - /prospect/search/1/traps
+                      - /prospect/search/1/blacklists
+                      - /prospect/search/1/authentication
+                      - /prospect/search/1/whois/:domain
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: searchSelectMatches
+      summary: Search - Select Matches
+      tags:
+      - Competitive Intel
+      description: 'POST your selection of domain matches using a comma-separated or pipe-delimited set of domains. Domains submitted that were not listed in the available_domains field from Prospect Search will be discarded.
+
+
+        Error Responses
+
+
+        400 Invalid search ID.
+
+        400 ''matches'' is a required field.
+
+        400 The contents of ''matches'' must use the ''available_domains'' from /prospect/search.'
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                matches:
+                  type: string
+            example:
+              matches: invalid.com,domain.com,server.domain.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          startdate:
+                            type: string
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      domain:
+                        type: string
+                      traps:
+                        type: integer
+                      volume:
+                        type: string
+                      matches_selected:
+                        type: array
+                        items:
+                          type: string
+                      matches_discarded:
+                        type: array
+                        items:
+                          type: string
+                      created:
+                        type: string
+              examples:
+                Search - Select Matches:
+                  value:
+                    meta:
+                      params:
+                        startdate: '2020-07-30'
+                    results:
+                      id: 1
+                      domain: example.com
+                      traps: 1573919
+                      volume: '> 1B'
+                      matches_selected:
+                      - spotify.com
+                      matches_discarded:
+                      - invalid.com
+                      - domain.com
+                      - server.domain.com
+                      created: '2019-11-07 20:02:28'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteSearch
+      summary: Delete Search
+      tags:
+      - Competitive Intel
+      description: 'Deletes a search from your Prospect search history.
+
+
+        Error Responses
+
+
+        400 Invalid search ID.
+
+        404 Search ID not found.'
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+            example:
+              domain: alibaba.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      status:
+                        type: string
+              examples:
+                Delete Search:
+                  value:
+                    meta: {}
+                    results:
+                      id: 1
+                      status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/prospect/search/{searchId}/traps:
+    get:
+      operationId: searchTraps
+      summary: Search - Traps
+      tags:
+      - Competitive Intel
+      description: "Returns a traps: {} object containing the total number of trap hits, hits by type (pristine, typo, recycled), hits by day, and hits by IP address. \n\nYou can pass authenticated=1 to exclude unauthenticated mail from the data feeds and endpoints, which will remove illegitimate and spoofed traffic.\n\nError Responses\n\n400 Invalid search ID.\n404 Search ID not found."
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: authenticated
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          authenticated:
+                            type: boolean
+                      typo:
+                        type: string
+                      grey:
+                        type: string
+                      pristine:
+                        type: string
+                  results:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      type:
+                        type: object
+                        properties:
+                          pristine:
+                            type: integer
+                          typo:
+                            type: integer
+                          recycled:
+                            type: integer
+                      day:
+                        type: object
+                        properties:
+                          '2020-07-30':
+                            type: integer
+                          '2020-07-31':
+                            type: integer
+                          '2020-08-01':
+                            type: integer
+                          '2020-08-02':
+                            type: integer
+                      ip:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            ip:
+                              type: string
+                            esp:
+                              type: string
+                            rdns:
+                              type: string
+                            count:
+                              type: integer
+                      subject:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            subject:
+                              type: string
+                            count:
+                              type: integer
+              examples:
+                Get Search - Traps:
+                  value:
+                    meta:
+                      params:
+                        authenticated: true
+                      typo: Indicative of poor address collection, lack of address validation on forms, no double opt-in, data entry errors
+                      grey: Indicative of poor email list hygiene, not removing disengaged subscribers
+                      pristine: Indicative of email list purchasing or email "scraping" bots
+                    results:
+                      total: 3882380
+                      type:
+                        pristine: 36828
+                        typo: 288788
+                        recycled: 3556764
+                      day:
+                        '2020-07-30': 10081
+                        '2020-07-31': 20926
+                        '2020-08-01': 8845
+                        '2020-08-02': 8074
+                      ip:
+                      - ip: 167.89.81.103
+                        esp: SendGrid
+                        rdns: o15.em.spotify.com
+                        count: 1048321
+                      - ip: 167.89.81.104
+                        esp: SendGrid
+                        rdns: o16.em.spotify.com
+                        count: 1048177
+                      subject:
+                      - subject: Subject 1
+                        count: 1505015
+                      - subject: Subject 2
+                        count: 355956
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/prospect/search/{searchId}/esps:
+    get:
+      operationId: searchESPs
+      summary: Search - ESPs
+      tags:
+      - Competitive Intel
+      description: 'Returns an esps: {} object containing the total number of trap hits, total hits by ESP, hits by day by ESP.
+
+
+        You can pass authenticated=1 to exclude unauthenticated mail from the data feeds and endpoints, which will remove illegitimate and spoofed traffic.
+
+
+        Error Responses
+
+
+        400 Invalid search ID.
+
+        404 Search ID not found.'
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: authenticated
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      Uknown:
+                        type: string
+                  esps:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      esp:
+                        type: object
+                        properties:
+                          SendGrid:
+                            type: integer
+                          Unknown:
+                            type: integer
+                          Amazon SES:
+                            type: integer
+                      day:
+                        type: object
+                        properties:
+                          '2018-06-14':
+                            type: object
+                            properties:
+                              SendGrid:
+                                type: integer
+                              Unknown:
+                                type: integer
+                              Amazon SES:
+                                type: integer
+                          '2018-06-15':
+                            type: object
+                            properties:
+                              SendGrid:
+                                type: integer
+                              Unknown:
+                                type: integer
+                              Amazon SES:
+                                type: integer
+                          '2018-06-16':
+                            type: object
+                            properties:
+                              SendGrid:
+                                type: integer
+                              Unknown:
+                                type: integer
+                              Amazon SES:
+                                type: integer
+              examples:
+                Get Search - ESPs:
+                  value:
+                    meta:
+                      Uknown: ESP 'Unknown' is likely an in-house MTA, or is originating from an IP outside of the commercial IP space we monitor.
+                    esps:
+                      total: 31274
+                      esp:
+                        SendGrid: 31264
+                        Unknown: 5
+                        Amazon SES: 1
+                      day:
+                        '2018-06-14':
+                          SendGrid: 265
+                          Unknown: 0
+                          Amazon SES: 0
+                        '2018-06-15':
+                          SendGrid: 104
+                          Unknown: 0
+                          Amazon SES: 0
+                        '2018-06-16':
+                          SendGrid: 349
+                          Unknown: 0
+                          Amazon SES: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/prospect/search/{searchId}/blacklists:
+    get:
+      operationId: searchBlacklists
+      summary: Search - Blacklists
+      tags:
+      - Competitive Intel
+      description: 'Returns an blacklists: {} object containing:
+
+
+        day: total blacklisted items by day
+
+        daylist: total blacklisted items by day, by list
+
+        blacklist: total blacklisted items by list
+
+        item: total blacklisted items by item (IP address)
+
+        itemlist: total blacklisted by item, by list
+
+
+        Error Responses
+
+
+        400 Invalid search ID.
+
+        404 Search ID not found.'
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          authenticated:
+                            type: boolean
+                      day:
+                        type: string
+                      daylist:
+                        type: string
+                      blacklist:
+                        type: string
+                      item:
+                        type: string
+                      itemlist:
+                        type: string
+                  results:
+                    type: object
+                    properties:
+                      day:
+                        type: object
+                        properties:
+                          '2018-06-14':
+                            type: integer
+                          '2018-06-15':
+                            type: integer
+                          '2018-06-16':
+                            type: integer
+                      daylist:
+                        type: object
+                        properties:
+                          '2018-06-14':
+                            type: object
+                            properties:
+                              UCEPROTECT Level 2:
+                                type: integer
+                              Invaluement SIP/24:
+                                type: integer
+                          '2018-06-15':
+                            type: object
+                            properties:
+                              Invaluement SIP/24:
+                                type: integer
+                              UCEPROTECT Level 2:
+                                type: integer
+                          '2018-06-16':
+                            type: object
+                            properties:
+                              Invaluement SIP/24:
+                                type: integer
+                              UCEPROTECT Level 2:
+                                type: integer
+                      blacklist:
+                        type: object
+                        properties:
+                          UCEPROTECT Level 2:
+                            type: integer
+                          Invaluement SIP/24:
+                            type: integer
+                          Spamhaus SBL:
+                            type: integer
+                      item:
+                        type: object
+                        properties:
+                          59.148.43.38:
+                            type: integer
+                          37.49.227.131:
+                            type: integer
+                          115.124.25.127:
+                            type: integer
+                      itemlist:
+                        type: object
+                        properties:
+                          UCEPROTECT Level 2:
+                            type: object
+                            properties:
+                              37.49.227.131:
+                                type: integer
+                              115.124.25.126:
+                                type: integer
+                              115.124.25.127:
+                                type: integer
+                          UCEPROTECT Level 3:
+                            type: object
+                            properties:
+                              37.49.227.131:
+                                type: integer
+                          Spamhaus PBL:
+                            type: object
+                            properties:
+                              37.49.227.131:
+                                type: integer
+              examples:
+                Get Search - Blacklists:
+                  value:
+                    meta:
+                      params:
+                        authenticated: true
+                      day: The number of total blacklisted items, grouped by day
+                      daylist: The number of total blacklisted items, grouped by blacklist, by day
+                      blacklist: The number of total blacklisted items, grouped by blacklist
+                      item: The number of total blacklisted items, grouped by IP or domain
+                      itemlist: The number of total blacklisted items, grouped by IP or domain, by day
+                    results:
+                      day:
+                        '2018-06-14': 2
+                        '2018-06-15': 2
+                        '2018-06-16': 2
+                      daylist:
+                        '2018-06-14':
+                          UCEPROTECT Level 2: 1
+                          Invaluement SIP/24: 1
+                        '2018-06-15':
+                          Invaluement SIP/24: 1
+                          UCEPROTECT Level 2: 1
+                        '2018-06-16':
+                          Invaluement SIP/24: 1
+                          UCEPROTECT Level 2: 1
+                      blacklist:
+                        UCEPROTECT Level 2: 71
+                        Invaluement SIP/24: 67
+                        Spamhaus SBL: 66
+                      item:
+                        59.148.43.38: 311
+                        37.49.227.131: 291
+                        115.124.25.127: 8
+                      itemlist:
+                        UCEPROTECT Level 2:
+                          37.49.227.131: 67
+                          115.124.25.126: 4
+                          115.124.25.127: 4
+                        UCEPROTECT Level 3:
+                          37.49.227.131: 38
+                        Spamhaus PBL:
+                          37.49.227.131: 56
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/prospect/search/{searchId}/authentication:
+    get:
+      operationId: searchAuthentication
+      summary: Search - Authentication
+      tags:
+      - Competitive Intel
+      description: 'Returns an authentication: {} object containing your domain selections and their WHOIS records (registration date and expiration), pecentage of mail volume, SPF and DMARC records, and SPF lookups.
+
+
+        Error Responses
+
+
+        400 Invalid search ID.
+
+        404 Search ID not found.'
+      x-api-version: '2.0'
+      parameters:
+      - name: searchId
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: '1'
+      - name: authenticated
+        in: query
+        required: false
+        schema:
+          type: string
+        example: '1'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      params:
+                        type: object
+                        properties:
+                          authenticated:
+                            type: boolean
+                      typo:
+                        type: string
+                      grey:
+                        type: string
+                      pristine:
+                        type: string
+                  results:
+                    type: object
+                    properties:
+                      domain.com:
+                        type: object
+                        properties:
+                          volume_pct:
+                            type: string
+                          whois_created:
+                            type: string
+                          whois_expires:
+                            type: string
+                          spf:
+                            type: string
+                          spf_lookups:
+                            type: integer
+                          dmarc:
+                            type: string
+                      email.domain.com:
+                        type: object
+                        properties:
+                          volume_pct:
+                            type: string
+                          whois_created:
+                            type: string
+                          whois_expires:
+                            type: string
+                          spf:
+                            type: string
+                          spf_lookups:
+                            type: integer
+                          dmarc:
+                            type: string
+              examples:
+                Get Search - Authentication:
+                  value:
+                    meta:
+                      params:
+                        authenticated: true
+                      typo: Indicative of poor address collection, lack of address validation on forms, no double opt-in, data entry errors
+                      grey: Indicative of poor email list hygiene, not removing disengaged subscribers
+                      pristine: Indicative of email list purchasing or email "scraping" bots
+                    results:
+                      domain.com:
+                        volume_pct: 4%
+                        whois_created: 4/14/1999
+                        whois_expires: 10/28/2020
+                        spf: v=spf1 include:spf1.domain.com -all
+                        spf_lookups: 2
+                        dmarc: v=DMARC1; p=none; rua=mailto:dmarc@domain.com; ruf=mailto:dmarc@domain.com
+                      email.domain.com:
+                        volume_pct: 96%
+                        whois_created: 4/14/1999
+                        whois_expires: 10/28/2020
+                        spf: v=spf1 include:spf1.email.domain.com include:spf2.email.domain.com -all
+                        spf_lookups: 4
+                        dmarc: v=DMARC1; p=none; rua=mailto:dmarc@email.domain.com; ruf=mailto:dmarc@email.domain.com
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /2.0/prospect/search/whois/{whoisDomain}:
+    get:
+      operationId: searchDomainWHOIS
+      summary: Search - Domain WHOIS
+      tags:
+      - Competitive Intel
+      description: Returns WHOIS and registration information about a domain including the company, creation date, and expiration date.
+      x-api-version: '2.0'
+      parameters:
+      - name: whoisDomain
+        in: path
+        required: true
+        schema:
+          type: string
+        example: '{{whois_domain}}'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                  results:
+                    type: object
+                    properties:
+                      domain:
+                        type: string
+                      registrar:
+                        type: string
+                      created:
+                        type: string
+                      updated:
+                        type: string
+                      expiration:
+                        type: string
+                      registrant:
+                        type: object
+                        properties:
+                          state:
+                            type: string
+                          organization_count:
+                            type: integer
+                          organization:
+                            type: string
+                          countryCode:
+                            type: string
+                          country:
+                            type: string
+                      administrative:
+                        type: object
+                        properties:
+                          state:
+                            type: string
+                          organization_count:
+                            type: integer
+                          organization:
+                            type: string
+                          countryCode:
+                            type: string
+                          country:
+                            type: string
+                      technical:
+                        type: object
+                        properties:
+                          state:
+                            type: string
+                          organization_count:
+                            type: integer
+                          organization:
+                            type: string
+                          countryCode:
+                            type: string
+                          country:
+                            type: string
+                      lastlookup:
+                        type: string
+              examples:
+                Get Search - Domain WHOIS:
+                  value:
+                    meta: {}
+                    results:
+                      domain: domain.com
+                      registrar: Domain, Inc.
+                      created: '1999-04-14'
+                      updated: '2014-10-28'
+                      expiration: '2022-05-23'
+                      registrant:
+                        state: New York
+                        organization_count: 0
+                        organization: Domain, Inc.
+                        countryCode: US
+                        country: UNITED STATES
+                      administrative:
+                        state: New York
+                        organization_count: 0
+                        organization: Domain, Inc.
+                        countryCode: US
+                        country: UNITED STATES
+                      technical:
+                        state: New York
+                        organization_count: 0
+                        organization: Domain, Inc.
+                        countryCode: US
+                        country: UNITED STATES
+                      lastlookup: '2018-09-09 19:04:18'
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.

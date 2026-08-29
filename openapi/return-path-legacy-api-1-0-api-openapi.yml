@@ -1,0 +1,968 @@
+openapi: 3.2.0
+info:
+  title: Everest Legacy API (1.0) API
+  version: '2.0'
+  summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
+  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
+
+
+    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
+
+
+    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
+
+
+    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
+
+
+    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
+
+
+    All datetime fields are UTC.
+
+
+    Standard API Responses
+
+
+    200 Success
+
+
+    401 Unauthorized (no valid API key provided)
+
+
+    403 Forbidden (indicates lack access to the action you''re performning)
+
+
+    404 Not Found (indicates invalid parameters or missing API endpoint)
+
+
+    429 Too Many Requests (API limits have been reached, retry after some time)
+
+
+    500 Internal Server Error (indicates something went wrong on our end)
+
+
+    Each 400-level error code will contain an status object containing a description of the problem.'
+  contact:
+    name: Validity Support
+    url: https://knowledge.validity.com/
+  x-derived-from: collections/return-path-everest-api.postman_collection.json
+  x-source-url: https://developer.everest.validity.com/
+  x-provenance: DERIVED by API Evangelist from the Postman collection Validity publishes at developer.everest.validity.com. Validity does not publish an OpenAPI document; every path, method, parameter, header, request body and response example here is read verbatim from that collection.
+servers:
+- url: https://api.everest.validity.com/api
+  description: 'Everest API. The major version is the first path segment: 2.0 is current, 1.0 is the legacy API Validity says it will continue to support.'
+security:
+- apiKeyAuth: []
+tags:
+- name: Legacy API (1.0)
+paths:
+  /1.0/account/alias:
+    get:
+      operationId: accountServicesGetAliasEs
+      summary: Get Alias(es)
+      tags:
+      - Legacy API (1.0)
+      description: 'This API call provides a broad overview of alias(es) tied to an account. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      parameters:
+      - name: alias_id
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: accountServicesCreateAlias
+      summary: Create Alias
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to create a new account alias. Successful alias creation will result in the API returning the ID of the new alias. Data is returned in the following formats: XML, JSON, CSV and Serialized'
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            example: "{\n    \"firstname\": \"(String)\",\n    \"lastname\": \"(String)\",\n    \"email\": \"(String) Valid Email\",\n    \"password\": \"(String)\",\n    \"forcepasswordreset\": (Boolean),\n    \"emailcredentials\": (Boolean)\n}"
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: accountServicesUpdateAlias
+      summary: Update Alias
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to update the information for an existing account alias. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            example: "{\n    \"id\": (Integer),\n    \"firstname\": \"(String)\",\n    \"lastname\": \"(String)\",\n    \"email\": \"(String) Valid Email\",\n    \"password\": \"(String)\",\n    \"forcepasswordreset\": (Boolean),\n    \"emailcredentials\": (Boolean)\n}"
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: accountServicesDeleteAlias
+      summary: Delete Alias
+      tags:
+      - Legacy API (1.0)
+      description: This API allows you to delete an account alias by ID.
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            example: "{\n    \"id\": (integer)\n}"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Delete Alias Success:
+                  value:
+                    status: success
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                Delete Alias Error:
+                  value:
+                    error: This alias does not exist.
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /1.0/account/childaccount:
+    get:
+      operationId: accountServicesGetChildAccountS
+      summary: Get Child Account(s)
+      tags:
+      - Legacy API (1.0)
+      description: 'This API call provides a broad overview of children account(s) including the email address, API key, enabled products, and the current/max usage of those products. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The unique identifier of the child account.
+      - name: external_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The external identifier of the alias.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Search for a partial match in the child account's name.
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: accountServicesCreateChildAccount
+      summary: Create Child Account
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to create a new child account. Successful account creation will result in the API returning the ID of the new child account. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+                packagecontractstart:
+                  type: string
+                packagecontractexpire:
+                  type: string
+                inbox:
+                  type: string
+                inbox_type:
+                  type: string
+                max_inbox:
+                  type: integer
+                max_blacklist:
+                  type: integer
+                inbox_period:
+                  type: string
+                blacklist:
+                  type: string
+                reputation:
+                  type: string
+                design:
+                  type: string
+                max_design:
+                  type: integer
+                design_period:
+                  type: string
+                emailformat:
+                  type: string
+                inbox_used:
+                  type: integer
+                design_used:
+                  type: integer
+            example:
+              email: 250okSDF@sjlefke.com
+              password: REDACTED
+              name: '666'
+              packagecontractstart: '2022-01-01'
+              packagecontractexpire: '2026-01-01'
+              inbox: y
+              inbox_type: pro
+              max_inbox: 10000
+              max_blacklist: 0
+              inbox_period: annual
+              blacklist: n
+              reputation: n
+              design: y
+              max_design: 1000
+              design_period: annual
+              emailformat: n
+              inbox_used: 0
+              design_used: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  id:
+                    type: integer
+              examples:
+                Create Child Account:
+                  value:
+                    status: true
+                    id: 3
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: accountServicesUpdateChildAccount
+      summary: Update Child Account
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to create a new child account. Successful account creation will result in the API returning the ID of the new child account. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                max_inbox:
+                  type: integer
+                max_blacklist:
+                  type: integer
+                max_design:
+                  type: integer
+                analyticsmax:
+                  type: integer
+                validationmax:
+                  type: integer
+            example:
+              id: 3
+              name: Simon
+              email: simon@example.com
+              password: simon'spass
+              max_inbox: 5
+              max_blacklist: 8
+              max_design: 10
+              analyticsmax: 0
+              validationmax: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Update Child Account:
+                  value:
+                    status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: accountServicesDeleteChildAccount
+      summary: Delete Child Account
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to delete a child account by ID. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+            example:
+              id: 1015239
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /1.0/account/apikey:
+    post:
+      operationId: accountServicesCreateChildAPIKey
+      summary: Create Child API Key
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to generate an API key for a new or existing child account. Successful account creation will result in the API returning the API key of the child account. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+            example:
+              id: 1
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /1.0/account/gdpr:
+    get:
+      operationId: accountServicesGetGDPRRequests
+      summary: Get GDPR Requests
+      tags:
+      - Legacy API (1.0)
+      description: This API call provides a historical list of GDPR Requests.
+      x-api-version: '1.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: accountServicesCreateGDPRRequest
+      summary: Create GDPR Request
+      tags:
+      - Legacy API (1.0)
+      description: In accordance with Article 15 of the GDPR, 250ok will aim to provide its customers with transparency and ease-of-access to their data. Through the GDPR Request Form, customers can access, export (or transfer), erase, or anonymize their personal data. Lastly, customers can restrict the processing of data subjects at any time by pausing data forwarding to 250ok.
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            example: "{\n    \"requester_email\": Valid Email,\n    \"requester_name\": (String),\n    \"action\": (String) One of: 'delete','ignore','export',\n    \"users\": (String) Comma delmited list of email addresses\n}"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Create GDPR Request:
+                  value:
+                    status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /1.0/account/webhooks:
+    get:
+      operationId: accountServicesGetWebhooks
+      summary: Get Webhooks
+      tags:
+      - Legacy API (1.0)
+      description: "This API call provides a list of webhook endpoints for the specified account. \n\nThis documentation will explain the data schema used to send email-based information to a user's 250ok account via the 250ok Universal Endpoint (referred to simply as endpoint)."
+      x-api-version: '1.0'
+      responses:
+        '200':
+          description: Success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: accountServicesCreateWebhook
+      summary: Create Webhook
+      tags:
+      - Legacy API (1.0)
+      description: This API allows you to create a new webhook endpoint. Successful account creation will result in the API returning the integration key and receiving URL of the endpoint.
+      x-api-version: '1.0'
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            example: "{\n    \"description\": (String) Endpoint description,\n    \"require_auth\": (Boolean)\n}"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  key:
+                    type: string
+                  url:
+                    type: string
+                  description:
+                    type: string
+                  require_auth:
+                    type: integer
+              examples:
+                Create Webhook:
+                  value:
+                    status: success
+                    key: WEBHOOK-KEY
+                    url: https://webhook.everest.validity.com/webhooks/WEBHOOK-KEY
+                    description: Test Endpoint
+                    require_auth: 0
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /1.0/account/webhooks/{webhookKey}:
+    put:
+      operationId: accountServicesUpdateWebhook
+      summary: Update Webhook
+      tags:
+      - Legacy API (1.0)
+      description: This API allows you to modify an existing webhook endpoint, such as changing its description.
+      x-api-version: '1.0'
+      parameters:
+      - name: webhookKey
+        in: path
+        required: true
+        schema:
+          type: string
+        example: WEBHOOK-KEY
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            example: "{\n    \"description\": (String) Updated description\n}"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+              examples:
+                Update Webhook:
+                  value:
+                    error: false
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: accountServicesDeleteWebhook
+      summary: Delete Webhook
+      tags:
+      - Legacy API (1.0)
+      description: 'This API allows you to delete a webhook endpoint by integration key. Data is returned in the following formats: XML, JSON, CSV and Serialized.'
+      x-api-version: '1.0'
+      parameters:
+      - name: webhookKey
+        in: path
+        required: true
+        schema:
+          type: string
+        example: WEBHOOK-KEY
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              examples:
+                Delete Webhook:
+                  value:
+                    status: success
+        '401':
+          description: Unauthorized — no valid API key provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the key lacks access to this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found — invalid parameters or missing API endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests — API rate limit reached, retry later
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Every 400-level response carries a status object describing the problem.
+      properties:
+        status:
+          type: string
+      example:
+        status: 'Unauthorized: no valid API credentials provided.'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: Every API request requires the X-API-KEY header. The key is found in Everest account settings.
