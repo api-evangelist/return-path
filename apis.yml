@@ -22,6 +22,7 @@ accessModel:
   source:
   - https://www.validity.com/pricing/
   - https://developer.everest.validity.com/
+  - {url: 'https://www.returnpath.com/', status: 301, note: 'declared website redirects to https://www.validity.com/capabilities/engage-inbox-placement-and-deliverability/ — a different registrable domain (returnpath.com -> validity.com), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
   generated: '2026-08-13'
   method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/return-path.png
