@@ -3,46 +3,7 @@ info:
   title: Everest List Validation API
   version: '2.0'
   summary: Email deliverability, inbox placement, sender reputation and DMARC intelligence — the Validity Everest API, the surviving surface of the Return Path platform.
-  description: 'API Limit: 500 requests per minute. Limit increases are available on a per-customer basis by contacting our support team.
-
-
-    Welcome to the Everest API (V2) by Validity. We''ll be rolling out additional product support in the coming months. It''s important to note that V2 of our API is purely optional. We hope you find it simpler to use, more intuitive, and better documented, but we plan to continue supporting API V1.
-
-
-    All API requests utilize REST methods resulting in JSON, XML, CSV, or Serialized output. To request new API functionality please feel free to contact us.
-
-
-    Every API request requires the use of the X-API-KEY header, which is located in your account settings.
-
-
-    Throughout the documentation you''ll see the use of variables like YOUR_API_KEY that can be swapped out using your real API key. If you use Postman, this collection is available for download along with a shared variable template to define your host and apikey variables.
-
-
-    All datetime fields are UTC.
-
-
-    Standard API Responses
-
-
-    200 Success
-
-
-    401 Unauthorized (no valid API key provided)
-
-
-    403 Forbidden (indicates lack access to the action you''re performning)
-
-
-    404 Not Found (indicates invalid parameters or missing API endpoint)
-
-
-    429 Too Many Requests (API limits have been reached, retry after some time)
-
-
-    500 Internal Server Error (indicates something went wrong on our end)
-
-
-    Each 400-level error code will contain an status object containing a description of the problem.'
+  description: 'API Limit: 500 requests per minute.'
   contact:
     name: Validity Support
     url: https://knowledge.validity.com/
@@ -397,7 +358,16 @@ paths:
       summary: Single Address
       tags:
       - List Validation
-      description: "Returns validation results for a specific address.\n\nAfter processing, the results object contains the input address, the final result, and relevant diagnostic information.\n\nThe category will return one of the following: valid, email_address_invalid, email_domain_invalid, email_account_invalid, accept_all, role_address, disposable, unknown, but the diagnostics object may change depending on the result classification. \n\nFor example, if an email address is believed to contain a typo domain, the typo flag will be set to true and the typo_suggestion will contain what is believed to be the intended domain."
+      description: 'Returns validation results for a specific address.
+
+
+        After processing, the results object contains the input address, the final result, and relevant diagnostic information.
+
+
+        The category will return one of the following: valid, email_address_invalid, email_domain_invalid, email_account_invalid, accept_all, role_address, disposable, unknown, but the diagnostics object may change depending on the result classification.
+
+
+        For example, if an email address is believed to contain a typo domain, the typo flag will be set to true and the typo_suggestion will contain what is believed to be the intended domain.'
       x-api-version: '2.0'
       parameters:
       - name: emailAddress
@@ -712,7 +682,7 @@ paths:
       summary: All Lists
       tags:
       - List Validation
-      description: 'Returns a full list of validation results from an account.  The status field may vary until all addresses have been scanned, at which time status will switch to complete.
+      description: 'Returns a full list of validation results from an account. The status field may vary until all addresses have been scanned, at which time status will switch to complete.
 
 
         During processing, the processed field will increment its percentage to reflect the progress of the scan.
@@ -994,7 +964,13 @@ paths:
       summary: List by ID
       tags:
       - List Validation
-      description: "Returns a specific set of validation results from an account. The status field may vary until all addresses have been scanned, at which time status will switch to complete. \n\nDuring processing, the processed field will increment its percentage to reflect the progress of the scan.\n\nAfter processing, the list results contain the total number (and percentage) of addressess classified under each result group. Those addresses can be exported or downloaded using the specific export endpoints listed in the endpoints object."
+      description: 'Returns a specific set of validation results from an account. The status field may vary until all addresses have been scanned, at which time status will switch to complete.
+
+
+        During processing, the processed field will increment its percentage to reflect the progress of the scan.
+
+
+        After processing, the list results contain the total number (and percentage) of addressess classified under each result group. Those addresses can be exported or downloaded using the specific export endpoints listed in the endpoints object.'
       x-api-version: '2.0'
       parameters:
       - name: listId

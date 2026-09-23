@@ -1,7 +1,7 @@
 {
   "provider": "return-path",
   "sources": [
-    "return-path-everest-api-openapi.yml"
+    "_ae-authored/return-path-everest-api-openapi.yml"
   ],
   "outputs": [
     "return-path-account-services-api-openapi.yml",
@@ -16,14 +16,25 @@
     "return-path-reputation-api-openapi.yml",
     "return-path-view-time-optimization-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/return-path-everest-api-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "return-path-everest-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: written (+11 apis, 11 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "return-path-account-services-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-apps-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-certification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-competitive-intel-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-engagement-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-inbox-placement-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-infrastructure-dmarc-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-legacy-api-1-0-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-list-validation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-reputation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "return-path-view-time-optimization-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
